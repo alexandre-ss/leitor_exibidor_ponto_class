@@ -10,7 +10,7 @@ typedef uint32_t  u4;
 typedef struct attribute_info {
     u2 attribute_name_index;
     u4 attribute_length;
-    u1 *info;                       // Revisar
+    void *info;                       // Revisar
 } attribute_info;
 
 typedef struct exception_table {
@@ -228,11 +228,11 @@ typedef struct synthetic_attribute {
 } synthetic_attribute;
 
 // // 4.7.9
-// typedef struct signature_attribute {
-//   u2 attribute_name_index;
-//   u4 attribute_length;
-//   u2 signature_index;
-// } signature_attribute;
+typedef struct signature_attribute {
+  u2 attribute_name_index;
+  u4 attribute_length;
+  u2 signature_index;
+} signature_attribute;
 
 // // 4.7.10
 typedef struct source_file_attribute {
@@ -249,18 +249,32 @@ typedef struct source_file_attribute {
 // } source_debug_extension_attribute;
 
 // // 4.7.12
-// typedef struct line_number_table_attribute {
-//   u2 attribute_name_index;
-//   u4 attribute_length;
-//   u2 line_number_table_length;
-//   line_number_table *info;
+typedef struct line_number_table {
+    u2 start_pc;
+    u2 line_number;
+} line_number_table;
 
-// } line_number_table;
+typedef struct line_number_table_attribute {
+  u2 attribute_name_index;
+  u4 attribute_length;
+  u2 line_number_table_length;
+  line_number_table *info;
 
-// typedef struct line_number_table {
-//     u2 start_pc;
-//     u2 line_number;
-// } line_number_table;
+} line_number_table_attribute;
+
+/* MISSNG THIS PART */
+typedef struct stack_map_frame{
+  u1 frame_type;
+}stack_map_frame;
+
+
+typedef struct stack_map_table_attribute{
+  u2 attribute_name_index;
+  u4 attribute_length;
+  u2 number_of_entries;
+  stack_map_frame *entries;
+}stack_map_table_attribute;
+
 
 typedef struct ClassFile {
     u4             magic;

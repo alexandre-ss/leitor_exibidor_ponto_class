@@ -174,7 +174,7 @@ method_info *read_methods(FILE *file, method_info *method, u2 method_count, cp_i
   return method;
 }
 
-u2 *read_interface(FILE *file, u2 *interface, u2 interface_count)
+u2 *read_interfaces(FILE *file, u2 *interface, u2 interface_count)
 {
   interface = (u2 *)malloc(interface_count * sizeof(u2));
 
@@ -185,7 +185,7 @@ u2 *read_interface(FILE *file, u2 *interface, u2 interface_count)
   }
 }
 
-field_info *read_field(FILE *file, field_info *field, u2 field_count, cp_info *cp)
+field_info *read_fields(FILE *file, field_info *field, u2 field_count, cp_info *cp)
 {
   field = (field_info *)malloc(field_count * sizeof(field_info));
 
@@ -235,38 +235,49 @@ attribute_info *read_attributes(FILE *file, attribute_info *attribute, cp_info *
     else if (strcmp(string_name, "LineNumberTable") == 0)
 		{
 			line_number_table *line_ntable = NULL;
-			line_ntable = readLine_number_table(fp, cp);
-			attribute->info = (line_number_table *)line_nt;
+			line_ntable = read_line_number_table(file, cp);
+			attribute->info = (line_number_table *)line_ntable;
 		}
 		else if (strcmp(string_name, "StackMapTable") == 0)
 		{
-			stack_map_attribute *stack_mtable = NULL;
-			stack_mtable = read_stack_map_table(fp);
-			attribute->info = (stack_map_attribute *)stack_mtable;
+			stack_map_table_attribute *stack_mtable = NULL;
+			stack_mtable = read_stack_map_table(file);
+			attribute->info = (stack_map_table_attribute *)stack_mtable;
 		}
 		else if (strcmp(string_name, "InnerClasses") == 0)
 		{
 			inner_classes_attribute *inner_classes = NULL;
-			inner_classes = read_inner_classes(fp, cp);
+			inner_classes = read_inner_classes(file, cp);
 			attribute->info = (inner_classes_attribute *)inner_classes;
 		}
 		else if (strcmp(string_name, "Signature") == 0)
 		{
 			signature_attribute *signature_attr = NULL;
-			signature_attr = read_signature(fp);
+			signature_attr = read_signature(file);
 			attribute->info = (signature_attribute *)signature_attr;
 		}
 		else if (strcmp(string_name, "ConstantValue") == 0)
 		{
 			constant_value_attribute *constant_value = NULL;
-			constant_value = read_constant_value(fp);
+			constant_value = read_constant_value(file);
 			attribute->info = (constant_value_attribute *)constant_value;
 		}
 		else if (strcmp(string_name, "Exceptions") == 0)
 		{
 			exception_attribute *exceptions = NULL;
-			exceptions = read_exceptions_attribute(fp);
+			exceptions = read_exceptions_attribute(file);
 			attribute->info = (exception_attribute *)exceptions;
 		}
   }
 }
+
+//TO BE DONE
+
+exception_attribute* read_exceptions_attribute (FILE *fp){}
+signature_attribute* read_signature (FILE *fp){}
+inner_classes_attribute* read_inner_classes (FILE *fp, cp_info *cp){}
+stack_map_table_attribute* read_stack_map_table (FILE *fp){}
+line_number_table* read_line_number_table(FILE * fp, cp_info * cp){}
+code_attribute* read_code(FILE * fp, cp_info *cp){}
+constant_value_attribute* read_constant_value (FILE *fp){}
+source_file_attribute* read_source_file (FILE  *fp){}

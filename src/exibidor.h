@@ -2,6 +2,7 @@
 #define EXIBIDOR_H
 
 #include "ClassFile.h"
+#include <stdio.h>
 
 void      print_name_tag(u1 tag);
 char*     decode_utf8_string(cp_info *cp);
