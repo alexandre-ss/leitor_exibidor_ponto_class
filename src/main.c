@@ -5,7 +5,9 @@
     - 18/0033816 - João Victor Novais Magalhães
     - 18/0053485 - Kallebe de Sousa Silva
  */
+
 #include "leitor.h"
+#include "exibidor.h"
 
 int main(int argc, char *argv[]) {
   char *filename;
@@ -13,10 +15,13 @@ int main(int argc, char *argv[]) {
   if (argc > 1)
   {
       filename = (char *)malloc(strlen(argv[1]) * sizeof(char));
-      strcpy(filename, argv[1]);
+      filename = argv[1];
   }
 
-  read_file(filename);
+  ClassFile *cf = read_file(filename);
+  print_class_file(cf);
+
+  free(cf);
 
   return 0;
 }
