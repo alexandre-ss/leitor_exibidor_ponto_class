@@ -29,6 +29,20 @@ typedef struct exception_table
   u2 catch_type;
 } exception_table;
 
+// 4.1
+
+typedef enum access_flags
+{
+  ACC_PUBLIC = 0x0001,
+  ACC_FINAL = 0x0010,
+  ACC_SUPER = 0x0020,
+  ACC_INTERFACE = 0x0200,
+  ACC_ABSTRACT = 0x0400,
+  ACC_SYNTHETIC = 0x1000,
+  ACC_ANNOTATION = 0x2000,
+  ACC_ENUM = 0x4000
+} access_flags;
+
 // 4.4. Constant Pool
 
 // Tags para a Pool de Constantes

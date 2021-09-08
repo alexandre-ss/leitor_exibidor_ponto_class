@@ -6,7 +6,18 @@ ClassFile *read_file(char *filename)
   classFile = (ClassFile *)malloc(sizeof(ClassFile));
   FILE *file = fopen(filename, "rb");
 
-  classFile->magic = u4_READ(file);
+  u4 magic = u4_READ(file);
+
+  if (magic != 0xcafebabe)
+  {
+    free(classFile);
+    return NULL;
+  }
+  else
+  {
+    classFile->magic = magic;
+  }
+
   classFile->minor_version = u2_READ(file);
   classFile->major_version = u2_READ(file);
   classFile->constant_pool_count = u2_READ(file);

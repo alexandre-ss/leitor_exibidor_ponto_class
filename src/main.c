@@ -9,19 +9,26 @@
 #include "leitor.h"
 #include "exibidor.h"
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
   char *filename;
 
   if (argc > 1)
   {
-      filename = (char *)malloc(strlen(argv[1]) * sizeof(char));
-      filename = argv[1];
+    filename = (char *)malloc(strlen(argv[1]) * sizeof(char));
+    filename = argv[1];
   }
 
   ClassFile *cf = read_file(filename);
-  print_class_file(cf);
 
-  free(cf);
+  if (cf != NULL)
+  {
+    print_class_file(cf);
+    free(cf);
+  }
+  else{
+    printf("Magic Number inválido\n");
+  }
 
   return 0;
 }
