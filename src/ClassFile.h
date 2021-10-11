@@ -2,6 +2,8 @@
 #define CLASS_FILE_H
 
 #include <stdint.h>
+#include "pilha_de_operandos.h"
+#include <stdio.h>
 
 typedef uint8_t u1;
 typedef uint16_t u2;
@@ -14,6 +16,23 @@ typedef uint32_t u4;
 #define NAME_AND_TYPE_INFO_NAME_INDEX 5
 #define NAME_AND_TYPE_INFO_DESCRIPTOR_INDEX 6
 
+/** Definição dos tipos de inteiro sem sinal */
+#ifndef UNSIGNED_TYPES
+#define UNSIGNED_TYPES
+typedef uint8_t u1;   /**< Tipo \c unsigned \c int de 8 bits */
+typedef uint16_t u2;  /**< Tipo \c unsigned \c int de 16 bits */
+typedef uint32_t u4;  /**< Tipo \c unsigned \c int de 32 bits */
+typedef uint64_t u8;  /**< Tipo \c unsigned \c int de 64 bits */
+#endif
+
+/** Definição dos tipos de inteiro com sinal */
+#ifndef SIGNED_TYPES
+#define SIGNED_TYPES
+typedef int8_t i1;   /**< Tipo \c int com sinal, de 8 bits */
+typedef int16_t i2;  /**< Tipo \c int com sinal, de 16 bits */
+typedef int32_t i4;  /**< Tipo \c int com sinal, de 32 bits */
+typedef int64_t i8;  /**< Tipo \c int com sinal, de 64 bits */
+#endif
 typedef struct attribute_info
 {
   u2 attribute_name_index;
@@ -384,6 +403,22 @@ typedef struct stack_map_frame
 
     } map_frame_type;
 } stack_map_frame;
+
+typedef struct local_variable
+{
+  u4 *variable;
+  u1 type;
+} local_variable;
+
+typedef struct frame
+{
+  u4 return_address;
+  operand_stack *p;
+  local_variable *v;
+  u2 vetor_length;
+  cp_info *cp;
+  char *current_class;
+} frame;
 
 typedef struct stack_map_table_attribute
 {
