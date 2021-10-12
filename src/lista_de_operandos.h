@@ -43,7 +43,7 @@ operand_list *insert_operand(operand_list *, i4, void *, u1);
  * @param 	operand_type 	Parâmetro para definir o tipo de operando a ser inserido
  * @return					Ponteiro para a lista de operandos com a inserção no final da mesma
  */
-operand_list *insert_end_operand(operand_list *, i4, void *, u1);
+// operand_list *insert_end_operand(operand_list *, i4, void *, u1);
 
 /**
  * @brief 			Remove o operando que está no inicio da lista.

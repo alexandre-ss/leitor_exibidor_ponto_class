@@ -18,7 +18,7 @@ typedef struct loaded_class {
  * @brief		    Inicia a lista de classes.
  * @return      Lista de classes com valor NULL
  */
-loaded_class  *make_class_list();
+loaded_class  *create_class_list();
 
 /**
  * @brief		              Insere um elemento de classe no fim da lista.

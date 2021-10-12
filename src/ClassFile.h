@@ -2,13 +2,7 @@
 #define CLASS_FILE_H
 
 #include <stdint.h>
-#include "pilha_de_operandos.h"
 #include <stdio.h>
-
-typedef uint8_t u1;
-typedef uint16_t u2;
-typedef uint32_t u4;
-
 #define NAME_INDEX 1
 #define NAME_AND_TYPE 2
 #define STRING_INDEX 3
@@ -33,6 +27,22 @@ typedef int16_t i2;  /**< Tipo \c int com sinal, de 16 bits */
 typedef int32_t i4;  /**< Tipo \c int com sinal, de 32 bits */
 typedef int64_t i8;  /**< Tipo \c int com sinal, de 64 bits */
 #endif
+
+/** */
+#ifndef FLOAT_DEF
+#define FLOAT_DEF
+#define exponent(x) ((x << 1) >> 24)
+#define mantissa(x) ((x << 9) >> 9)
+#define signal(x) (x >> 31)
+#endif
+
+#ifndef DOUBLE_DEF
+#define DOUBLE_DEF
+#define exponent_d(x) ((x << 1) >> 53)
+#define mantissa_d(x) ((x << 12) >> 12)
+#define signal_d(x) (x >> 63)
+#endif
+
 typedef struct attribute_info
 {
   u2 attribute_name_index;
@@ -47,6 +57,19 @@ typedef struct exception_table
   u2 handread_pc;
   u2 catch_type;
 } exception_table;
+
+// Enum para tipo de array
+typedef enum array_type
+{
+  T_BOOLEAN = 4,
+  T_CHAR,
+	T_FLOAT,
+	T_DOUBLE,
+	T_BYTE,
+	T_SHORT,
+	T_INT,
+	T_LONG
+} array_type;
 
 // 4.1
 
@@ -204,6 +227,13 @@ typedef enum field_access_flags
   FIELD_ACC_ENUM = 16384
 } field_access_flags;
 
+typedef struct static_data
+{
+  u4 *low;
+  u4 *high;
+  u1 *string;
+} static_data;
+
 typedef struct field_info
 {
   u2 access_flags;
@@ -211,6 +241,7 @@ typedef struct field_info
   u2 descriptor_index;
   u2 attributes_count;
   attribute_info **attributes;
+  static_data *static_data;
 } field_info;
 
 // 4.6. Methods
@@ -415,16 +446,6 @@ typedef struct local_variable
   u1 type;
 } local_variable;
 
-typedef struct frame
-{
-  u4 return_address;
-  operand_stack *p;
-  local_variable *v;
-  u2 vetor_length;
-  cp_info *cp;
-  char *current_class;
-} frame;
-
 typedef struct stack_map_table_attribute
 {
   u2 attribute_name_index;
@@ -474,5 +495,36 @@ typedef struct ClassFile
   u2 attributes_count;
   attribute_info **attributes;
 } ClassFile;
+
+/**
+ * @struct operand_stack
+ * @brief Estrutura de dados da pilha de operandos.
+ * @see operand_list
+ */
+typedef struct operand_stack {
+	struct operand_list *top; /**< Ponteiro para o topo da pilha de operandos */
+} operand_stack;
+
+/**
+ * @struct  object_list
+ * @brief   Lista de objetos
+ */
+typedef struct object_list {
+    ClassFile *obj;
+    u1 size_data;
+    u4 *data;
+    struct object_list *prox;
+    struct object_list *ant;
+} object_list;
+
+typedef struct frame
+{
+  u4 return_address;
+  operand_stack *p;
+  local_variable *v;
+  u2 vetor_length;
+  cp_info *cp;
+  char *current_class;
+} frame;
 
 #endif // CLASS_FILE_H

@@ -2,13 +2,14 @@
   DISCIPLINA: Software Básico - 2021/1
   ALUNOS:
     - 18/0011847 - Alexandre Santana Sousa
+    - 18/0112317 - Conrado Nunes Barbosa Neto
     - 18/0033816 - João Victor Novais Magalhães
     - 18/0053485 - Kallebe de Sousa Silva
-    - 18/0112317 - Conrado Nunes Barbosa Neto
  */
 
 #include "leitor.h"
 #include "exibidor.h"
+#include "jvm.h"
 
 int main(int argc, char *argv[]) {
   char *filename;
@@ -28,7 +29,8 @@ int main(int argc, char *argv[]) {
       printf("\t1. Leitura do .class\n");
       printf("\t2. Execucao da JVM\n");
       printf("\t3. Leitura do .class e Execucao da JVM\n");
-      scanf("Sua escolha: %d", &opcao);
+      printf("Escolha sua opcao: ");
+      scanf("%d", &opcao);
     }
 
     switch (opcao) {
@@ -37,24 +39,26 @@ int main(int argc, char *argv[]) {
         print_class_file(cf);
         break;
       case 2:
-        printf("\n--------| Exacutando a JVM\n\n");
+        printf("\n--------| Executando a JVM\n\n");
+        initialize();
         run_jvm();
         break;
       case 3:
         printf("\n--------| Realizando a leitura do .class\n\n");
         print_class_file(cf);
 
-        printf("\n--------| Exacutando a JVM\n\n");
+        printf("\n--------| Executando a JVM\n\n");
+        initialize();
         run_jvm();
         break;
       default: break;
     }
 
     free(cf);
+    free(filename);
   } else {
     printf("Magic Number inválido\n");
   }
 
-  free(filename);
   return 0;
 }

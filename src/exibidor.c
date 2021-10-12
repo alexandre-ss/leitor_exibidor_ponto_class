@@ -216,7 +216,6 @@ void print_class_file(ClassFile *cf)
 	field_info *auxField;
 	attribute_info **auxAttributeClasse;
 	attribute_info **fieldAttrAux;
-	exception_table *exceptionTableAux;
 	uint32_t contador = 1;
 	char *ponteiroprint;
 

@@ -104,6 +104,7 @@ field_info *find_class_field(loaded_class *list, char *class_name, char *field_n
 		char *field_name_aux = decode_utf8_string(current_class->class_file->constant_pool-1+aux->name_index);
 		if(strcmp(field_name,field_name_aux) == 0) return aux;
     }
+    return NULL;
 }
 
 void print_class_list(loaded_class *list){

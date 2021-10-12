@@ -16,7 +16,7 @@ typedef struct instruction
   u1 opcode;           /**< Opcode da instrucao */
   u1 arg_count;        /**< Numero de argumentos da instrucao */
   u1 op_count;         /**< Numero de operandos que a instrucao da pop na pilha de operandos */
-  u1 pc_instrucao;     /**< Program count da instrucao */
+  u1 pc_instruction;     /**< Program count da instrucao */
 } instruction;
 
 typedef enum instructions_op

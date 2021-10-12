@@ -2,6 +2,8 @@
 #define PILHA_DE_FRAMES_H
 
 #include "ClassFile.h"
+#include <stdbool.h>
+#include <stdlib.h>
 
 #define TAMANHO_PILHA 1000
 
@@ -12,7 +14,7 @@
 typedef struct stack_frame {
 	i2 top;                     /**< Topo da pilha de frames */
   u2 max_size;                /**< Tamanho máximo da pilha de frames */
-  frame *frames;              /**< Frames da pilha */
+  frame **frames;              /**< Frames da pilha */
 } stack_frame;
 
 /**
@@ -26,7 +28,7 @@ stack_frame* init_stack_frame();
  * @param	sf	Ponteiro para a pilha
  * @param	f		Frame a ser adicionado
  */
-void push_frame(stack_frame *sf, frame f);
+void push_frame(stack_frame *sf, frame *frame);
 
 /**
  * @brief			Remove frame do topo da pilha
@@ -39,7 +41,7 @@ void pop_frame(stack_frame *sf);
  * @param	sf	Ponteiro para a pilha
  * @return    Frame do topo da pilha
  */
-frame get_top_element(stack_frame *sf);
+frame* get_top_element(stack_frame *sf);
 
 /**
  * @brief			Verifica se pilha está vazia

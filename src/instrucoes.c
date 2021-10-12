@@ -3,7 +3,7 @@
 const int count_enum = jsr_w-nop;             ////////// REVISAR. Por que -nop?
 
 instruction *build_instructions(void) {
-    instruction *instructions = (instruction *)malloc(count_enum * sizeof(struct instruction));
+  instruction *instructions = (instruction *)malloc(count_enum * sizeof(struct instruction));
 
 	for (int i = 0; i < count_enum; i++)
 	{
@@ -1224,7 +1224,7 @@ instruction *build_instructions(void) {
 			break;
 		}
 
-		instructions[i].pc_instrucao = instructions[i].arg_count + 1;
+		instructions[i].pc_instruction = instructions[i].arg_count + 1;
 	}
 
 	return(instructions);

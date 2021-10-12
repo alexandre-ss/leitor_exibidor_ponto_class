@@ -1,0 +1,5 @@
+gcc -std=c99 -Wall ClassFile.h lista_de_operandos.h pilha_de_operandos.h interpretador.h pilha_de_frames.h instrucoes.h leitor.h exibidor.h lista_de_classes.h jvm.h lista_de_operandos.c pilha_de_operandos.c interpretador.c pilha_de_frames.c instrucoes.c leitor.c exibidor.c lista_de_classes.c jvm.c main.c -lm
+
+
+
+gcc -std=c99 -Wall ClassFile.h lista_de_operandos.h lista_de_operandos.c main.c -lm

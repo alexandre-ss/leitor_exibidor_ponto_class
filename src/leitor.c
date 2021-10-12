@@ -168,7 +168,7 @@ method_info *read_methods(FILE *file, method_info *method, u2 method_count, cp_i
     m->descriptor_index = u2_READ(file);
     m->attributes_count = u2_READ(file);
 
-    attribute_info *attributes = (attribute_info *)malloc(m->attributes_count * sizeof(attribute_info));
+    //attribute_info *attributes = (attribute_info *)malloc(m->attributes_count * sizeof(attribute_info));
 
     if (m->attributes_count > 0)
     {
@@ -192,6 +192,7 @@ u2 *read_interfaces(FILE *file, u2 *interface, u2 interface_count)
   {
     *interface = u2_READ(file);
   }
+  return interface;
 }
 
 field_info *read_fields(FILE *file, field_info *field, u2 field_count, cp_info *cp)
@@ -215,6 +216,7 @@ field_info *read_fields(FILE *file, field_info *field, u2 field_count, cp_info *
       }
     }
   }
+  return field;
 }
 
 attribute_info *read_attributes(FILE *file, attribute_info *attribute, cp_info *cp)
@@ -317,6 +319,7 @@ inner_classes_attribute *read_inner_classes(FILE *file, cp_info *cp)
   {
     *(inner_classes->classes + pos) = read_classes(file);
   }
+  return inner_classes;
 }
 
 classes *read_classes(FILE *file)

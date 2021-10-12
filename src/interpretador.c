@@ -12,12 +12,12 @@ ClassFile *resolve_class(char *class_name)
 	}
 	else
 	{
-		char *namearquivo = (char *)malloc((strlen(class_name) + 7) * sizeof(char));
-		strcpy(namearquivo, class_name);
-		strcat(namearquivo, ".class");
+		char *file_name = (char *)malloc((strlen(class_name) + 7) * sizeof(char));
+		strcpy(file_name, class_name);
+		strcat(file_name, ".class");
 
-		class = lerArquivo(namearquivo);
-		jvm->classes = InserirFim_class(jvm->classes, class);
+		class = read_file(file_name);
+		jvm->classes = insert_class_element(jvm->classes, class);
 	}
 
 	return (class);
@@ -27,9 +27,7 @@ bool resolve_method(cp_info *cp, u2 cp_index, u1 interface)
 {
 	cp_info *method_ref = cp - 1 + cp_index;
 	char *class_name = NULL;
-	class_name = !interface ?
-	decode_name_index_and_type(cp, method_ref->cp_union.CONSTANT_Methodref_info.class_index, NAME_INDEX) :
-	decode_name_index_and_type(cp, method_ref->cp_union.CONSTANT_InterfaceMethodref_info.class_index, NAME_INDEX);
+	class_name = !interface ? decode_name_index_and_type(cp, method_ref->cp_union.CONSTANT_Methodref_info.class_index, NAME_INDEX) : decode_name_index_and_type(cp, method_ref->cp_union.CONSTANT_InterfaceMethodref_info.class_index, NAME_INDEX);
 
 	return resolve_class(class_name) != NULL ? true : false;
 }
@@ -39,9 +37,7 @@ char *get_name_method(cp_info *cp, u2 cp_index, u1 interface)
 	cp_info *methodref = cp - 1 + cp_index;
 	char *descriptor = NULL;
 
-	descriptor = !interface ? 
-	decode_name_index_and_type(cp, methodref->cp_union.CONSTANT_Methodref_info.name_and_type_index, NAME_AND_TYPE) :
-	decode_name_index_and_type(cp, methodref->cp_union.CONSTANT_InterfaceMethodref_info.name_and_type_index, NAME_AND_TYPE);
+	descriptor = !interface ? decode_name_index_and_type(cp, methodref->cp_union.CONSTANT_Methodref_info.name_and_type_index, NAME_AND_TYPE) : decode_name_index_and_type(cp, methodref->cp_union.CONSTANT_InterfaceMethodref_info.name_and_type_index, NAME_AND_TYPE);
 
 	char *pch = strtok(descriptor, ":");
 	return pch;
@@ -52,9 +48,7 @@ char *get_descriptor_method(cp_info *cp, u2 cp_index, u1 interface)
 	cp_info *methodref = cp - 1 + cp_index;
 	char *descriptor = NULL;
 
-	descriptor = !interface ?
-	decode_name_index_and_type(cp, methodref->cp_union.CONSTANT_Methodref_info.name_and_type_index, NAME_AND_TYPE) :
-	decode_name_index_and_type(cp, methodref->cp_union.CONSTANT_InterfaceMethodref_info.name_and_type_index, NAME_AND_TYPE);
+	descriptor = !interface ? decode_name_index_and_type(cp, methodref->cp_union.CONSTANT_Methodref_info.name_and_type_index, NAME_AND_TYPE) : decode_name_index_and_type(cp, methodref->cp_union.CONSTANT_InterfaceMethodref_info.name_and_type_index, NAME_AND_TYPE);
 
 	char *pch = strtok(descriptor, ":");
 	pch = strtok(NULL, ":");
@@ -67,16 +61,25 @@ int descriptor_field_validate(char *descriptor)
 	if (*descriptor == 'L')
 		return 5;
 
-	if (strcmp(descriptor, "I") == 0)				return 0;
-	else if (strcmp(descriptor, "F") == 0)	return 1;
-	else if (strcmp(descriptor, "B") == 0)	return 2;
-	else if (strcmp(descriptor, "C") == 0)	return 3;
-	else if (strcmp(descriptor, "S") == 0)	return 4;
-	else if (strcmp(descriptor, "L") == 0)	return 5;
-	else if (strcmp(descriptor, "Z") == 0)	return 6;
-	else if (strcmp(descriptor, "D") == 0)	return 7;
-	else if (strcmp(descriptor, "J") == 0)	return 8;
-	return NULL;
+	if (strcmp(descriptor, "I") == 0)
+		return 0;
+	else if (strcmp(descriptor, "F") == 0)
+		return 1;
+	else if (strcmp(descriptor, "B") == 0)
+		return 2;
+	else if (strcmp(descriptor, "C") == 0)
+		return 3;
+	else if (strcmp(descriptor, "S") == 0)
+		return 4;
+	else if (strcmp(descriptor, "L") == 0)
+		return 5;
+	else if (strcmp(descriptor, "Z") == 0)
+		return 6;
+	else if (strcmp(descriptor, "D") == 0)
+		return 7;
+	else if (strcmp(descriptor, "J") == 0)
+		return 8;
+	return 0;
 }
 
 char *get_class_method(cp_info *cp, u2 cp_index)
@@ -97,7 +100,6 @@ frame *transfer_array_stack(frame *prev, frame *new_frame, int *params_count)
 	{
 		operand_stack *p = pop_operand(prev->p);
 
-		// Ordem reversa
 		aux = push_operand(aux, p->top->operand, (void *)p->top->ref, p->top->operand_type);
 		count++;
 	}
@@ -108,7 +110,7 @@ frame *transfer_array_stack(frame *prev, frame *new_frame, int *params_count)
 
 		new_frame->v[i].variable = malloc(sizeof(u4));
 
-		*(new_frame->v[i].variable) =  (p->top->operand_type <= 8) ? (u4)p->top->operand : (intptr_t)p->top->ref;
+		*(new_frame->v[i].variable) = (p->top->operand_type <= 8) ? (u4)p->top->operand : (intptr_t)p->top->ref;
 
 		new_frame->v[i].type = (u1)p->top->operand_type;
 	}
@@ -179,7 +181,7 @@ bool is_super(u2 flag)
 		if (flag >= ACC_PUBLIC)
 			flag -= ACC_PUBLIC;
 	}
-	return (super);
+	return super;
 }
 
 void nop_impl(frame *pair0, u1 pair1, u1 pair2)
@@ -189,7 +191,7 @@ void nop_impl(frame *pair0, u1 pair1, u1 pair2)
 
 void aconst_null_impl(frame *f, u1 pair1, u1 pair2)
 {
-	push_operand(f->p, 0, NULL, REFERENCE_OP); // 0 do tipo referência quer dizer referência apontando paira NULL
+	push_operand(f->p, 0, NULL, REFERENCE_OP);
 }
 
 void iconst_m1_impl(frame *f, u1 pair1, u1 pair2)
@@ -302,9 +304,9 @@ void sipush_impl(frame *f, u1 byte1, u1 byte2)
 	push_operand(f->p, byte_int, NULL, SHORT_OP);
 }
 
-void ldc_impl(frame *f, u1 indexbyte1, u1 pair2)
+void ldc_impl(frame *f, u1 index_byte1, u1 pair2)
 {
-	cp_info *item = f->cp - 1 + indexbyte1;
+	cp_info *item = f->cp - 1 + index_byte1;
 	void *value = NULL;
 	u4 num = 0;
 	void *class = NULL;
@@ -339,9 +341,9 @@ void ldc_impl(frame *f, u1 indexbyte1, u1 pair2)
 	}
 }
 
-void ldc_w_impl(frame *f, u1 indexbyte1, u1 indexbyte2)
+void ldc_w_impl(frame *f, u1 index_byte1, u1 index_byte2)
 {
-	u2 index_cp = normalize_index(indexbyte1, indexbyte2);
+	u2 index_cp = normalize_index(index_byte1, index_byte2);
 	cp_info *item = f->cp - 1 + index_cp;
 	void *value = NULL;
 	u4 num = 0;
@@ -373,10 +375,10 @@ void ldc_w_impl(frame *f, u1 indexbyte1, u1 indexbyte2)
 	}
 }
 
-void ldc2_w_impl(frame *f, u1 branchbyte1, u1 branchbyte2)
+void ldc2_w_impl(frame *f, u1 branch_byte1, u1 branch_byte2)
 {
-	int8_t v1 = (int8_t)branchbyte1;
-	int8_t v2 = (int8_t)branchbyte2;
+	int8_t v1 = (int8_t)branch_byte1;
+	int8_t v2 = (int8_t)branch_byte2;
 	int16_t branch_offset = (v1 << 8) | v2;
 	cp_info *double_value = f->cp - 1 + branch_offset;
 
@@ -413,12 +415,12 @@ void iload_impl(frame *f, u1 index, u1 pair1)
 void lload_impl(frame *f, u1 index, u1 pair1)
 {
 	push_operand(f->p, (i4) * (f->v[index].variable), NULL, LONG_OP);
-	Push_operand(f->p, (i4) * (f->v[index + 1].variable), NULL, LONG_OP);
+	push_operand(f->p, (i4) * (f->v[index + 1].variable), NULL, LONG_OP);
 }
 
 void fload_impl(frame *f, u1 index, u1 pair1)
 {
-	Push_operand(f->p, (i4) * (f->v[index].variable), NULL, FLOAT_OP);
+	push_operand(f->p, (i4) * (f->v[index].variable), NULL, FLOAT_OP);
 }
 
 void dload_impl(frame *f, u1 index, u1 pair2)
@@ -434,7 +436,7 @@ void aload_impl(frame *f, u1 index, u1 pair1)
 
 void iload_0_impl(frame *f, u1 pair1, u1 pair2)
 {
-	Push_operand(f->p, (i4) * (f->v[0].variable), NULL, INTEGER_OP);
+	push_operand(f->p, (i4) * (f->v[0].variable), NULL, INTEGER_OP);
 }
 
 void iload_1_impl(frame *f, u1 pair1, u1 pair2)
@@ -474,6 +476,21 @@ void lload_3_impl(frame *f, u1 pair, u1 pair2)
 {
 	push_operand(f->p, (i4) * (f->v[3].variable), NULL, LONG_OP);
 	push_operand(f->p, (i4) * (f->v[4].variable), NULL, LONG_OP);
+}
+
+void fload_0_impl(frame *f, u1 par1, u1 par2)
+{
+	push_operand(f->p, (i4) * (f->v[0].variable), NULL, FLOAT_OP);
+}
+
+void fload_1_impl(frame *f, u1 par1, u1 par2)
+{
+	push_operand(f->p, (i4) * (f->v[1].variable), NULL, FLOAT_OP);
+}
+
+void fload_2_impl(frame *f, u1 par1, u1 par2)
+{
+	push_operand(f->p, (i4) * (f->v[2].variable), NULL, FLOAT_OP);
 }
 
 void fload_3_impl(frame *f, u1 pair1, u1 pair2)
@@ -975,7 +992,7 @@ void iadd_impl(frame *f, u1 pair1, u1 pair2)
 	operand_stack *value1 = pop_operand(f->p);
 	operand_stack *value2 = pop_operand(f->p);
 
-	operand_stack *value3 = Criaroperand_stack();
+	operand_stack *value3 = create_operand_stack();
 	value3 = push_operand(value3, value1->top->operand + value2->top->operand, NULL, value1->top->operand_type);
 	value3->top->operand_type = value1->top->operand_type;
 	f->p = push_operand(f->p, value3->top->operand, NULL, value3->top->operand_type);
@@ -1011,7 +1028,7 @@ void fadd_impl(frame *f, u1 pair1, u1 pair2)
 
 	float f_sum = op1 + op2;
 	u4 sum = (u4)(*(u4 *)&f_sum);
-	u4 result = (sinal(sum) << 31) | (expoente(sum) << 23) | mantissa(sum);
+	u4 result = (signal(sum) << 31) | (exponent(sum) << 23) | mantissa(sum);
 	f->p = push_operand(f->p, result, NULL, FLOAT_OP);
 }
 void dadd_impl(frame *f, u1 pair1, u1 pair2)
@@ -1021,12 +1038,12 @@ void dadd_impl(frame *f, u1 pair1, u1 pair2)
 	operand_stack *value2_low = pop_operand(f->p);
 	operand_stack *value2_high = pop_operand(f->p);
 
-	double op1 = decode_double_valor(value1_high->top->operand, value1_low->top->operand);
-	double op2 = decode_double_valor(value2_high->top->operand, value2_low->top->operand);
+	double op1 = decode_double_value(value1_high->top->operand, value1_low->top->operand);
+	double op2 = decode_double_value(value2_high->top->operand, value2_low->top->operand);
 
 	double d_sum = op1 + op2;
 	u8 sum = (u8)(*(u8 *)&d_sum);
-	u8 result = (sinal_d(sum) << 63) | (expoente_d(sum) << 52) | mantissa_d(sum);
+	u8 result = (signal_d(sum) << 63) | (exponent_d(sum) << 52) | mantissa_d(sum);
 
 	f->p = push_operand(f->p, (u4)(result >> 32), NULL, DOUBLE_OP);
 	f->p = push_operand(f->p, (u4)result, NULL, DOUBLE_OP);
@@ -1064,11 +1081,11 @@ void fsub_impl(frame *f, u1 pair1, u1 pair2)
 	operand_stack *value1 = pop_operand(f->p);
 	operand_stack *value2 = pop_operand(f->p);
 
-	float op1 = decode_float_info(value1->top->operand);
-	float op2 = decode_float_info(value2->top->operand);
+	float op1 = decode_float_value(value1->top->operand);
+	float op2 = decode_float_value(value2->top->operand);
 	float f_sub = op2 - op1;
 	u4 sub = (u4)(*(u4 *)&f_sub);
-	u4 result = (sinal(sub) << 31) | (expoente(sub) << 23) | mantissa(sub);
+	u4 result = (signal(sub) << 31) | (exponent(sub) << 23) | mantissa(sub);
 	f->p = push_operand(f->p, result, NULL, FLOAT_OP);
 }
 
@@ -1084,7 +1101,7 @@ void dsub_impl(frame *f, u1 pair1, u1 pair2)
 
 	double d_sub = op2 - op1;
 	u8 sub = (u8)(*(u8 *)&d_sub);
-	u8 result = (sinal_d(sub) << 63) | (expoente_d(sub) << 52) | mantissa_d(sub);
+	u8 result = (signal_d(sub) << 63) | (exponent_d(sub) << 52) | mantissa_d(sub);
 
 	f->p = push_operand(f->p, (u4)(result >> 32), NULL, DOUBLE_OP);
 	f->p = push_operand(f->p, (u4)result, NULL, DOUBLE_OP);
@@ -1123,11 +1140,11 @@ void fmul_impl(frame *f, u1 pair1, u1 pair2)
 	operand_stack *value1 = pop_operand(f->p);
 	operand_stack *value2 = pop_operand(f->p);
 
-	float op1 = decode_float_info(value1->top->operand);
-	float op2 = decode_float_info(value2->top->operand);
+	float op1 = decode_float_value(value1->top->operand);
+	float op2 = decode_float_value(value2->top->operand);
 	float f_res = op1 * op2;
 	u4 res = (u4)(*(u4 *)&f_res);
-	u4 result = (sinal(res) << 31) | (expoente(res) << 23) | mantissa(res);
+	u4 result = (signal(res) << 31) | (exponent(res) << 23) | mantissa(res);
 	f->p = push_operand(f->p, result, NULL, FLOAT_OP);
 }
 
@@ -1143,7 +1160,7 @@ void dmul_impl(frame *f, u1 pair1, u1 pair2)
 
 	double d_res = op1 * op2;
 	u8 res = (u8)(*(u8 *)&d_res);
-	u8 result = (sinal_d(res) << 63) | (expoente_d(res) << 52) | mantissa_d(res);
+	u8 result = (signal_d(res) << 63) | (exponent_d(res) << 52) | mantissa_d(res);
 
 	f->p = push_operand(f->p, (u4)(result >> 32), NULL, DOUBLE_OP);
 	f->p = push_operand(f->p, (u4)result, NULL, DOUBLE_OP);
@@ -1199,11 +1216,11 @@ void fdiv_impl(frame *f, u1 pair1, u1 pair2)
 	operand_stack *value1 = pop_operand(f->p);
 	operand_stack *value2 = pop_operand(f->p);
 
-	float op1 = decode_float_info(value1->top->operand);
-	float op2 = decode_float_info(value2->top->operand);
+	float op1 = decode_float_value(value1->top->operand);
+	float op2 = decode_float_value(value2->top->operand);
 	float f_res = op2 / op1;
 	u4 res = (u4)(*(u4 *)&f_res);
-	u4 result = (sinal(res) << 31) | (expoente(res) << 23) | mantissa(res);
+	u4 result = (signal(res) << 31) | (exponent(res) << 23) | mantissa(res);
 	f->p = push_operand(f->p, result, NULL, FLOAT_OP);
 }
 
@@ -1219,7 +1236,7 @@ void ddiv_impl(frame *f, u1 pair1, u1 pair2)
 
 	double d_res = op2 / op1;
 	u8 res = (u8)(*(u8 *)&d_res);
-	u8 result = (sinal_d(res) << 63) | (expoente_d(res) << 52) | mantissa_d(res);
+	u8 result = (signal_d(res) << 63) | (exponent_d(res) << 52) | mantissa_d(res);
 
 	f->p = push_operand(f->p, (u4)(result >> 32), NULL, DOUBLE_OP);
 	f->p = push_operand(f->p, (u4)result, NULL, DOUBLE_OP);
@@ -1518,24 +1535,24 @@ void iinc_impl(frame *f, u1 index, i1 constante)
 	*(f->v[index].variable) += constant_integer;
 }
 
-void iinc_fantasma(frame *pair0, u1 pair1, u1 pair2)
+void iinc_ghost(frame *pair0, u1 pair1, u1 pair2)
 {
 	i1 value = (i1)pair2;
 	iinc_impl(pair0, pair1, value);
 }
 
-void iinc_wide_fantasma(frame *f, u1 indexbyte1, u1 indexbyte2, u1 constbyte1, u1 constbyte2)
+void iinc_wide_ghost(frame *f, u1 index_byte1, u1 index_byte2, u1 const_byte1, u1 const_byte2)
 {
-	u2 indexbyte = normalize_index(indexbyte1, indexbyte2);
-	i2 constbyte = (i2)((i1)(constbyte1 << 8) | (i1)constbyte2);
+	u2 index_byte = normalize_index(index_byte1, index_byte2);
+	i2 const_byte = (i2)((i1)(const_byte1 << 8) | (i1)const_byte2);
 
-	iinc_wide(f, indexbyte, constbyte);
+	iinc_wide(f, index_byte, const_byte);
 }
 
-void iinc_wide(frame *f, u2 indexbyte, i2 constbyte)
+void iinc_wide(frame *f, u2 index_byte, i2 const_byte)
 {
-	i4 constant_integer = (i4)constbyte;
-	f->v[indexbyte].variable += constant_integer;
+	i4 constant_integer = (i4)const_byte;
+	f->v[index_byte].variable += constant_integer;
 }
 
 void i2l_impl(frame *f, u1 pair1, u1 pair2)
@@ -1603,14 +1620,14 @@ void l2d_impl(frame *f, u1 pair1, u1 pair2)
 void f2i_impl(frame *f, u1 pair1, u1 pair2)
 {
 	operand_stack *value1 = pop_operand(f->p);
-	float value = decode_float_info(value1->top->operand);
+	float value = decode_float_value(value1->top->operand);
 	f->p = push_operand(f->p, (i4)value, NULL, INTEGER_OP);
 }
 
 void f2l_impl(frame *f, u1 pair1, u1 pair2)
 {
 	operand_stack *value1 = pop_operand(f->p);
-	float value = decode_float_info(value1->top->operand);
+	float value = decode_float_value(value1->top->operand);
 
 	i8 value_long = (i8)value;
 
@@ -1621,7 +1638,7 @@ void f2l_impl(frame *f, u1 pair1, u1 pair2)
 void f2d_impl(frame *f, u1 pair1, u1 pair2)
 {
 	operand_stack *value1 = pop_operand(f->p);
-	double value = (double)decode_float_info(value1->top->operand);
+	double value = (double)decode_float_value(value1->top->operand);
 
 	u8 doub = (u8)(*(u8 *)&value);
 
@@ -1732,8 +1749,8 @@ void fcmpl_impl(frame *f, u1 pair1, u1 pair2)
 	operand_stack *value1 = pop_operand(f->p);
 	operand_stack *value2 = pop_operand(f->p);
 
-	float op1 = decode_float_info(value1->top->operand);
-	float op2 = decode_float_info(value2->top->operand);
+	float op1 = decode_float_value(value1->top->operand);
+	float op2 = decode_float_value(value2->top->operand);
 	i4 ret;
 	if (op2 > op1)
 		ret = 1;
@@ -1750,8 +1767,8 @@ void fcmpg_impl(frame *f, u1 pair1, u1 pair2)
 	operand_stack *value1 = pop_operand(f->p);
 	operand_stack *value2 = pop_operand(f->p);
 
-	float op1 = decode_float_info(value1->top->operand);
-	float op2 = decode_float_info(value2->top->operand);
+	float op1 = decode_float_value(value1->top->operand);
+	float op2 = decode_float_value(value2->top->operand);
 	i4 ret;
 	if (op2 > op1)
 		ret = 1;
@@ -1805,211 +1822,211 @@ void dcmpg_impl(frame *f, u1 pair1, u1 pair2)
 	f->p = push_operand(f->p, ret, NULL, INTEGER_OP);
 }
 
-void ifeq_impl(frame *f, u1 branchbyte1, u1 branchbyte2)
+void ifeq_impl(frame *f, u1 branch_byte1, u1 branch_byte2)
 {
 	operand_stack *value = pop_operand(f->p);
 
 	if (value->top->operand == 0)
 	{
-		int8_t v1 = (int8_t)branchbyte1;
-		int8_t v2 = (int8_t)branchbyte2;
+		int8_t v1 = (int8_t)branch_byte1;
+		int8_t v2 = (int8_t)branch_byte2;
 		int16_t branch_offset = (v1 << 8) | v2;
 		jvm->pc += branch_offset;
 	}
 }
 
-void ifne_impl(frame *f, u1 branchbyte1, u1 branchbyte2)
+void ifne_impl(frame *f, u1 branch_byte1, u1 branch_byte2)
 {
 
 	operand_stack *value = pop_operand(f->p);
 
 	if (value->top->operand != 0)
 	{
-		int8_t v1 = (int8_t)branchbyte1;
-		int8_t v2 = (int8_t)branchbyte2;
+		int8_t v1 = (int8_t)branch_byte1;
+		int8_t v2 = (int8_t)branch_byte2;
 		int16_t branch_offset = (v1 << 8) | v2;
 		jvm->pc += branch_offset;
 	}
 }
 
-void iflt_impl(frame *f, u1 branchbyte1, u1 branchbyte2)
+void iflt_impl(frame *f, u1 branch_byte1, u1 branch_byte2)
 {
 
 	operand_stack *value = pop_operand(f->p);
 
 	if (value->top->operand < 0)
 	{
-		int8_t v1 = (int8_t)branchbyte1;
-		int8_t v2 = (int8_t)branchbyte2;
+		int8_t v1 = (int8_t)branch_byte1;
+		int8_t v2 = (int8_t)branch_byte2;
 		int16_t branch_offset = (v1 << 8) | v2;
 		jvm->pc += branch_offset;
 	}
 }
 
-void ifge_impl(frame *f, u1 branchbyte1, u1 branchbyte2)
+void ifge_impl(frame *f, u1 branch_byte1, u1 branch_byte2)
 {
 	operand_stack *value = pop_operand(f->p);
 
 	if (value->top->operand >= 0)
 	{
-		uint8_t v1 = (int8_t)branchbyte1;
-		int8_t v2 = (int8_t)branchbyte2;
+		uint8_t v1 = (int8_t)branch_byte1;
+		int8_t v2 = (int8_t)branch_byte2;
 		int16_t branch_offset = (v1 << 8) | v2;
 		jvm->pc += branch_offset;
 	}
 }
 
-void ifgt_impl(frame *f, u1 branchbyte1, u1 branchbyte2)
+void ifgt_impl(frame *f, u1 branch_byte1, u1 branch_byte2)
 {
 	operand_stack *value = pop_operand(f->p);
 
 	if (value->top->operand > 0)
 	{
-		int8_t v1 = (int8_t)branchbyte1;
-		int8_t v2 = (int8_t)branchbyte2;
+		int8_t v1 = (int8_t)branch_byte1;
+		int8_t v2 = (int8_t)branch_byte2;
 		int16_t branch_offset = (v1 << 8) | v2;
 		jvm->pc += branch_offset;
 	}
 }
 
-void ifle_impl(frame *f, u1 branchbyte1, u1 branchbyte2)
+void ifle_impl(frame *f, u1 branch_byte1, u1 branch_byte2)
 {
 	operand_stack *value = pop_operand(f->p);
 
 	if (value->top->operand <= 0)
 	{
-		int8_t v1 = (int8_t)branchbyte1;
-		int8_t v2 = (int8_t)branchbyte2;
+		int8_t v1 = (int8_t)branch_byte1;
+		int8_t v2 = (int8_t)branch_byte2;
 		int16_t branch_offset = (v1 << 8) | v2;
 		jvm->pc += branch_offset;
 	}
 }
 
-void if_icmpeq_impl(frame *f, u1 branchbyte1, u1 branchbyte2)
+void if_icmpeq_impl(frame *f, u1 branch_byte1, u1 branch_byte2)
 {
 	operand_stack *value1 = pop_operand(f->p);
 	operand_stack *value2 = pop_operand(f->p);
 
 	if (value1->top->operand == value2->top->operand)
 	{
-		int8_t v1 = (int8_t)branchbyte1;
-		int8_t v2 = (int8_t)branchbyte2;
+		int8_t v1 = (int8_t)branch_byte1;
+		int8_t v2 = (int8_t)branch_byte2;
 		int16_t branch_offset = (v1 << 8) | v2;
 		jvm->pc += branch_offset;
 	}
 }
 
-void if_icmpne_impl(frame *f, u1 branchbyte1, u1 branchbyte2)
+void if_icmpne_impl(frame *f, u1 branch_byte1, u1 branch_byte2)
 {
 	operand_stack *value1 = pop_operand(f->p);
 	operand_stack *value2 = pop_operand(f->p);
 
 	if (value1->top->operand != value2->top->operand)
 	{
-		int8_t v1 = (int8_t)branchbyte1;
-		int8_t v2 = (int8_t)branchbyte2;
+		int8_t v1 = (int8_t)branch_byte1;
+		int8_t v2 = (int8_t)branch_byte2;
 		int16_t branch_offset = (v1 << 8) | v2;
 		jvm->pc += branch_offset;
 	}
 }
 
-void if_icmplt_impl(frame *f, u1 branchbyte1, u1 branchbyte2)
+void if_icmplt_impl(frame *f, u1 branch_byte1, u1 branch_byte2)
 {
 	operand_stack *value1 = pop_operand(f->p);
 	operand_stack *value2 = pop_operand(f->p);
 
 	if (value2->top->operand < value1->top->operand)
 	{
-		int8_t v1 = (int8_t)branchbyte1;
-		int8_t v2 = (int8_t)branchbyte2;
+		int8_t v1 = (int8_t)branch_byte1;
+		int8_t v2 = (int8_t)branch_byte2;
 		int16_t branch_offset = (v1 << 8) | v2;
 		jvm->pc += branch_offset;
 	}
 }
 
-void if_icmpge_impl(frame *f, u1 branchbyte1, u1 branchbyte2)
+void if_icmpge_impl(frame *f, u1 branch_byte1, u1 branch_byte2)
 {
 	operand_stack *value1 = pop_operand(f->p);
 	operand_stack *value2 = pop_operand(f->p);
 
 	if (value2->top->operand >= value1->top->operand)
 	{
-		int8_t v1 = (int8_t)branchbyte1;
-		int8_t v2 = (int8_t)branchbyte2;
+		int8_t v1 = (int8_t)branch_byte1;
+		int8_t v2 = (int8_t)branch_byte2;
 		int16_t branch_offset = (v1 << 8) | v2;
 		jvm->pc += branch_offset;
 	}
 }
 
-void if_icmpgt_impl(frame *f, u1 branchbyte1, u1 branchbyte2)
+void if_icmpgt_impl(frame *f, u1 branch_byte1, u1 branch_byte2)
 {
 	operand_stack *value1 = pop_operand(f->p);
 	operand_stack *value2 = pop_operand(f->p);
 
 	if (value2->top->operand > value1->top->operand)
 	{
-		int8_t v1 = (int8_t)branchbyte1;
-		int8_t v2 = (int8_t)branchbyte2;
+		int8_t v1 = (int8_t)branch_byte1;
+		int8_t v2 = (int8_t)branch_byte2;
 		int16_t branch_offset = (v1 << 8) | v2;
 		jvm->pc += branch_offset;
 	}
 }
 
-void if_icmple_impl(frame *f, u1 branchbyte1, u1 branchbyte2)
+void if_icmple_impl(frame *f, u1 branch_byte1, u1 branch_byte2)
 {
 	operand_stack *value1 = pop_operand(f->p);
 	operand_stack *value2 = pop_operand(f->p);
 
 	if (value2->top->operand <= value1->top->operand)
 	{
-		int8_t v1 = (int8_t)branchbyte1;
-		int8_t v2 = (int8_t)branchbyte2;
+		int8_t v1 = (int8_t)branch_byte1;
+		int8_t v2 = (int8_t)branch_byte2;
 		int16_t branch_offset = (v1 << 8) | v2;
 		jvm->pc += branch_offset;
 	}
 }
 
-void acmpeq_impl(frame *f, u1 branchbyte1, u1 branchbyte2)
+void acmpeq_impl(frame *f, u1 branch_byte1, u1 branch_byte2)
 {
 	operand_stack *value1 = pop_operand(f->p);
 	operand_stack *value2 = pop_operand(f->p);
 
 	if (value1->top->operand == value2->top->operand)
 	{
-		int8_t v1 = (int8_t)branchbyte1;
-		int8_t v2 = (int8_t)branchbyte2;
+		int8_t v1 = (int8_t)branch_byte1;
+		int8_t v2 = (int8_t)branch_byte2;
 		int16_t branch_offset = (v1 << 8) | v2;
 		jvm->pc += branch_offset;
 	}
 }
 
-void acmpne_impl(frame *f, u1 branchbyte1, u1 branchbyte2)
+void acmpne_impl(frame *f, u1 branch_byte1, u1 branch_byte2)
 {
 	operand_stack *value1 = pop_operand(f->p);
 	operand_stack *value2 = pop_operand(f->p);
 
 	if (value1->top->operand != value2->top->operand)
 	{
-		int8_t v1 = (int8_t)branchbyte1;
-		int8_t v2 = (int8_t)branchbyte2;
+		int8_t v1 = (int8_t)branch_byte1;
+		int8_t v2 = (int8_t)branch_byte2;
 		int16_t branch_offset = (v1 << 8) | v2;
 		jvm->pc += branch_offset;
 	}
 }
 
-void inst_goto_impl(frame *f, u1 branchbyte1, u1 branchbyte2)
+void inst_goto_impl(frame *f, u1 branch_byte1, u1 branch_byte2)
 {
-	int8_t bb1 = (int8_t)branchbyte1;
-	int8_t bb2 = (int8_t)branchbyte2;
+	int8_t bb1 = (int8_t)branch_byte1;
+	int8_t bb2 = (int8_t)branch_byte2;
 	int16_t branch_offset = (bb1 << 8) | bb2;
 
 	jvm->pc += branch_offset;
 }
 
-void jsr_impl(frame *f, u1 branchbyte1, u1 branchbyte2)
+void jsr_impl(frame *f, u1 branch_byte1, u1 branch_byte2)
 {
-	int8_t v1 = (int8_t)branchbyte1;
-	int8_t v2 = (int8_t)branchbyte2;
+	int8_t v1 = (int8_t)branch_byte1;
+	int8_t v2 = (int8_t)branch_byte2;
 	int16_t branch_offset = (v1 << 8) | v2;
 	jvm->pc += branch_offset;
 }
@@ -2032,8 +2049,8 @@ void ireturn_impl(frame *f, u1 pair1, u1 pair2)
 {
 	operand_stack *value = pop_operand(f->p);
 
-	jvm->frames->top->prox->f->p = push_operand(jvm->frames->top->prox->f->p, (i4)value->top->operand, NULL, value->top->operand_type);
-	Pop_frames(jvm->frames);
+	get_top_element(jvm->frames)->p = push_operand(get_top_element(jvm->frames)->p, (i4)value->top->operand, NULL, value->top->operand_type);
+	pop_frame(jvm->frames);
 }
 
 void lreturn_impl(frame *f, u1 pair1, u1 pair2)
@@ -2041,9 +2058,9 @@ void lreturn_impl(frame *f, u1 pair1, u1 pair2)
 	operand_stack *low_bytes = pop_operand(f->p);
 	operand_stack *high_bytes = pop_operand(f->p);
 
-	jvm->frames->top->prox->f->p = push_operand(jvm->frames->top->prox->f->p, (u4)high_bytes->top->operand, NULL, LONG_OP);
-	jvm->frames->top->prox->f->p = push_operand(jvm->frames->top->prox->f->p, (u4)low_bytes->top->operand, NULL, LONG_OP);
-	Pop_frames(jvm->frames);
+	get_top_element(jvm->frames)->p = push_operand(get_top_element(jvm->frames)->p, (u4)high_bytes->top->operand, NULL, LONG_OP);
+	get_top_element(jvm->frames)->p = push_operand(get_top_element(jvm->frames)->p, (u4)low_bytes->top->operand, NULL, LONG_OP);
+	pop_frame(jvm->frames);
 }
 
 void freturn_impl(frame *f, u1 pair1, u1 pair2)
@@ -2052,8 +2069,8 @@ void freturn_impl(frame *f, u1 pair1, u1 pair2)
 	operand_stack *value = pop_operand(f->p);
 
 	// Empilhar na pilha de operands do frame do chamador
-	jvm->frames->top->prox->f->p = push_operand(jvm->frames->top->prox->f->p, (u4)value->top->operand, NULL, FLOAT_OP);
-	Pop_frames(jvm->frames);
+	get_top_element(jvm->frames)->p = push_operand(get_top_element(jvm->frames)->p, (u4)value->top->operand, NULL, FLOAT_OP);
+	pop_frame(jvm->frames);
 }
 
 void dreturn_impl(frame *f, u1 pair1, u1 pair2)
@@ -2063,9 +2080,9 @@ void dreturn_impl(frame *f, u1 pair1, u1 pair2)
 	operand_stack *high_bytes = pop_operand(f->p);
 
 	// Empilhar na pilha de operands do frame do chamador
-	jvm->frames->top->prox->f->p = push_operand(jvm->frames->top->prox->f->p, (u4)high_bytes->top->operand, NULL, DOUBLE_OP);
-	jvm->frames->top->prox->f->p = push_operand(jvm->frames->top->prox->f->p, (u4)low_bytes->top->operand, NULL, DOUBLE_OP);
-	Pop_frames(jvm->frames);
+	get_top_element(jvm->frames)->p = push_operand(get_top_element(jvm->frames)->p, (u4)high_bytes->top->operand, NULL, DOUBLE_OP);
+	get_top_element(jvm->frames)->p = push_operand(get_top_element(jvm->frames)->p, (u4)low_bytes->top->operand, NULL, DOUBLE_OP);
+	pop_frame(jvm->frames);
 }
 
 void areturn_impl(frame *f, u1 pair1, u1 pair2)
@@ -2075,27 +2092,27 @@ void areturn_impl(frame *f, u1 pair1, u1 pair2)
 
 void inst_return_impl(frame *f, u1 pair1, u1 pair2)
 {
-	Pop_frames(jvm->frames);
+	pop_frame(jvm->frames);
 }
 
-void getstatic_impl(frame *f, u1 indexbyte1, u1 indexbyte2)
+void getstatic_impl(frame *f, u1 index_byte1, u1 index_byte2)
 {
-	u2 index_cp = (indexbyte1 << 8) | indexbyte2;
+	u2 index_cp = (index_byte1 << 8) | index_byte2;
 
 	cp_info *aux = f->cp - 1 + index_cp;
 
 	// Descobrir a class do field
-	char *classdoField = decode_name_index_and_type(f->cp, aux->cp_union.CONSTANT_Fieldref_info.class_index, NAME_INDEX);
-	if (strcmp(classdoField, "java/lang/System") == 0)
+	char *field_class = decode_name_index_and_type(f->cp, aux->cp_union.CONSTANT_Fieldref_info.class_index, NAME_INDEX);
+	if (strcmp(field_class, "java/lang/System") == 0)
 	{
 		f->p = push_operand(f->p, -INT_MAX, "out", REFERENCE_OP);
 	}
 	else
 	{
-		loaded_class *new = find_class_element(jvm->classes, classdoField);
+		loaded_class *new = find_class_element(jvm->classes, field_class);
 		if (new == NULL)
 		{
-			if (resolverclass(classdoField) == NULL)
+			if (resolve_class(field_class) == NULL)
 			{
 				printf("Falha ao abrir class com field estático, encerrando.\n");
 				exit(1);
@@ -2103,41 +2120,41 @@ void getstatic_impl(frame *f, u1 indexbyte1, u1 indexbyte2)
 		}
 		else
 		{
-			cp_info *nameTypeField = f->cp - 1 + aux->cp_union.CONSTANT_Fieldref_info.name_and_type_index;
+			cp_info *name_type_field = f->cp - 1 + aux->cp_union.CONSTANT_Fieldref_info.name_and_type_index;
 
-			char *nameField = decode_name_index_and_type(f->cp, nameTypeField->cp_union.CONSTANT_NameAndType_info.name_index, NAME_AND_TYPE_INFO_NAME_INDEX);
+			char *name_field = decode_name_index_and_type(f->cp, name_type_field->cp_union.CONSTANT_NameAndType_info.name_index, NAME_AND_TYPE_INFO_NAME_INDEX);
 
-			field_info *field_out = BuscarFieldclassCorrente_class(jvm->classes, classdoField, nameField);
+			field_info *field_out = find_class_field(jvm->classes, field_class, name_field);
 			if (field_out != NULL)
 			{
-				char *accessF = decodificaAccessFlags(field_out->access_flags);
+				char *accessF = decode_access_flags(field_out->access_flags);
 
-				if (buscaStaticFlags(accessF))
+				if (static_flag_find(accessF))
 				{
-					char *descriptorfield_aux = decode_name_index_and_type(f->cp, nameTypeField->cp_union.CONSTANT_NameAndType_info.descriptor_index, NAME_AND_TYPE_INFO_DESCRIPTOR_INDEX);
-					if (descriptorFieldValidate(descriptorfield_aux) < 7)
+					char *field_descriptor_aux = decode_name_index_and_type(f->cp, name_type_field->cp_union.CONSTANT_NameAndType_info.descriptor_index, NAME_AND_TYPE_INFO_DESCRIPTOR_INDEX);
+					if (descriptor_field_validate(field_descriptor_aux) < 7)
 					{
-						if (descriptorFieldValidate(descriptorfield_aux) == 1)
+						if (descriptor_field_validate(field_descriptor_aux) == 1)
 						{
-							i4 valuePushed = *field_out->dadosStatics->low;
+							i4 valuePushed = *field_out->static_data->low;
 							f->p = push_operand(f->p, valuePushed, NULL, FLOAT_OP);
 						}
-						else if (descriptorFieldValidate(descriptorfield_aux) == 5)
+						else if (descriptor_field_validate(field_descriptor_aux) == 5)
 						{
-							u4 *valuePushed = field_out->dadosStatics->low;
+							u4 *valuePushed = field_out->static_data->low;
 							f->p = push_operand(f->p, -INT_MAX, (void *)valuePushed, REFERENCE_STRING_OP);
 						}
 						else
 						{
-							i4 valuePushed = *field_out->dadosStatics->low;
+							i4 valuePushed = *field_out->static_data->low;
 							f->p = push_operand(f->p, valuePushed, NULL, INTEGER_OP);
 						}
 					}
-					else if (descriptorFieldValidate(descriptorfield_aux) == 7 || descriptorFieldValidate(descriptorfield_aux) == 8)
+					else if (descriptor_field_validate(field_descriptor_aux) == 7 || descriptor_field_validate(field_descriptor_aux) == 8)
 					{
-						i4 valuePushedLow = *field_out->dadosStatics->low;
-						i4 valuePushedHigh = *field_out->dadosStatics->high;
-						if (descriptorFieldValidate(descriptorfield_aux) == 7)
+						i4 valuePushedLow = *field_out->static_data->low;
+						i4 valuePushedHigh = *field_out->static_data->high;
+						if (descriptor_field_validate(field_descriptor_aux) == 7)
 						{
 							f->p = push_operand(f->p, valuePushedHigh, NULL, DOUBLE_OP);
 							f->p = push_operand(f->p, valuePushedLow, NULL, DOUBLE_OP);
@@ -2154,18 +2171,18 @@ void getstatic_impl(frame *f, u1 indexbyte1, u1 indexbyte2)
 	}
 }
 
-void putstatic_impl(frame *f, u1 indexbyte1, u1 indexbyte2)
+void putstatic_impl(frame *f, u1 index_byte1, u1 index_byte2)
 {
-	u2 index_cp = (indexbyte1 << 8) | indexbyte2;
+	u2 index_cp = (index_byte1 << 8) | index_byte2;
 
 	cp_info *field = f->cp - 1 + index_cp;
 
 	// Resolver o field
-	char *name_class = decode_name_index_and_type(f->cp, field->cp_union.CONSTANT_Fieldref_info.class_index, NAME_INDEX);
-	loaded_class *new = find_class_element(jvm->classes, name_class);
+	char *class_name = decode_name_index_and_type(f->cp, field->cp_union.CONSTANT_Fieldref_info.class_index, NAME_INDEX);
+	loaded_class *new = find_class_element(jvm->classes, class_name);
 	if (new == NULL)
 	{
-		if (resolverclass(name_class) == NULL)
+		if (resolve_class(class_name) == NULL)
 		{
 			printf("Falha ao abrir class com field estático, encerrando.\n");
 			exit(1);
@@ -2173,50 +2190,50 @@ void putstatic_impl(frame *f, u1 indexbyte1, u1 indexbyte2)
 	}
 	else
 	{
-		cp_info *nameTypeField = f->cp - 1 + field->cp_union.CONSTANT_Fieldref_info.name_and_type_index;
+		cp_info *name_type_field = f->cp - 1 + field->cp_union.CONSTANT_Fieldref_info.name_and_type_index;
 
-		char *nameField = decode_name_index_and_type(f->cp, nameTypeField->cp_union.CONSTANT_NameAndType_info.name_index, NAME_AND_TYPE_INFO_NAME_INDEX);
+		char *name_field = decode_name_index_and_type(f->cp, name_type_field->cp_union.CONSTANT_NameAndType_info.name_index, NAME_AND_TYPE_INFO_NAME_INDEX);
 
-		field_info *field_out = BuscarFieldclassCorrente_class(jvm->classes, name_class, nameField);
+		field_info *field_out = find_class_field(jvm->classes, class_name, name_field);
 		if (field_out != NULL)
 		{
-			char *accessF = decodificaAccessFlags(field_out->access_flags);
+			char *accessF = decode_access_flags(field_out->access_flags);
 
-			if (buscaStaticFlags(accessF))
+			if (static_flag_find(accessF))
 			{
 
-				char *descriptorfield_aux = decode_name_index_and_type(f->cp, nameTypeField->cp_union.CONSTANT_NameAndType_info.descriptor_index, NAME_AND_TYPE_INFO_DESCRIPTOR_INDEX);
-				if (descriptorFieldValidate(descriptorfield_aux) < 7)
+				char *field_descriptor_aux = decode_name_index_and_type(f->cp, name_type_field->cp_union.CONSTANT_NameAndType_info.descriptor_index, NAME_AND_TYPE_INFO_DESCRIPTOR_INDEX);
+				if (descriptor_field_validate(field_descriptor_aux) < 7)
 				{
 					operand_stack *value = pop_operand(f->p);
-					field_out->dadosStatics = (Static_data *)malloc(sizeof(Static_data));
-					field_out->dadosStatics->low = (u4 *)malloc(sizeof(u4));
-					field_out->dadosStatics->high = NULL;
+					field_out->static_data = (static_data *)malloc(sizeof(static_data));
+					field_out->static_data->low = (u4 *)malloc(sizeof(u4));
+					field_out->static_data->high = NULL;
 					if (value->top->operand_type == REFERENCE_OP)
 					{
-						field_out->dadosStatics->low = (u4 *)value->top->ref;
+						field_out->static_data->low = (u4 *)value->top->ref;
 					}
 					else
 					{
-						*field_out->dadosStatics->low = (u4)value->top->operand;
+						*field_out->static_data->low = (u4)value->top->operand;
 					}
 				}
-				else if (descriptorFieldValidate(descriptorfield_aux) == 7 || descriptorFieldValidate(descriptorfield_aux) == 8)
+				else if (descriptor_field_validate(field_descriptor_aux) == 7 || descriptor_field_validate(field_descriptor_aux) == 8)
 				{
-					operand_stack *valueLow = pop_operand(f->p);
-					operand_stack *valueHigh = pop_operand(f->p);
-					field_out->dadosStatics = (Static_data *)malloc(sizeof(Static_data));
-					field_out->dadosStatics->low = (u4 *)malloc(sizeof(u4));
-					field_out->dadosStatics->high = (u4 *)malloc(sizeof(u4));
-					*field_out->dadosStatics->low = (u4)valueLow->top->operand;
-					*field_out->dadosStatics->high = (u4)valueHigh->top->operand;
+					operand_stack *value_low = pop_operand(f->p);
+					operand_stack *value_high = pop_operand(f->p);
+					field_out->static_data = (static_data *)malloc(sizeof(static_data));
+					field_out->static_data->low = (u4 *)malloc(sizeof(u4));
+					field_out->static_data->high = (u4 *)malloc(sizeof(u4));
+					*field_out->static_data->low = (u4)value_low->top->operand;
+					*field_out->static_data->high = (u4)value_high->top->operand;
 				}
 			}
 		}
 	}
 }
 
-bool buscaStaticFlags(char *accessFlags)
+bool static_flag_find(char *accessFlags)
 {
 	char *acc = (char *)malloc(100 * sizeof(char));
 	strcpy(acc, accessFlags);
@@ -2234,47 +2251,47 @@ bool buscaStaticFlags(char *accessFlags)
 	return false;
 }
 
-void getfield_impl(frame *f, u1 indexbyte1, u1 indexbyte2)
+void getfield_impl(frame *f, u1 index_byte1, u1 index_byte2)
 {
-	u2 index_cp = (indexbyte1 << 8) | indexbyte2;
+	u2 index_cp = (index_byte1 << 8) | index_byte2;
 	cp_info *aux = f->cp - 1 + index_cp;
-	char *classdoField = decode_name_index_and_type(f->cp, aux->cp_union.CONSTANT_Fieldref_info.class_index, NAME_INDEX);
-	if (strcmp(classdoField, "java/lang/System") == 0)
+	char *field_class = decode_name_index_and_type(f->cp, aux->cp_union.CONSTANT_Fieldref_info.class_index, NAME_INDEX);
+	if (strcmp(field_class, "java/lang/System") == 0)
 	{
 		f->p = push_operand(f->p, -INT_MAX, "out", REFERENCE_OP);
 	}
 	else
 	{
-		cp_info *nameTypeField = f->cp - 1 + aux->cp_union.CONSTANT_Fieldref_info.name_and_type_index;
-		char *nameField = decode_name_index_and_type(f->cp, nameTypeField->cp_union.CONSTANT_NameAndType_info.name_index, NAME_AND_TYPE_INFO_NAME_INDEX);
-		char *descriptorret = decode_name_index_and_type(f->cp, nameTypeField->cp_union.CONSTANT_NameAndType_info.descriptor_index, NAME_AND_TYPE_INFO_DESCRIPTOR_INDEX);
-		int tiporet = getTiporet(descriptorret);
-		if (tiporet != -1)
+		cp_info *name_type_field = f->cp - 1 + aux->cp_union.CONSTANT_Fieldref_info.name_and_type_index;
+		char *name_field = decode_name_index_and_type(f->cp, name_type_field->cp_union.CONSTANT_NameAndType_info.name_index, NAME_AND_TYPE_INFO_NAME_INDEX);
+		char *descriptor_ret = decode_name_index_and_type(f->cp, name_type_field->cp_union.CONSTANT_NameAndType_info.descriptor_index, NAME_AND_TYPE_INFO_DESCRIPTOR_INDEX);
+		int ret_type = get_return_type(descriptor_ret);
+		if (ret_type != -1)
 		{
-			operand_stack *objectRef = pop_operand(f->p);
-			ClassFile *searched = (ClassFile *)objectRef->top->ref;
-			object_list *obj = buscaobjectViaReferencia(searched);
+			operand_stack *object_ref = pop_operand(f->p);
+			ClassFile *searched = (ClassFile *)object_ref->top->ref;
+			object_list *obj = search_object_by_reference(searched);
 			if (obj != NULL)
 			{
-				int posField = getPositionField(obj->obj, nameField);
-				if (posField != -1)
+				int field_position = get_field_position(obj->obj, name_field);
+				if (field_position != -1)
 				{
-					if (tiporet == 1)
+					if (ret_type == 1)
 					{
-						u4 *valueLow = (u4 *)malloc(sizeof(u4));
-						*valueLow = obj->data[posField];
-						int tipoOperandoout = getTipoOperandoout(descriptorret);
-						f->p = push_operand(f->p, *valueLow, NULL, tipoOperandoout);
+						u4 *value_low = (u4 *)malloc(sizeof(u4));
+						*value_low = obj->data[field_position];
+						int out_operand_type = get_out_operand_type(descriptor_ret);
+						f->p = push_operand(f->p, *value_low, NULL, out_operand_type);
 					}
 					else
 					{
-						u4 *valueHigh = (u4 *)malloc(sizeof(u4));
-						*valueHigh = obj->data[posField];
-						u4 *valueLow = (u4 *)malloc(sizeof(u4));
-						*valueLow = obj->data[posField + 1];
-						int tipoOperandoout = getTipoOperandoout(descriptorret);
-						f->p = push_operand(f->p, *valueHigh, NULL, tipoOperandoout);
-						f->p = push_operand(f->p, *valueLow, NULL, tipoOperandoout);
+						u4 *value_high = (u4 *)malloc(sizeof(u4));
+						*value_high = obj->data[field_position];
+						u4 *value_low = (u4 *)malloc(sizeof(u4));
+						*value_low = obj->data[field_position + 1];
+						int out_operand_type = get_out_operand_type(descriptor_ret);
+						f->p = push_operand(f->p, *value_high, NULL, out_operand_type);
+						f->p = push_operand(f->p, *value_low, NULL, out_operand_type);
 					}
 				}
 				else
@@ -2286,9 +2303,9 @@ void getfield_impl(frame *f, u1 indexbyte1, u1 indexbyte2)
 	}
 }
 
-int getTipoOperandoout(char *descriptorret)
+int get_out_operand_type(char *descriptor_ret)
 {
-	switch (*descriptorret)
+	switch (*descriptor_ret)
 	{
 	case 'I':
 		return INTEGER_OP;
@@ -2312,7 +2329,7 @@ int getTipoOperandoout(char *descriptorret)
 	return -1;
 }
 
-int getTiporet(char *descriptor)
+int get_return_type(char *descriptor)
 {
 	switch (*descriptor)
 	{
@@ -2332,15 +2349,15 @@ int getTiporet(char *descriptor)
 	return -1;
 }
 
-void putfield_impl(frame *f, u1 indexbyte1, u1 indexbyte2)
+void putfield_impl(frame *f, u1 index_byte1, u1 index_byte2)
 {
-	u2 index_cp = (indexbyte1 << 8) | indexbyte2;
+	u2 index_cp = (index_byte1 << 8) | index_byte2;
 	cp_info *field = f->cp - 1 + index_cp;
-	char *name_class = decode_name_index_and_type(f->cp, field->cp_union.CONSTANT_Fieldref_info.class_index, NAME_INDEX);
-	loaded_class *new = find_class_element(jvm->classes, name_class);
+	char *class_name = decode_name_index_and_type(f->cp, field->cp_union.CONSTANT_Fieldref_info.class_index, NAME_INDEX);
+	loaded_class *new = find_class_element(jvm->classes, class_name);
 	if (new == NULL)
 	{
-		if (resolverclass(name_class) == NULL)
+		if (resolve_class(class_name) == NULL)
 		{
 			printf("Falha ao abrir class com field estático, encerrando.\n");
 			exit(1);
@@ -2348,30 +2365,30 @@ void putfield_impl(frame *f, u1 indexbyte1, u1 indexbyte2)
 	}
 	else
 	{
-		cp_info *nameTypeField = f->cp - 1 + field->cp_union.CONSTANT_Fieldref_info.name_and_type_index;
-		char *nameField = decode_name_index_and_type(f->cp, nameTypeField->cp_union.CONSTANT_NameAndType_info.name_index, NAME_AND_TYPE_INFO_NAME_INDEX);
-		operand_stack *valuePopedLow = pop_operand(f->p);
-		operand_stack *valuePopedHigh = NULL;
-		if (valuePopedLow->top->operand_type == DOUBLE_OP || valuePopedLow->top->operand_type == LONG_OP)
+		cp_info *name_type_field = f->cp - 1 + field->cp_union.CONSTANT_Fieldref_info.name_and_type_index;
+		char *name_field = decode_name_index_and_type(f->cp, name_type_field->cp_union.CONSTANT_NameAndType_info.name_index, NAME_AND_TYPE_INFO_NAME_INDEX);
+		operand_stack *value_poped_low = pop_operand(f->p);
+		operand_stack *value_poped_high = NULL;
+		if (value_poped_low->top->operand_type == DOUBLE_OP || value_poped_low->top->operand_type == LONG_OP)
 		{
-			valuePopedHigh = pop_operand(f->p);
+			value_poped_high = pop_operand(f->p);
 		}
-		operand_stack *objectRef = pop_operand(f->p);
-		ClassFile *searched = (ClassFile *)objectRef->top->ref;
-		object_list *obj = buscaobjectViaReferencia(searched);
+		operand_stack *object_ref = pop_operand(f->p);
+		ClassFile *searched = (ClassFile *)object_ref->top->ref;
+		object_list *obj = search_object_by_reference(searched);
 		if (obj != NULL)
 		{
-			int posField = getPositionField(obj->obj, nameField);
-			if (posField != -1)
+			int field_position = get_field_position(obj->obj, name_field);
+			if (field_position != -1)
 			{
-				if (valuePopedHigh == NULL)
+				if (value_poped_high == NULL)
 				{
-					obj->data[posField] = valuePopedLow->top->operand;
+					obj->data[field_position] = value_poped_low->top->operand;
 				}
 				else
 				{
-					obj->data[posField] = valuePopedHigh->top->operand;
-					obj->data[posField + 1] = valuePopedLow->top->operand;
+					obj->data[field_position] = value_poped_high->top->operand;
+					obj->data[field_position + 1] = value_poped_low->top->operand;
 				}
 			}
 			else
@@ -2382,41 +2399,44 @@ void putfield_impl(frame *f, u1 indexbyte1, u1 indexbyte2)
 	}
 }
 
-int getPositionField(ClassFile *obj, char *nameField)
+int get_field_position(ClassFile *obj, char *name_field)
 {
 	ClassFile *aux = obj;
 	int pos = 0;
 	for (field_info *auxF = aux->fields; auxF < aux->fields + aux->fields_count; auxF++)
 	{
 		char *nameF = decode_utf8_string(aux->constant_pool - 1 + auxF->name_index);
-		if (strcmp(nameF, nameField) == 0) return pos;
-		else	pos++;
+		if (strcmp(nameF, name_field) == 0)
+			return pos;
+		else
+			pos++;
 	}
 	return -1;
 }
 
-object_list *buscaobjectViaReferencia(ClassFile *p)
+object_list *search_object_by_reference(ClassFile *p)
 {
-	object_list *auxiliarobjects;
-	for (auxiliarobjects = jvm->objects; auxiliarobjects != NULL; auxiliarobjects = auxiliarobjects->prox)
+	object_list *object_aux;
+	for (object_aux = jvm->objects; object_aux != NULL; object_aux = object_aux->prox)
 	{
-		if (auxiliarobjects->obj == p) return auxiliarobjects;
+		if (object_aux->obj == p)
+			return object_aux;
 	}
 	return NULL;
 }
 
-void invokevirtual_impl(frame *f, u1 indexbyte1, u1 indexbyte2)
+void invokevirtual_impl(frame *f, u1 index_byte1, u1 index_byte2)
 {
 
 	u4 *end;
-	u2 index_cp = (indexbyte1 << 8) | indexbyte2;
-	char *classDomethod = NULL;
+	u2 index_cp = (index_byte1 << 8) | index_byte2;
+	char *method_class = NULL;
 	int *parametros_cont = malloc(sizeof(int));
 
 	char *name_method = get_name_method(f->cp, index_cp, 0);
 	char *descriptor_method = get_descriptor_method(f->cp, index_cp, 0);
-	char *descriptorcopia = malloc(strlen(descriptor_method) * sizeof(char));
-	strcpy(descriptorcopia, descriptor_method);
+	char *copy_descriptor = malloc(strlen(descriptor_method) * sizeof(char));
+	strcpy(copy_descriptor, descriptor_method);
 
 	//printf("name_method: %s\n", name_method);
 
@@ -2424,13 +2444,13 @@ void invokevirtual_impl(frame *f, u1 indexbyte1, u1 indexbyte2)
 	{
 		//printf("strcmp -> if\n");
 
-		double valueout_double;
-		float valueout_float;
-		long valueout_long;
+		double out_value_double;
+		float out_value_float;
+		long out_value_long;
 
-		if (!empty_stack(f->p))
+		if (!check_empty_stack(f->p))
 		{
-			if (!empty_print(f->p))
+			if (!print_empty(f->p))
 			{
 				operand_stack *string = pop_operand(f->p);
 				operand_stack *v2;
@@ -2439,7 +2459,7 @@ void invokevirtual_impl(frame *f, u1 indexbyte1, u1 indexbyte2)
 					v2 = pop_operand(f->p);
 				}
 
-				//printf("If !empty_stack:\n");
+				//printf("If !check_empty_stack:\n");
 
 				// operand_stack *new_pop = pop_operand(f->p);
 				//printf("%s\n", (char*)new_pop->top->ref);
@@ -2465,16 +2485,16 @@ void invokevirtual_impl(frame *f, u1 indexbyte1, u1 indexbyte2)
 					printf("%d\n", (i4)string->top->operand);
 					break;
 				case FLOAT_OP:
-					valueout_float = decode_float_info(string->top->operand);
-					printf("%.6f\n", valueout_float);
+					out_value_float = decode_float_value(string->top->operand);
+					printf("%.6f\n", out_value_float);
 					break;
 				case LONG_OP:
-					valueout_long = decodificaLongValor(v2->top->operand, string->top->operand);
-					printf("%ld\n", valueout_long);
+					out_value_long = decode_long_value(v2->top->operand, string->top->operand);
+					printf("%ld\n", out_value_long);
 					break;
 				case DOUBLE_OP:
-					valueout_double = decode_double_value(v2->top->operand, string->top->operand);
-					printf("%.6lf\n", valueout_double);
+					out_value_double = decode_double_value(v2->top->operand, string->top->operand);
+					printf("%.6lf\n", out_value_double);
 					break;
 				case RETURN_ADDRESS_OP:
 					printf("[@%p\n", (u4 *)string->top->ref);
@@ -2530,13 +2550,13 @@ void invokevirtual_impl(frame *f, u1 indexbyte1, u1 indexbyte2)
 	{
 		//printf("strcmp -> if -> print\n");
 
-		double valueout_double;
-		float valueout_float;
-		long valueout_long;
+		double out_value_double;
+		float out_value_float;
+		long out_value_long;
 
-		if (!empty_stack(f->p))
+		if (!check_empty_stack(f->p))
 		{
-			if (!empty_print(f->p))
+			if (!print_empty(f->p))
 			{
 				operand_stack *string = pop_operand(f->p);
 				operand_stack *v2;
@@ -2545,7 +2565,7 @@ void invokevirtual_impl(frame *f, u1 indexbyte1, u1 indexbyte2)
 					v2 = pop_operand(f->p);
 				}
 
-				//printf("If !empty_stack:\n");
+				//printf("If !check_empty_stack:\n");
 
 				// operand_stack *new_pop = pop_operand(f->p);
 				// printf("%s\n", (char*)new_pop->top->ref);
@@ -2571,16 +2591,16 @@ void invokevirtual_impl(frame *f, u1 indexbyte1, u1 indexbyte2)
 					printf("%d", (i4)string->top->operand);
 					break;
 				case FLOAT_OP:
-					valueout_float = decode_float_info(string->top->operand);
-					printf("%.6f", valueout_float);
+					out_value_float = decode_float_value(string->top->operand);
+					printf("%.6f", out_value_float);
 					break;
 				case LONG_OP:
-					valueout_long = decodificaLongValor(v2->top->operand, string->top->operand);
-					printf("%ld", valueout_long);
+					out_value_long = decode_long_value(v2->top->operand, string->top->operand);
+					printf("%ld", out_value_long);
 					break;
 				case DOUBLE_OP:
-					valueout_double = decode_double_value(v2->top->operand, string->top->operand);
-					printf("%.6lf", valueout_double);
+					out_value_double = decode_double_value(v2->top->operand, string->top->operand);
+					printf("%.6lf", out_value_double);
 					break;
 				case RETURN_ADDRESS_OP:
 					printf("[@%p", (u4 *)string->top->ref);
@@ -2634,26 +2654,27 @@ void invokevirtual_impl(frame *f, u1 indexbyte1, u1 indexbyte2)
 	}
 	else
 	{
-		classDomethod = obterclassDomethod(f->cp, index_cp);
+		method_class = get_class_method(f->cp, index_cp);
 
-		method_info *method_aux = BuscarMethodclassCorrente_class(jvm->classes, classDomethod, name_method);
+		method_info *method_aux = find_class_method(jvm->classes, method_class, name_method);
 		attribute_info *aux;
 		int pos;
-		*parametros_cont = 1 + getparametrosCount(descriptor_method);
+		*parametros_cont = 1 + get_param_count(descriptor_method);
 
 		for (pos = 0; pos < method_aux->attributes_count; pos++)
 		{
 			aux = (*(method_aux->attributes + pos));
-			loaded_class *current_class = find_class_element(jvm->classes, classDomethod);
+			loaded_class *current_class = find_class_element(jvm->classes, method_class);
 			char *nameindex = decode_utf8_string(current_class->class_file->constant_pool - 1 + aux->attribute_name_index);
 			if (strcmp(nameindex, "Code") == 0)
 			{
 				code_attribute *c = (code_attribute *)aux->info;
-				frame *f_new = criarframe(classDomethod, c->max_locals);
-				f_new = transferePilhaVetor(f, f_new, parametros_cont);
-				jvm->frames = push_frames(jvm->frames, f_new);
+				frame *f_new = create_frame(method_class, c->max_locals);
+				f_new = transfer_array_stack(f, f_new, parametros_cont);
 
-				loaded_class *class = find_class_element(jvm->classes, classDomethod);
+				push_frame(jvm->frames, f_new);
+
+				loaded_class *class = find_class_element(jvm->classes, method_class);
 
 				// Achar o método na class que o contém
 				method_info *methods = class->class_file->methods;
@@ -2663,13 +2684,13 @@ void invokevirtual_impl(frame *f, u1 indexbyte1, u1 indexbyte2)
 					char *name_method_aux = decode_utf8_string(class->class_file->constant_pool - 1 + aux->name_index);
 					char *descriptor_method_aux = decode_utf8_string(class->class_file->constant_pool - 1 + aux->descriptor_index);
 
-					if (strcmp(name_method, name_method_aux) == 0 && strcmp(descriptorcopia, descriptor_method_aux) == 0)
+					if (strcmp(name_method, name_method_aux) == 0 && strcmp(copy_descriptor, descriptor_method_aux) == 0)
 					{
 						// Executar o code do método invocado
 						jvm->pc += 3;
 						f->return_address = jvm->pc;
 						jvm->pc = 0;
-						executarmethod(aux, classDomethod, 2);
+						run_method(aux, method_class, 2);
 						jvm->pc = f->return_address;
 					}
 				}
@@ -2678,53 +2699,53 @@ void invokevirtual_impl(frame *f, u1 indexbyte1, u1 indexbyte2)
 	}
 }
 
-void invokespecial_impl(frame *f, u1 indexbyte1, u1 indexbyte2)
+void invokespecial_impl(frame *f, u1 index_byte1, u1 index_byte2)
 {
-	u2 index_cp = normalize_index(indexbyte1, indexbyte2);
+	u2 index_cp = normalize_index(index_byte1, index_byte2);
 
 	char *name_method = get_name_method(f->cp, index_cp, 0);
 	char *descriptor_method = get_descriptor_method(f->cp, index_cp, 0);
-	char *descriptorcopia = malloc(strlen(descriptor_method) * sizeof(char));
-	strcpy(descriptorcopia, descriptor_method);
-	char *classDomethod = NULL;
+	char *copy_descriptor = malloc(strlen(descriptor_method) * sizeof(char));
+	strcpy(copy_descriptor, descriptor_method);
+	char *method_class = NULL;
 	char *classPaiDaCorrente = NULL;
 	loaded_class *classCorrente = NULL;
 	int *parametros_cont = malloc(sizeof(int));
 
-	if (solve_method(f->cp, index_cp, 0))
+	if (resolve_method(f->cp, index_cp, 0))
 	{
 
-		classDomethod = obterclassDomethod(f->cp, index_cp);
+		method_class = get_class_method(f->cp, index_cp);
 
-		classCorrente = find_class_element(jvm->classes, jvm->frames->top->f->classCorrente);
+		classCorrente = find_class_element(jvm->classes, get_top_element(jvm->frames)->current_class);
 
 		classPaiDaCorrente = decode_name_index_and_type(classCorrente->class_file->constant_pool, classCorrente->class_file->super_class, NAME_INDEX);
 
 		// If não executa, else executa
-		if (isSuper(classCorrente->class_file->access_flags) && strcmp(classDomethod, classPaiDaCorrente) == 0 && (strcmp(name_method, "init") != 0 || strcmp(name_method, "clinit") != 0))
+		if (is_super(classCorrente->class_file->access_flags) && strcmp(method_class, classPaiDaCorrente) == 0 && (strcmp(name_method, "init") != 0 || strcmp(name_method, "clinit") != 0))
 		{
 		}
 		else
 		{
 			// Vai invocar o método
-			method_info *method_aux = BuscarMethodclassCorrente_class(jvm->classes, classDomethod, name_method);
+			method_info *method_aux = find_class_method(jvm->classes, method_class, name_method);
 			attribute_info *aux;
 			int pos;
-			*parametros_cont = 1 + getparametrosCount(descriptor_method);
+			*parametros_cont = 1 + get_param_count(descriptor_method);
 
 			for (pos = 0; pos < method_aux->attributes_count; pos++)
 			{
 				aux = (*(method_aux->attributes + pos));
-				loaded_class *current_class = find_class_element(jvm->classes, classDomethod);
+				loaded_class *current_class = find_class_element(jvm->classes, method_class);
 				char *nameindex = decode_utf8_string(current_class->class_file->constant_pool - 1 + aux->attribute_name_index);
 				if (strcmp(nameindex, "Code") == 0)
 				{
 					code_attribute *c = (code_attribute *)aux->info;
-					frame *f_new = criarframe(classDomethod, c->max_locals);
-					f_new = transferePilhaVetor(f, f_new, parametros_cont);
-					jvm->frames = push_frames(jvm->frames, f_new);
+					frame *f_new = create_frame(method_class, c->max_locals);
+					f_new = transfer_array_stack(f, f_new, parametros_cont);
+					push_frame(jvm->frames, f_new);
 
-					loaded_class *class = find_class_element(jvm->classes, classDomethod);
+					loaded_class *class = find_class_element(jvm->classes, method_class);
 
 					// Achar o método na class que o contém
 					method_info *methods = class->class_file->methods;
@@ -2734,13 +2755,13 @@ void invokespecial_impl(frame *f, u1 indexbyte1, u1 indexbyte2)
 						char *name_method_aux = decode_utf8_string(class->class_file->constant_pool - 1 + aux->name_index);
 						char *descriptor_method_aux = decode_utf8_string(class->class_file->constant_pool - 1 + aux->descriptor_index);
 
-						if (strcmp(name_method, name_method_aux) == 0 && strcmp(descriptorcopia, descriptor_method_aux) == 0)
+						if (strcmp(name_method, name_method_aux) == 0 && strcmp(copy_descriptor, descriptor_method_aux) == 0)
 						{
 							// Executar o code do método invocado
 							jvm->pc += 3;
 							f->return_address = jvm->pc;
 							jvm->pc = 0;
-							executarmethod(aux, classDomethod, 2);
+							run_method(aux, method_class, 2);
 							jvm->pc = f->return_address;
 						}
 					}
@@ -2750,14 +2771,14 @@ void invokespecial_impl(frame *f, u1 indexbyte1, u1 indexbyte2)
 	}
 }
 
-int getparametrosCount(char *descriptor)
+int get_param_count(char *descriptor)
 {
-	int sizeChar = strlen(descriptor);
+	int char_size = strlen(descriptor);
 	int count = 0;
-	char *descriptorAuxiliar = descriptor;
-	while (sizeChar > 0)
+	char *aux_descriptor = descriptor;
+	while (char_size > 0)
 	{
-		switch (*descriptorAuxiliar)
+		switch (*aux_descriptor)
 		{
 		case '(':
 			break;
@@ -2779,20 +2800,20 @@ int getparametrosCount(char *descriptor)
 		default:
 			break;
 		}
-		descriptorAuxiliar++;
-		sizeChar--;
+		aux_descriptor++;
+		char_size--;
 	}
 	return count;
 }
 
-void invokestatic_impl(frame *f, u1 indexbyte1, u1 indexbyte2)
+void invokestatic_impl(frame *f, u1 index_byte1, u1 index_byte2)
 {
 
-	u2 index_cp = (indexbyte1 << 8) | indexbyte2;
+	u2 index_cp = (index_byte1 << 8) | index_byte2;
 	char *name_method = get_name_method(f->cp, index_cp, 0);
 	char *descriptor_method = get_descriptor_method(f->cp, index_cp, 0);
-	char *descriptorcopia = malloc(strlen(descriptor_method) * sizeof(char));
-	strcpy(descriptorcopia, descriptor_method);
+	char *copy_descriptor = malloc(strlen(descriptor_method) * sizeof(char));
+	strcpy(copy_descriptor, descriptor_method);
 	int *parametros_cont = malloc(sizeof(int));
 	*parametros_cont = 0;
 
@@ -2801,61 +2822,9 @@ void invokestatic_impl(frame *f, u1 indexbyte1, u1 indexbyte2)
 	char *pch = strtok(descriptor_method, "()");
 	*parametros_cont += strlen(pch);
 
-	if (solve_method(f->cp, index_cp, 0))
+	if (resolve_method(f->cp, index_cp, 0))
 	{
-		char *classnew = obterclassDomethod(f->cp, index_cp);
-		method_info *method_aux = BuscarMethodclassCorrente_class(jvm->classes, classnew, name_method);
-		attribute_info *aux;
-		int pos;
-		for (pos = 0; pos < method_aux->attributes_count; pos++)
-		{
-			aux = (*(method_aux->attributes + pos));
-			loaded_class *current_class = find_class_element(jvm->classes, classnew);
-			char *nameindex = decode_utf8_string(current_class->class_file->constant_pool - 1 + aux->attribute_name_index);
-			if (strcmp(nameindex, "Code") == 0)
-			{
-				code_attribute *c = (code_attribute *)aux->info;
-				frame *f_new = criarframe(classnew, c->max_locals);
-
-				f_new = transferePilhaVetor(f, f_new, parametros_cont);
-				jvm->frames = push_frames(jvm->frames, f_new);
-
-				loaded_class *class = find_class_element(jvm->classes, classnew);
-
-				// Achar o método na class que o contém
-				method_info *methods = class->class_file->methods;
-				for (method_info *aux = methods; aux < methods + class->class_file->methods_count; aux++)
-				{
-					// Verificar se o name e o descriptor do método que deve ser invocado são iguais ao que está sendo analisado no .class
-					char *name_method_aux = decode_utf8_string(class->class_file->constant_pool - 1 + aux->name_index);
-					char *descriptor_method_aux = decode_utf8_string(class->class_file->constant_pool - 1 + aux->descriptor_index);
-
-					if (strcmp(name_method, name_method_aux) == 0 && strcmp(descriptorcopia, descriptor_method_aux) == 0)
-					{
-						// Executar o code do método invocado
-						jvm->pc += 3;
-						f->return_address = jvm->pc;
-						jvm->pc = 0;
-						executarmethod(aux, classnew, 2);
-						jvm->pc = f->return_address;
-					}
-				}
-			}
-		}
-	}
-}
-
-void invokeinterface_impl(frame *f, u1 indexbyte1, u1 indexbyte2, u1 count)
-{
-	u2 index_cp = normalize_index(indexbyte1, indexbyte2);
-
-	char *name_method = get_name_method(f->cp, index_cp, 1);
-	char *descriptor_method = get_descriptor_method(f->cp, index_cp, 1);
-
-	if (solve_method(f->cp, index_cp, 1))
-	{
-		char *classnew = malloc(100 * sizeof(char));
-		strcpy(classnew, jvm->frames->top->f->classCorrente);
+		char *classnew = get_class_method(f->cp, index_cp);
 		method_info *method_aux = find_class_method(jvm->classes, classnew, name_method);
 		attribute_info *aux;
 		int pos;
@@ -2867,9 +2836,61 @@ void invokeinterface_impl(frame *f, u1 indexbyte1, u1 indexbyte2, u1 count)
 			if (strcmp(nameindex, "Code") == 0)
 			{
 				code_attribute *c = (code_attribute *)aux->info;
-				frame *f_new = criarframe(classnew, c->max_locals);
-				f_new = transferePilhaVetorCount(f, f_new, count);
-				jvm->frames = push_frames(jvm->frames, f_new);
+				frame *f_new = create_frame(classnew, c->max_locals);
+
+				f_new = transfer_array_stack(f, f_new, parametros_cont);
+				push_frame(jvm->frames, f_new);
+
+				loaded_class *class = find_class_element(jvm->classes, classnew);
+
+				// Achar o método na class que o contém
+				method_info *methods = class->class_file->methods;
+				for (method_info *aux = methods; aux < methods + class->class_file->methods_count; aux++)
+				{
+					// Verificar se o name e o descriptor do método que deve ser invocado são iguais ao que está sendo analisado no .class
+					char *name_method_aux = decode_utf8_string(class->class_file->constant_pool - 1 + aux->name_index);
+					char *descriptor_method_aux = decode_utf8_string(class->class_file->constant_pool - 1 + aux->descriptor_index);
+
+					if (strcmp(name_method, name_method_aux) == 0 && strcmp(copy_descriptor, descriptor_method_aux) == 0)
+					{
+						// Executar o code do método invocado
+						jvm->pc += 3;
+						f->return_address = jvm->pc;
+						jvm->pc = 0;
+						run_method(aux, classnew, 2);
+						jvm->pc = f->return_address;
+					}
+				}
+			}
+		}
+	}
+}
+
+void invokeinterface_impl(frame *f, u1 index_byte1, u1 index_byte2, u1 count)
+{
+	u2 index_cp = normalize_index(index_byte1, index_byte2);
+
+	char *name_method = get_name_method(f->cp, index_cp, 1);
+	char *descriptor_method = get_descriptor_method(f->cp, index_cp, 1);
+
+	if (resolve_method(f->cp, index_cp, 1))
+	{
+		char *classnew = malloc(100 * sizeof(char));
+		strcpy(classnew, get_top_element(jvm->frames)->current_class);
+		method_info *method_aux = find_class_method(jvm->classes, classnew, name_method);
+		attribute_info *aux;
+		int pos;
+		for (pos = 0; pos < method_aux->attributes_count; pos++)
+		{
+			aux = (*(method_aux->attributes + pos));
+			loaded_class *current_class = find_class_element(jvm->classes, classnew);
+			char *nameindex = decode_utf8_string(current_class->class_file->constant_pool - 1 + aux->attribute_name_index);
+			if (strcmp(nameindex, "Code") == 0)
+			{
+				code_attribute *c = (code_attribute *)aux->info;
+				frame *f_new = create_frame(classnew, c->max_locals);
+				f_new = transfer_array_stack_count(f, f_new, count);
+				push_frame(jvm->frames, f_new);
 
 				loaded_class *class = find_class_element(jvm->classes, classnew);
 
@@ -2883,7 +2904,7 @@ void invokeinterface_impl(frame *f, u1 indexbyte1, u1 indexbyte2, u1 count)
 
 					if (strcmp(name_method, name_method_aux) == 0 && strcmp(descriptor_method, descriptor_method_aux) == 0)
 					{
-						executarmethod(aux, classnew, 2);
+						run_method(aux, classnew, 2);
 					}
 				}
 			}
@@ -2891,39 +2912,39 @@ void invokeinterface_impl(frame *f, u1 indexbyte1, u1 indexbyte2, u1 count)
 	}
 }
 
-void invokeinterface_fantasma(frame *pair0, u1 pair1, u1 pair2)
+void invokeinterface_ghost(frame *pair0, u1 pair1, u1 pair2)
 {
 }
 
-void invokedynamic_fantasma(frame *pair0, u1 pair1, u1 pair2)
+void invokedynamic_ghost(frame *pair0, u1 pair1, u1 pair2)
 {
 }
 
-void inst_new_impl(frame *f, u1 indexbyte1, u1 indexbyte2)
+void inst_new_impl(frame *f, u1 index_byte1, u1 index_byte2)
 {
-	u2 index_cp = (indexbyte1 << 8) | indexbyte2;
-	char *name_class = decode_name_index_and_type(f->cp, index_cp, NAME_INDEX);
-	ClassFile *class = instantiate_class(name_class);
-	int numFields = get_no_static_params(class);
-	jvm->objects = Insert_object(jvm->objects, class, numFields);
+	u2 index_cp = (index_byte1 << 8) | index_byte2;
+	char *class_name = decode_name_index_and_type(f->cp, index_cp, NAME_INDEX);
+	ClassFile *class = instantiate_class(class_name);
+	int numFields = get_not_static_params(class);
+	jvm->objects = insert_object(jvm->objects, class, numFields);
 	f->p = push_operand(f->p, -INT_MAX, class, REFERENCE_OP);
 }
 
-ClassFile *instantiate_class(char *name_class)
+ClassFile *instantiate_class(char *class_name)
 {
-	char *out = (char *)malloc((strlen(name_class) + 8) * sizeof(char));
-	strcpy(out, name_class);
+	char *out = (char *)malloc((strlen(class_name) + 8) * sizeof(char));
+	strcpy(out, class_name);
 	strcat(out, ".class");
-	ClassFile *cf = lerArquivo(out);
+	ClassFile *cf = read_file(out);
 	return cf;
 }
 
-object_list *Insert_object(object_list *lis, ClassFile *class, int parametrosNaoStatic)
+object_list *insert_object(object_list *lis, ClassFile *class, int not_static_param)
 {
 	object_list *object = (object_list *)malloc(sizeof(object_list));
 	object->obj = class;
-	object->size_data = parametrosNaoStatic;
-	object->data = (u4 *)malloc(parametrosNaoStatic * sizeof(u4));
+	object->size_data = not_static_param;
+	object->data = (u4 *)malloc(not_static_param * sizeof(u4));
 	object->prox = NULL;
 	object->ant = NULL;
 
@@ -2947,7 +2968,7 @@ object_list *Insert_object(object_list *lis, ClassFile *class, int parametrosNao
 	}
 }
 
-int get_no_static_params(ClassFile *class)
+int get_not_static_params(ClassFile *class)
 {
 	ClassFile *class_aux = class;
 	int count = 0;
@@ -3248,12 +3269,12 @@ void monitorexit_impl(frame *f, u1 pair1, u1 pair2)
 {
 }
 
-void wide_impl(frame *f, u1 indexbyte1, u1 indexbyte2)
+void wide_impl(frame *f, u1 index_byte1, u1 index_byte2)
 {
 	return;
 }
 
-void multianewarray_fantasma(frame *f, u1 pair1, u1 pair2)
+void multianewarray_ghost(frame *f, u1 pair1, u1 pair2)
 {
 }
 void *initialize_recursive_multiarray(void *address, i4 *counts, char *tipos)
@@ -3342,10 +3363,10 @@ void *initialize_recursive_multiarray(void *address, i4 *counts, char *tipos)
 	}
 	return address;
 }
-void multianewarray_impl(frame *f, u1 indexbyte1, u1 indexbyte2, u1 dimensions)
+void multianewarray_impl(frame *f, u1 index_byte1, u1 index_byte2, u1 dimensions)
 {
 
-	u2 index_cp = normalize_index(indexbyte1, indexbyte2);
+	u2 index_cp = normalize_index(index_byte1, index_byte2);
 	cp_info *item = f->cp - 1 + index_cp;
 	char *tipos = decode_utf8_string(f->cp - 1 + item->cp_union.CONSTANT_Class_info.name_index);
 	i4 *counts = (i4 *)malloc(dimensions * sizeof(i4));
@@ -3366,7 +3387,7 @@ void multianewarray_impl(frame *f, u1 indexbyte1, u1 indexbyte2, u1 dimensions)
 	free(counts);
 }
 
-void ifnull_impl(frame *f, u1 branchbyte1, u1 branchbyte2)
+void ifnull_impl(frame *f, u1 branch_byte1, u1 branch_byte2)
 {
 	operand_stack *value = pop_operand(f->p);
 
@@ -3374,14 +3395,14 @@ void ifnull_impl(frame *f, u1 branchbyte1, u1 branchbyte2)
 
 	if (value->top->ref == NULL)
 	{
-		i1 v1 = (i1)branchbyte1;
-		i1 v2 = (i1)branchbyte2;
+		i1 v1 = (i1)branch_byte1;
+		i1 v2 = (i1)branch_byte2;
 		offset = (v1 << 8) | v2;
 		jvm->pc += offset;
 	}
 }
 
-void ifnonnull_impl(frame *f, u1 branchbyte1, u1 branchbyte2)
+void ifnonnull_impl(frame *f, u1 branch_byte1, u1 branch_byte2)
 {
 	operand_stack *value = pop_operand(f->p);
 
@@ -3389,8 +3410,8 @@ void ifnonnull_impl(frame *f, u1 branchbyte1, u1 branchbyte2)
 
 	if (value->top->ref != NULL)
 	{
-		i1 v1 = (i1)branchbyte1;
-		i1 v2 = (i1)branchbyte2;
+		i1 v1 = (i1)branch_byte1;
+		i1 v2 = (i1)branch_byte2;
 		offset = (v1 << 8) | v2;
 		jvm->pc += offset;
 	}

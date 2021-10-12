@@ -4,7 +4,7 @@ operand_list *create_operand_list(){
     return NULL;
 }
 
-operand_list *insert_operand_list(operand_list *list, i4 operand, void *ref, u1 operand_type){
+operand_list *insert_operand(operand_list *list, i4 operand, void *ref, u1 operand_type){
     operand_list *new = malloc (sizeof(operand_list));
 
     if(operand_type <= 8){
@@ -26,14 +26,14 @@ operand_list *insert_operand_list(operand_list *list, i4 operand, void *ref, u1 
     return new;
 }
 
-operand_list *insert_end_operand(operand_list *list, i4 operand, void *ref, u1 operand_type){
-    operand_list *new, *prev = NULL, *pointer = list;
+// operand_list *insert_end_operand(operand_list *list, i4 operand, void *ref, u1 operand_type){
+// 	operand_list *prev = NULL, *pointer = list;
 
-    while(pointer != NULL){
-        prev = pointer;
-        pointer = pointer->next;
-    }
-}
+// 	while(pointer != NULL){
+// 		prev = pointer;
+// 		pointer = pointer->next;
+// 	}
+// }
 
 operand_list *remove_operand(operand_list *list){
 	operand_list *pointer = list;
@@ -47,20 +47,20 @@ operand_list *remove_operand(operand_list *list){
 	return (list);
 }
 
-operand_list* remove_end_operand(operand_list *list){
-	operand_list *pointer = list, *prev = NULL;
+// operand_list* remove_end_operand(operand_list *list){
+// 	operand_list *pointer = list, *prev = NULL;
 
-	while (pointer!= NULL){
-		prev = pointer;
-		pointer = pointer->next;
-	}
+// 	while (pointer!= NULL){
+// 		prev = pointer;
+// 		pointer = pointer->next;
+// 	}
 
-	prev->prev->next = NULL;
+// 	prev->prev->next = NULL;
 
-	free(prev);
+// 	free(prev);
 
-	return list;
-}
+// 	return list;
+// }
 
 void print_operand_list(operand_list *list){
 	operand_list *pointer;
