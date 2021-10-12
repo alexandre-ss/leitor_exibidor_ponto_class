@@ -1,5 +1,5 @@
-#ifndef PILHA_DE_OPERANDOS
-#define PILHA_DE_OPERANDOS
+#ifndef PILHA_DE_OPERANDOS_H
+#define PILHA_DE_OPERANDOS_H
 
 #include "lista_de_operandos.h"
 #include <stdio.h>

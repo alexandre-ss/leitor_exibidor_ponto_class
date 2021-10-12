@@ -14,7 +14,7 @@ char*   decode_field_access_flags(u2 flag);
 double  decode_double_info(cp_info *cp);
 long    decode_long_info(cp_info *cp);
 float   decode_float_info(cp_info *cp);
-void     decode_opcode(u1 code);
+void    decode_opcode(u1 code);
 // int     setaOffsetImpressao(int posicao, u1 offset);
 void    print_class_file(ClassFile *cf);
 
