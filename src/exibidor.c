@@ -177,19 +177,19 @@ char *decode_field_access_flags(u2 flag)
 
 double decode_double_info(cp_info *cp)
 {
-	long value = ((long)cp->cp_union.CONSTANT_Double_info.high_bytes << 32) + cp->cp_union.CONSTANT_Double_info.low_bytes;
+	int64_t value = ((int64_t)cp->cp_union.CONSTANT_Double_info.high_bytes << 32) + cp->cp_union.CONSTANT_Double_info.low_bytes;
 
-	int sign = ((value >> 63) == 0) ? 1 : -1;
-	int exp = ((value >> 52) & 0x7ffL);
-	long mant = (exp == 0) ? ((value & 0xfffffffffffffL) << 1) : ((value & 0xfffffffffffffL) | 0x10000000000000L);
+	int16_t sign = ((value >> 63) == 0) ? 1 : -1;
+	int16_t exp = ((value >> 52) & 0x7ffL);
+	int64_t mant = (exp == 0) ? ((value & 0xfffffffffffffL) << 1) : ((value & 0xfffffffffffffL) | 0x10000000000000L);
 
 	double doubleValue = sign * mant * pow(2, exp - 1075);
 	return doubleValue;
 }
 
-long decode_long_info(cp_info *cp)
+int64_t decode_long_info(cp_info *cp)
 {
-	long longValue = (((long)cp->cp_union.CONSTANT_Long_info.high_bytes) << 32) | ((long)cp->cp_union.CONSTANT_Long_info.low_bytes);
+	int64_t longValue = (((int64_t)cp->cp_union.CONSTANT_Long_info.high_bytes) << 32) | ((int64_t)cp->cp_union.CONSTANT_Long_info.low_bytes);
 	return longValue;
 }
 
@@ -216,6 +216,7 @@ void print_class_file(ClassFile *cf)
 	field_info *auxField;
 	attribute_info **auxAttributeClasse;
 	attribute_info **fieldAttrAux;
+	// exception_table *exceptionTableAux;
 	uint32_t contador = 1;
 	char *ponteiroprint;
 
@@ -291,13 +292,13 @@ void print_class_file(ClassFile *cf)
 			longValue = decode_long_info(cp_aux);
 			printf("Long High Bytes: 0x%08x\n", cp_aux->cp_union.CONSTANT_Long_info.high_bytes);
 			printf("Long Low Bytes: 0x%08x\n", cp_aux->cp_union.CONSTANT_Long_info.low_bytes);
-			printf("Long: %lu\n", longValue);
+			printf("Long: %I64u\n", longValue);
 			break;
 		case CONSTANT_Double:
 			valor = decode_double_info(cp_aux);
 			printf("Double High Bytes: 0x%08x\n", cp_aux->cp_union.CONSTANT_Double_info.high_bytes);
 			printf("Double Low Bytes: 0x%08x\n", cp_aux->cp_union.CONSTANT_Double_info.low_bytes);
-			printf("Double: %lf\n", valor);
+			printf("Double: %.2lf\n", valor);
 			break;
 		case CONSTANT_NameAndType:
 			ponteiroprint = decode_name_index_and_type(cf->constant_pool, cp_aux->cp_union.CONSTANT_NameAndType_info.name_index, NAME_AND_TYPE_INFO_NAME_INDEX);
@@ -399,7 +400,7 @@ void print_class_file(ClassFile *cf)
 					else if (cpInfoAux->tag == CONSTANT_Long)
 					{
 						uint64_t longValue = decode_long_info(cf->constant_pool - 1 + cvAux->constant_value_index);
-						printf("Constant Value Index: %lu\n", longValue);
+						printf("Constant Value Index: %I64u\n", longValue);
 					}
 				}
 				else if (strcmp(ponteiroprint, "Signature") == 0)

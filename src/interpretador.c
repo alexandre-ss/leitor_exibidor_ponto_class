@@ -377,12 +377,21 @@ void ldc_w_impl(frame *f, u1 index_byte1, u1 index_byte2)
 
 void ldc2_w_impl(frame *f, u1 branch_byte1, u1 branch_byte2)
 {
+	printf("ldc2_w\n");
+
 	int8_t v1 = (int8_t)branch_byte1;
 	int8_t v2 = (int8_t)branch_byte2;
+
+	printf("v1 << 8\n");
+
 	int16_t branch_offset = (v1 << 8) | v2;
-	cp_info *double_value = f->cp - 1 + branch_offset;
+	printf("entrou");
+	cp_info *double_value = f->cp;
+	// cp_info *double_value = f->cp - 1 + branch_offset;
 
 	u4 high, low;
+
+	printf("%d", double_value->tag);
 
 	if (double_value->tag == CONSTANT_Double)
 	{
@@ -405,6 +414,8 @@ void ldc2_w_impl(frame *f, u1 branch_byte1, u1 branch_byte2)
 		push_operand(f->p, high, NULL, LONG_OP); //high
 		push_operand(f->p, low, NULL, LONG_OP);	 //low
 	}
+
+	printf("Saindo do ldc2_w\n");
 }
 
 void iload_impl(frame *f, u1 index, u1 pair1)
@@ -643,6 +654,8 @@ void fstore_impl(frame *f, u1 index, u1 pair1)
 
 void dstore_impl(frame *f, u1 index, u1 pair1)
 {
+	printf("dstore\n");
+	
 	operand_stack *low_bytes = pop_operand(f->p);
 	operand_stack *high_bytes = pop_operand(f->p);
 

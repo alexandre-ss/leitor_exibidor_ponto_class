@@ -32,9 +32,8 @@ extern instruction *instructions;
 
 /**
  * @brief   Inicializa a estrutura da JVM
- * @return  Estrutura da JVM alocada
  */
-JVM *initialize();
+void initialize();
 
 /**
  * @brief   Executa a JVM

@@ -21,6 +21,8 @@ int main(int argc, char *argv[]) {
   }
 
   ClassFile *cf = read_file(filename);
+  initialize();
+  jvm->classes = insert_class_element(jvm->classes, cf);
 
   if (cf != NULL) {
     // Opcoes para leitura do .class e/ou execucao da JVM
@@ -40,16 +42,16 @@ int main(int argc, char *argv[]) {
         break;
       case 2:
         printf("\n--------| Executando a JVM\n\n");
-        initialize();
         run_jvm();
+
         break;
       case 3:
         printf("\n--------| Realizando a leitura do .class\n\n");
         print_class_file(cf);
 
         printf("\n--------| Executando a JVM\n\n");
-        initialize();
         run_jvm();
+
         break;
       default: break;
     }
@@ -59,6 +61,8 @@ int main(int argc, char *argv[]) {
   } else {
     printf("Magic Number inválido\n");
   }
+
+  free(jvm);
 
   return 0;
 }
