@@ -6,7 +6,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-/* Estrutura de dados de Instruções */
+/**
+ * @struct  instruction
+ * @brief   Estrutura de dados de Instruções
+ */
 typedef struct instruction
 {
   char inst_name[50];  /**< Nome da instrucao */

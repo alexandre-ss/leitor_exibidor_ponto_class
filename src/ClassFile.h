@@ -52,14 +52,19 @@ typedef struct exception_table
 
 typedef enum access_flags
 {
-  ACC_PUBLIC = 0x0001,
-  ACC_FINAL = 0x0010,
-  ACC_SUPER = 0x0020,
-  ACC_INTERFACE = 0x0200,
-  ACC_ABSTRACT = 0x0400,
-  ACC_SYNTHETIC = 0x1000,
-  ACC_ANNOTATION = 0x2000,
-  ACC_ENUM = 0x4000
+  ACC_PUBLIC      = 1,
+  ACC_PRIVATE     = 2,
+  ACC_PROTECTED   = 4,
+  ACC_STATIC      = 8,
+  ACC_FINAL       = 16,
+  ACC_SUPER       = 32,
+  ACC_VOLATILE    = 64,
+  ACC_TRANSIENT   = 128, 
+  ACC_INTERFACE   = 512,
+  ACC_ABSTRACT    = 1024,
+  ACC_SYNTHETIC   = 4096,
+  ACC_ANNOTATION  = 8192,
+  ACC_ENUM        = 16384
 } access_flags;
 
 // 4.4. Constant Pool
@@ -427,6 +432,28 @@ typedef struct stack_map_table_attribute
   u2 number_of_entries;
   stack_map_frame **entries;
 } stack_map_table_attribute;
+
+typedef enum operand_types {
+	BOOLEAN_OP = 1,
+	BYTE_OP,
+	CHAR_OP,
+	SHORT_OP,
+	INTEGER_OP,
+	FLOAT_OP,
+	LONG_OP,
+	DOUBLE_OP,
+	RETURN_ADDRESS_OP,
+	REFERENCE_OP,
+	REFERENCE_ARRAY_BOOLEAN_OP,
+	REFERENCE_ARRAY_CHAR_OP,
+	REFERENCE_ARRAY_FLOAT_OP,
+	REFERENCE_ARRAY_DOUBLE_OP,
+	REFERENCE_ARRAY_BYTE_OP,
+	REFERENCE_ARRAY_SHORT_OP,
+	REFERENCE_ARRAY_INT_OP,
+	REFERENCE_ARRAY_LONG_OP,
+	REFERENCE_STRING_OP,
+} operand_types;
 
 typedef struct ClassFile
 {
