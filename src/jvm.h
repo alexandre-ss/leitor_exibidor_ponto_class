@@ -14,7 +14,7 @@
 #include "interpretador.h"
 
 /**
- * @struct  JVM
+ * @struct  jvm
  * @brief   Programa que carrega e executa os aplicativos Java, convertendo os bytecodes em código executável de máquina. A JVM é responsável pelo gerenciamento dos aplicativos, à medida que são executados.
  */
 typedef struct jvm {
