@@ -377,21 +377,14 @@ void ldc_w_impl(frame *f, u1 index_byte1, u1 index_byte2)
 
 void ldc2_w_impl(frame *f, u1 branch_byte1, u1 branch_byte2)
 {
-	printf("ldc2_w\n");
-
 	int8_t v1 = (int8_t)branch_byte1;
 	int8_t v2 = (int8_t)branch_byte2;
 
-	printf("v1 << 8\n");
-
 	int16_t branch_offset = (v1 << 8) | v2;
-	printf("entrou");
-	cp_info *double_value = f->cp;
-	// cp_info *double_value = f->cp - 1 + branch_offset;
+
+	cp_info *double_value = f->cp - 1 + branch_offset;
 
 	u4 high, low;
-
-	printf("%d", double_value->tag);
 
 	if (double_value->tag == CONSTANT_Double)
 	{
@@ -414,8 +407,6 @@ void ldc2_w_impl(frame *f, u1 branch_byte1, u1 branch_byte2)
 		push_operand(f->p, high, NULL, LONG_OP); //high
 		push_operand(f->p, low, NULL, LONG_OP);	 //low
 	}
-
-	printf("Saindo do ldc2_w\n");
 }
 
 void iload_impl(frame *f, u1 index, u1 pair1)
@@ -653,9 +644,7 @@ void fstore_impl(frame *f, u1 index, u1 pair1)
 }
 
 void dstore_impl(frame *f, u1 index, u1 pair1)
-{
-	printf("dstore\n");
-	
+{	
 	operand_stack *low_bytes = pop_operand(f->p);
 	operand_stack *high_bytes = pop_operand(f->p);
 
@@ -2440,7 +2429,6 @@ object_list *search_object_by_reference(ClassFile *p)
 
 void invokevirtual_impl(frame *f, u1 index_byte1, u1 index_byte2)
 {
-
 	u4 *end;
 	u2 index_cp = (index_byte1 << 8) | index_byte2;
 	char *method_class = NULL;
@@ -2451,12 +2439,8 @@ void invokevirtual_impl(frame *f, u1 index_byte1, u1 index_byte2)
 	char *copy_descriptor = malloc(strlen(descriptor_method) * sizeof(char));
 	strcpy(copy_descriptor, descriptor_method);
 
-	//printf("name_method: %s\n", name_method);
-
 	if (strcmp(name_method, "println") == 0)
 	{
-		//printf("strcmp -> if\n");
-
 		double out_value_double;
 		float out_value_float;
 		long out_value_long;
@@ -2471,11 +2455,6 @@ void invokevirtual_impl(frame *f, u1 index_byte1, u1 index_byte2)
 				{
 					v2 = pop_operand(f->p);
 				}
-
-				//printf("If !check_empty_stack:\n");
-
-				// operand_stack *new_pop = pop_operand(f->p);
-				//printf("%s\n", (char*)new_pop->top->ref);
 
 				pop_operand(f->p);
 
@@ -2516,7 +2495,6 @@ void invokevirtual_impl(frame *f, u1 index_byte1, u1 index_byte2)
 					printf("[Z@%p\n", (u4 *)string->top->ref);
 					break;
 				case REFERENCE_ARRAY_CHAR_OP:
-					//printf("Impressao de string:\n");
 					printf("%s\n", (char *)string->top->ref);
 					break;
 				case REFERENCE_ARRAY_FLOAT_OP:
@@ -2538,31 +2516,23 @@ void invokevirtual_impl(frame *f, u1 index_byte1, u1 index_byte2)
 					printf("[J@%p\n", (u4 *)string->top->ref);
 					break;
 				case REFERENCE_OP:
-					// printf("[@%p\n",(u4*) string->top->ref); 				// SOMENTE REF
-					// printf("[@%p -> %s\n", (u4*) string->top->ref, (char*) string->top->ref); 	// REF -> STRING
 					printf("%s\n", (char *)string->top->ref);
 					break;
 				case REFERENCE_STRING_OP:
-					//printf("Impressao de string:\n");
 					end = (u4 *)string->top->ref;
-					//printf("%s\n", (char*)(string->top->ref));
 					printf("%s\n", (char *)(end));
 					break;
 				}
 			}
 			else
 			{
-				//printf("else:\n");
-
+				printf("\n");
 				pop_operand(f->p);
-				//printf("\n");
 			}
 		}
 	}
 	else if (strcmp(name_method, "print") == 0)
 	{
-		//printf("strcmp -> if -> print\n");
-
 		double out_value_double;
 		float out_value_float;
 		long out_value_long;
@@ -2577,11 +2547,6 @@ void invokevirtual_impl(frame *f, u1 index_byte1, u1 index_byte2)
 				{
 					v2 = pop_operand(f->p);
 				}
-
-				//printf("If !check_empty_stack:\n");
-
-				// operand_stack *new_pop = pop_operand(f->p);
-				// printf("%s\n", (char*)new_pop->top->ref);
 
 				pop_operand(f->p);
 
@@ -2622,7 +2587,6 @@ void invokevirtual_impl(frame *f, u1 index_byte1, u1 index_byte2)
 					printf("[Z@%p", (u4 *)string->top->ref);
 					break;
 				case REFERENCE_ARRAY_CHAR_OP:
-					//printf("Impressao de string:\n");
 					printf("%s", (char *)string->top->ref);
 					break;
 				case REFERENCE_ARRAY_FLOAT_OP:
@@ -2644,24 +2608,17 @@ void invokevirtual_impl(frame *f, u1 index_byte1, u1 index_byte2)
 					printf("[J@%p", (u4 *)string->top->ref);
 					break;
 				case REFERENCE_OP:
-					// printf("[@%p",(u4*) string->top->ref); 											// SOMENTE REF
-					// printf("[@%p -> %s", (u4*) string->top->ref, (char*) string->top->ref); 	// REF -> STRING
 					printf("%s", (char *)string->top->ref);
 					break;
 				case REFERENCE_STRING_OP:
-					//printf("Impressao de string:\n");
 					end = (u4 *)string->top->ref;
-					//printf("%s\n", (char*)(string->top->ref));
 					printf("%s", (char *)(end));
 					break;
 				}
 			}
 			else
 			{
-				//printf("else:\n");
-
 				pop_operand(f->p);
-				//printf("\n");
 			}
 		}
 	}
