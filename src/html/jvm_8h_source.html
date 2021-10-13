@@ -91,10 +91,10 @@ $(function() {
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;} <a class="code" href="jvm_8h.html#a36df1d3591b105d3d4e4e00e7ee9498c">JVM</a>;</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">// Variáveis Globais</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">extern</span> <a class="code" href="structJVM.html">JVM</a> *<a class="code" href="jvm_8h.html#aaadd6bd4e20642a7a34ea6db728289ae">jvm</a>;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">extern</span> <a class="code" href="structjvm.html">JVM</a> *<a class="code" href="jvm_8h.html#aaadd6bd4e20642a7a34ea6db728289ae">jvm</a>;</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">extern</span> <a class="code" href="structinstruction.html">instruction</a> *<a class="code" href="jvm_8h.html#a37fa679d8481f7773d0e560300cedb97">instructions</a>;</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<a class="code" href="structJVM.html">JVM</a> *<a class="code" href="jvm_8h.html#a376f43cb416d1922db6c528c1a548a8b">initialize</a>();</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<a class="code" href="structjvm.html">JVM</a> *<a class="code" href="jvm_8h.html#a376f43cb416d1922db6c528c1a548a8b">initialize</a>();</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="keywordtype">void</span> <a class="code" href="jvm_8h.html#aac572c9a10c31acc186cc52f8eb98aa6">run_jvm</a>();</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
@@ -138,7 +138,6 @@ $(function() {
 <div class="ttc" id="astructjvm_html_a433dc115f3ef1c2acd59a57cae2ca02b"><div class="ttname"><a href="structjvm.html#a433dc115f3ef1c2acd59a57cae2ca02b">jvm::exception</a></div><div class="ttdeci">u2 exception</div><div class="ttdef"><b>Definition:</b> jvm.h:24</div></div>
 <div class="ttc" id="ajvm_8h_html_a376f43cb416d1922db6c528c1a548a8b"><div class="ttname"><a href="jvm_8h.html#a376f43cb416d1922db6c528c1a548a8b">initialize</a></div><div class="ttdeci">JVM * initialize()</div><div class="ttdoc">Inicializa a estrutura da JVM, realizando sua alocação e setando valores iniciais.</div></div>
 <div class="ttc" id="ajvm_8h_html_ace9c7b81d7057a7a9bcd5ebdf2147a97"><div class="ttname"><a href="jvm_8h.html#ace9c7b81d7057a7a9bcd5ebdf2147a97">free_local_variable</a></div><div class="ttdeci">void free_local_variable(local_variable *v, u2 vetor_length)</div><div class="ttdoc">Libera memória alocada para variáveis locais.</div></div>
-<div class="ttc" id="astructJVM_html"><div class="ttname"><a href="structJVM.html">JVM</a></div><div class="ttdoc">Programa que carrega e executa os aplicativos Java, convertendo os bytecodes em código executável de ...</div></div>
 <div class="ttc" id="alista__de__classes_8h_html"><div class="ttname"><a href="lista__de__classes_8h.html">lista_de_classes.h</a></div></div>
 <div class="ttc" id="ajvm_8h_html_a9b69ec83cd38776a4c33dfa05ca95c49"><div class="ttname"><a href="jvm_8h.html#a9b69ec83cd38776a4c33dfa05ca95c49">instruction_branch</a></div><div class="ttdeci">bool instruction_branch(char *nomeInstrucao)</div><div class="ttdoc">Avalia se a instrução passada como parâmetro é uma instrução do tipo branch.</div></div>
 <div class="ttc" id="ajvm_8h_html_aac572c9a10c31acc186cc52f8eb98aa6"><div class="ttname"><a href="jvm_8h.html#aac572c9a10c31acc186cc52f8eb98aa6">run_jvm</a></div><div class="ttdeci">void run_jvm()</div><div class="ttdoc">Executa a JVM, iniciando a interpretação do arquivo .class.</div></div>
@@ -149,7 +148,7 @@ $(function() {
 <div class="ttc" id="ajvm_8h_html_a36df1d3591b105d3d4e4e00e7ee9498c"><div class="ttname"><a href="jvm_8h.html#a36df1d3591b105d3d4e4e00e7ee9498c">JVM</a></div><div class="ttdeci">struct jvm JVM</div></div>
 <div class="ttc" id="astructloaded__class_html"><div class="ttname"><a href="structloaded__class.html">loaded_class</a></div><div class="ttdoc">Estrutuda de classes carregadas.</div><div class="ttdef"><b>Definition:</b> lista_de_classes.h:15</div></div>
 <div class="ttc" id="ajvm_8h_html_acfe26d0744e5ec5900b5a08af624d6e6"><div class="ttname"><a href="jvm_8h.html#acfe26d0744e5ec5900b5a08af624d6e6">check_handler_method</a></div><div class="ttdeci">u2 check_handler_method(method_info *m)</div><div class="ttdoc">Encontra em um método o PC do handler da exceção lançada na JVM.</div></div>
-<div class="ttc" id="astructjvm_html"><div class="ttname"><a href="structjvm.html">jvm</a></div><div class="ttdef"><b>Definition:</b> jvm.h:20</div></div>
+<div class="ttc" id="astructjvm_html"><div class="ttname"><a href="structjvm.html">jvm</a></div><div class="ttdoc">Programa que carrega e executa os aplicativos Java, convertendo os bytecodes em código executável de ...</div><div class="ttdef"><b>Definition:</b> jvm.h:20</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Gerado por &#160;<a href="http://www.doxygen.org/index.html">

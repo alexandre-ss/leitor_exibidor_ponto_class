@@ -92,6 +92,7 @@ Diagrama de dependências de inclusão para jvm.h:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Componentes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjvm.html">jvm</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Programa que carrega e executa os aplicativos Java, convertendo os bytecodes em código executável de máquina. A JVM é responsável pelo gerenciamento dos aplicativos, à medida que são executados.  <a href="structjvm.html#details">Mais...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
@@ -101,11 +102,11 @@ Definições de tipos</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Funções</h2></td></tr>
-<tr class="memitem:a376f43cb416d1922db6c528c1a548a8b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structJVM.html">JVM</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="jvm_8h.html#a376f43cb416d1922db6c528c1a548a8b">initialize</a> ()</td></tr>
-<tr class="memdesc:a376f43cb416d1922db6c528c1a548a8b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inicializa a estrutura da <a class="el" href="structJVM.html" title="Programa que carrega e executa os aplicativos Java, convertendo os bytecodes em código executável de ...">JVM</a>, realizando sua alocação e setando valores iniciais.  <a href="jvm_8h.html#a376f43cb416d1922db6c528c1a548a8b">Mais...</a><br /></td></tr>
+<tr class="memitem:a376f43cb416d1922db6c528c1a548a8b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="jvm_8h.html#a36df1d3591b105d3d4e4e00e7ee9498c">JVM</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="jvm_8h.html#a376f43cb416d1922db6c528c1a548a8b">initialize</a> ()</td></tr>
+<tr class="memdesc:a376f43cb416d1922db6c528c1a548a8b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inicializa a estrutura da JVM, realizando sua alocação e setando valores iniciais.  <a href="jvm_8h.html#a376f43cb416d1922db6c528c1a548a8b">Mais...</a><br /></td></tr>
 <tr class="separator:a376f43cb416d1922db6c528c1a548a8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aac572c9a10c31acc186cc52f8eb98aa6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="jvm_8h.html#aac572c9a10c31acc186cc52f8eb98aa6">run_jvm</a> ()</td></tr>
-<tr class="memdesc:aac572c9a10c31acc186cc52f8eb98aa6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Executa a <a class="el" href="structJVM.html" title="Programa que carrega e executa os aplicativos Java, convertendo os bytecodes em código executável de ...">JVM</a>, iniciando a interpretação do arquivo .class.  <a href="jvm_8h.html#aac572c9a10c31acc186cc52f8eb98aa6">Mais...</a><br /></td></tr>
+<tr class="memdesc:aac572c9a10c31acc186cc52f8eb98aa6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Executa a JVM, iniciando a interpretação do arquivo .class.  <a href="jvm_8h.html#aac572c9a10c31acc186cc52f8eb98aa6">Mais...</a><br /></td></tr>
 <tr class="separator:aac572c9a10c31acc186cc52f8eb98aa6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab0ebc17ab77b8b7f620f1e8c28c0204b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="jvm_8h.html#ab0ebc17ab77b8b7f620f1e8c28c0204b">run_method</a> (<a class="el" href="structmethod__info.html">method_info</a> *m, char *class_info, int caller)</td></tr>
 <tr class="memdesc:ab0ebc17ab77b8b7f620f1e8c28c0204b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Executa método da classe.  <a href="jvm_8h.html#ab0ebc17ab77b8b7f620f1e8c28c0204b">Mais...</a><br /></td></tr>
@@ -123,7 +124,7 @@ Funções</h2></td></tr>
 <tr class="memdesc:a9b69ec83cd38776a4c33dfa05ca95c49"><td class="mdescLeft">&#160;</td><td class="mdescRight">Avalia se a instrução passada como parâmetro é uma instrução do tipo branch.  <a href="jvm_8h.html#a9b69ec83cd38776a4c33dfa05ca95c49">Mais...</a><br /></td></tr>
 <tr class="separator:a9b69ec83cd38776a4c33dfa05ca95c49"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acfe26d0744e5ec5900b5a08af624d6e6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="ClassFile_8h.html#a732cde1300aafb73b0ea6c2558a7a54f">u2</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="jvm_8h.html#acfe26d0744e5ec5900b5a08af624d6e6">check_handler_method</a> (<a class="el" href="structmethod__info.html">method_info</a> *m)</td></tr>
-<tr class="memdesc:acfe26d0744e5ec5900b5a08af624d6e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Encontra em um método o PC do handler da exceção lançada na <a class="el" href="structJVM.html" title="Programa que carrega e executa os aplicativos Java, convertendo os bytecodes em código executável de ...">JVM</a>.  <a href="jvm_8h.html#acfe26d0744e5ec5900b5a08af624d6e6">Mais...</a><br /></td></tr>
+<tr class="memdesc:acfe26d0744e5ec5900b5a08af624d6e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Encontra em um método o PC do handler da exceção lançada na JVM.  <a href="jvm_8h.html#acfe26d0744e5ec5900b5a08af624d6e6">Mais...</a><br /></td></tr>
 <tr class="separator:acfe26d0744e5ec5900b5a08af624d6e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0cf082c5ef45e5a09f3b0770eab05c28"><td class="memItemLeft" align="right" valign="top"><a class="el" href="ClassFile_8h.html#ad9f4cdb6757615aae2fad89dab3c5470">u1</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="jvm_8h.html#a0cf082c5ef45e5a09f3b0770eab05c28">update_pc_current_method</a> (<a class="el" href="ClassFile_8h.html#ad9f4cdb6757615aae2fad89dab3c5470">u1</a> *code, <a class="el" href="ClassFile_8h.html#ae5be1f726785414dd1b77d60df074c9d">u4</a> length)</td></tr>
 <tr class="memdesc:a0cf082c5ef45e5a09f3b0770eab05c28"><td class="mdescLeft">&#160;</td><td class="mdescRight">Atualizar o PC, de acordo com a instrução branch previamente executada, verificando sua execução.  <a href="jvm_8h.html#a0cf082c5ef45e5a09f3b0770eab05c28">Mais...</a><br /></td></tr>
@@ -131,7 +132,7 @@ Funções</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variáveis</h2></td></tr>
-<tr class="memitem:aaadd6bd4e20642a7a34ea6db728289ae"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structJVM.html">JVM</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="jvm_8h.html#aaadd6bd4e20642a7a34ea6db728289ae">jvm</a></td></tr>
+<tr class="memitem:aaadd6bd4e20642a7a34ea6db728289ae"><td class="memItemLeft" align="right" valign="top"><a class="el" href="jvm_8h.html#a36df1d3591b105d3d4e4e00e7ee9498c">JVM</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="jvm_8h.html#aaadd6bd4e20642a7a34ea6db728289ae">jvm</a></td></tr>
 <tr class="separator:aaadd6bd4e20642a7a34ea6db728289ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a37fa679d8481f7773d0e560300cedb97"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structinstruction.html">instruction</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="jvm_8h.html#a37fa679d8481f7773d0e560300cedb97">instructions</a></td></tr>
 <tr class="separator:a37fa679d8481f7773d0e560300cedb97"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -144,7 +145,7 @@ Variáveis</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef struct <a class="el" href="structjvm.html">jvm</a> <a class="el" href="structJVM.html">JVM</a></td>
+          <td class="memname">typedef struct <a class="el" href="structjvm.html">jvm</a> <a class="el" href="jvm_8h.html#a36df1d3591b105d3d4e4e00e7ee9498c">JVM</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -168,7 +169,7 @@ Variáveis</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Encontra em um método o PC do handler da exceção lançada na <a class="el" href="structJVM.html" title="Programa que carrega e executa os aplicativos Java, convertendo os bytecodes em código executável de ...">JVM</a>. </p>
+<p>Encontra em um método o PC do handler da exceção lançada na JVM. </p>
 <dl class="params"><dt>Parâmetros</dt><dd>
   <table class="params">
     <tr><td class="paramname">m</td><td>Ponteiro para método </td></tr>
@@ -261,7 +262,7 @@ Variáveis</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structJVM.html">JVM</a>* initialize </td>
+          <td class="memname"><a class="el" href="jvm_8h.html#a36df1d3591b105d3d4e4e00e7ee9498c">JVM</a>* initialize </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -269,8 +270,8 @@ Variáveis</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Inicializa a estrutura da <a class="el" href="structJVM.html" title="Programa que carrega e executa os aplicativos Java, convertendo os bytecodes em código executável de ...">JVM</a>, realizando sua alocação e setando valores iniciais. </p>
-<dl class="section return"><dt>Retorna</dt><dd>Estrutura da <a class="el" href="structJVM.html" title="Programa que carrega e executa os aplicativos Java, convertendo os bytecodes em código executável de ...">JVM</a> alocada </dd></dl>
+<p>Inicializa a estrutura da JVM, realizando sua alocação e setando valores iniciais. </p>
+<dl class="section return"><dt>Retorna</dt><dd>Estrutura da JVM alocada </dd></dl>
 
 </div>
 </div>
@@ -360,7 +361,7 @@ Variáveis</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Executa a <a class="el" href="structJVM.html" title="Programa que carrega e executa os aplicativos Java, convertendo os bytecodes em código executável de ...">JVM</a>, iniciando a interpretação do arquivo .class. </p>
+<p>Executa a JVM, iniciando a interpretação do arquivo .class. </p>
 
 </div>
 </div>
@@ -401,7 +402,7 @@ Variáveis</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">m</td><td>Ponteiro para <a class="el" href="structmethod__info.html" title="Estrutura de dados com infomações do método.">method_info</a> </td></tr>
     <tr><td class="paramname">class_info</td><td>Nome da classe </td></tr>
-    <tr><td class="paramname">caller</td><td>diferenciacao se chamador foi um arquivo da <a class="el" href="structJVM.html" title="Programa que carrega e executa os aplicativos Java, convertendo os bytecodes em código executável de ...">JVM</a> ou instrução invoke </td></tr>
+    <tr><td class="paramname">caller</td><td>diferenciacao se chamador foi um arquivo da JVM ou instrução invoke </td></tr>
   </table>
   </dd>
 </dl>
@@ -468,7 +469,7 @@ Variáveis</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structJVM.html">JVM</a>* <a class="el" href="structjvm.html">jvm</a></td>
+          <td class="memname"><a class="el" href="jvm_8h.html#a36df1d3591b105d3d4e4e00e7ee9498c">JVM</a>* <a class="el" href="structjvm.html">jvm</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
