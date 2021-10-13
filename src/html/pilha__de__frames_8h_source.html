@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.17"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>JVM - Grupo 5: Código-Fonte de pilha_de_frames.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">JVM - Grupo 5
+   </div>
+   <div id="projectbrief">Implementação da JVM e do leitor-exibidor do arquivo .class para a disciplina de Software Básico 2021/1</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Gerado por Doxygen 1.8.17 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Localizar');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','Localizar');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle">
+<div class="title">pilha_de_frames.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="pilha__de__frames_8h.html">Ir para a documentação deste ficheiro.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef PILHA_DE_FRAMES_H</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#define PILHA_DE_FRAMES_H</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="ClassFile_8h.html">ClassFile.h</a>&quot;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;stdbool.h&gt;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;stdlib.h&gt;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
+<div class="line"><a name="l00008"></a><span class="lineno"><a class="line" href="pilha__de__frames_8h.html#a992ec024b9ffc6c7e39bd80fdd0c9c5b">    8</a></span>&#160;<span class="preprocessor">#define TAMANHO_PILHA 1000</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
+<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="structstack__frame.html">   14</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="structstack__frame.html">stack_frame</a> {</div>
+<div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="structstack__frame.html#a9e8692a92022d71afe75996d8a3d01bf">   15</a></span>&#160;    <a class="code" href="ClassFile_8h.html#a71fa27a2ba58296c5995f3f9b9af37e1">i2</a> <a class="code" href="structstack__frame.html#a9e8692a92022d71afe75996d8a3d01bf">top</a>;                     </div>
+<div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="structstack__frame.html#ab9435818d3d16fe25fc8e3c7fb566f3d">   16</a></span>&#160;  <a class="code" href="ClassFile_8h.html#a732cde1300aafb73b0ea6c2558a7a54f">u2</a> <a class="code" href="structstack__frame.html#ab9435818d3d16fe25fc8e3c7fb566f3d">max_size</a>;                </div>
+<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="structstack__frame.html#a516e290b5de0afcbd674a43f89995fab">   17</a></span>&#160;  <a class="code" href="structframe.html">frame</a> **<a class="code" href="structstack__frame.html#a516e290b5de0afcbd674a43f89995fab">frames</a>;              </div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;} <a class="code" href="pilha__de__frames_8h.html#af573f7e6bbecb8a39209ddeeaa13c4c2">stack_frame</a>;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; </div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<a class="code" href="structstack__frame.html">stack_frame</a>* <a class="code" href="pilha__de__frames_8h.html#aeebb097735fd0437c1dc54a5191f5ce2">init_stack_frame</a>();</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keywordtype">void</span> <a class="code" href="pilha__de__frames_8h.html#a25f87a6ae3a569297c2d20a8a5674781">push_frame</a>(<a class="code" href="structstack__frame.html">stack_frame</a> *sf, <a class="code" href="structframe.html">frame</a> *<a class="code" href="structframe.html">frame</a>);</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="keywordtype">void</span> <a class="code" href="pilha__de__frames_8h.html#abbaf287f79d9e2c7b1eae5709418e7ba">pop_frame</a>(<a class="code" href="structstack__frame.html">stack_frame</a> *sf);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<a class="code" href="structframe.html">frame</a>* <a class="code" href="pilha__de__frames_8h.html#ae14c22029ce6c9a6646858dade7fbbfa">get_top_element</a>(<a class="code" href="structstack__frame.html">stack_frame</a> *sf);</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="keywordtype">bool</span> <a class="code" href="pilha__de__frames_8h.html#a03308deba8e62a6b449f50a1020248ba">is_empty</a>(<a class="code" href="structstack__frame.html">stack_frame</a> *sf);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="keywordtype">void</span> <a class="code" href="pilha__de__frames_8h.html#a406424aab4ecc4a1fe37b8ad19f79d33">print_stack_frame</a>(<a class="code" href="structstack__frame.html">stack_frame</a> *sf);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="keywordtype">void</span> <a class="code" href="pilha__de__frames_8h.html#a6c8c702923a619a1ae0d554c3b4a6ac0">free_stack_frame</a>(<a class="code" href="structstack__frame.html">stack_frame</a> *sf);</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="preprocessor">#endif</span></div>
+</div><!-- fragment --></div><!-- contents -->
+<div class="ttc" id="apilha__de__frames_8h_html_a6c8c702923a619a1ae0d554c3b4a6ac0"><div class="ttname"><a href="pilha__de__frames_8h.html#a6c8c702923a619a1ae0d554c3b4a6ac0">free_stack_frame</a></div><div class="ttdeci">void free_stack_frame(stack_frame *sf)</div><div class="ttdoc">Libera espaço alocado para a pilha e seus frames.</div></div>
+<div class="ttc" id="astructstack__frame_html_ab9435818d3d16fe25fc8e3c7fb566f3d"><div class="ttname"><a href="structstack__frame.html#ab9435818d3d16fe25fc8e3c7fb566f3d">stack_frame::max_size</a></div><div class="ttdeci">u2 max_size</div><div class="ttdef"><b>Definition:</b> pilha_de_frames.h:16</div></div>
+<div class="ttc" id="aClassFile_8h_html"><div class="ttname"><a href="ClassFile_8h.html">ClassFile.h</a></div></div>
+<div class="ttc" id="astructframe_html"><div class="ttname"><a href="structframe.html">frame</a></div><div class="ttdef"><b>Definition:</b> ClassFile.h:520</div></div>
+<div class="ttc" id="apilha__de__frames_8h_html_abbaf287f79d9e2c7b1eae5709418e7ba"><div class="ttname"><a href="pilha__de__frames_8h.html#abbaf287f79d9e2c7b1eae5709418e7ba">pop_frame</a></div><div class="ttdeci">void pop_frame(stack_frame *sf)</div><div class="ttdoc">Remove frame do topo da pilha.</div></div>
+<div class="ttc" id="aClassFile_8h_html_a71fa27a2ba58296c5995f3f9b9af37e1"><div class="ttname"><a href="ClassFile_8h.html#a71fa27a2ba58296c5995f3f9b9af37e1">i2</a></div><div class="ttdeci">int16_t i2</div><div class="ttdef"><b>Definition:</b> ClassFile.h:26</div></div>
+<div class="ttc" id="apilha__de__frames_8h_html_aeebb097735fd0437c1dc54a5191f5ce2"><div class="ttname"><a href="pilha__de__frames_8h.html#aeebb097735fd0437c1dc54a5191f5ce2">init_stack_frame</a></div><div class="ttdeci">stack_frame * init_stack_frame()</div><div class="ttdoc">Inicializa Pilha de Frames.</div></div>
+<div class="ttc" id="apilha__de__frames_8h_html_a25f87a6ae3a569297c2d20a8a5674781"><div class="ttname"><a href="pilha__de__frames_8h.html#a25f87a6ae3a569297c2d20a8a5674781">push_frame</a></div><div class="ttdeci">void push_frame(stack_frame *sf, frame *frame)</div><div class="ttdoc">Adiciona frame ao topo da pilha.</div></div>
+<div class="ttc" id="astructstack__frame_html"><div class="ttname"><a href="structstack__frame.html">stack_frame</a></div><div class="ttdoc">Estrutura de dados da pilha de frames.</div><div class="ttdef"><b>Definition:</b> pilha_de_frames.h:14</div></div>
+<div class="ttc" id="astructstack__frame_html_a516e290b5de0afcbd674a43f89995fab"><div class="ttname"><a href="structstack__frame.html#a516e290b5de0afcbd674a43f89995fab">stack_frame::frames</a></div><div class="ttdeci">frame ** frames</div><div class="ttdef"><b>Definition:</b> pilha_de_frames.h:17</div></div>
+<div class="ttc" id="apilha__de__frames_8h_html_ae14c22029ce6c9a6646858dade7fbbfa"><div class="ttname"><a href="pilha__de__frames_8h.html#ae14c22029ce6c9a6646858dade7fbbfa">get_top_element</a></div><div class="ttdeci">frame * get_top_element(stack_frame *sf)</div><div class="ttdoc">Recupera frame do topo da pilha.</div></div>
+<div class="ttc" id="apilha__de__frames_8h_html_a03308deba8e62a6b449f50a1020248ba"><div class="ttname"><a href="pilha__de__frames_8h.html#a03308deba8e62a6b449f50a1020248ba">is_empty</a></div><div class="ttdeci">bool is_empty(stack_frame *sf)</div><div class="ttdoc">Verifica se pilha está vazia.</div></div>
+<div class="ttc" id="aClassFile_8h_html_a732cde1300aafb73b0ea6c2558a7a54f"><div class="ttname"><a href="ClassFile_8h.html#a732cde1300aafb73b0ea6c2558a7a54f">u2</a></div><div class="ttdeci">uint16_t u2</div><div class="ttdef"><b>Definition:</b> ClassFile.h:17</div></div>
+<div class="ttc" id="apilha__de__frames_8h_html_a406424aab4ecc4a1fe37b8ad19f79d33"><div class="ttname"><a href="pilha__de__frames_8h.html#a406424aab4ecc4a1fe37b8ad19f79d33">print_stack_frame</a></div><div class="ttdeci">void print_stack_frame(stack_frame *sf)</div><div class="ttdoc">Exibe frames da pilha.</div></div>
+<div class="ttc" id="astructstack__frame_html_a9e8692a92022d71afe75996d8a3d01bf"><div class="ttname"><a href="structstack__frame.html#a9e8692a92022d71afe75996d8a3d01bf">stack_frame::top</a></div><div class="ttdeci">i2 top</div><div class="ttdef"><b>Definition:</b> pilha_de_frames.h:15</div></div>
+<div class="ttc" id="apilha__de__frames_8h_html_af573f7e6bbecb8a39209ddeeaa13c4c2"><div class="ttname"><a href="pilha__de__frames_8h.html#af573f7e6bbecb8a39209ddeeaa13c4c2">stack_frame</a></div><div class="ttdeci">struct stack_frame stack_frame</div></div>
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Gerado por &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.17
+</small></address>
+</body>
+</html>
