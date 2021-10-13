@@ -1,0 +1,487 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.17"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>JVM - Grupo 5: Referência ao ficheiro jvm.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">JVM - Grupo 5
+   </div>
+   <div id="projectbrief">Implementação da JVM e do leitor-exibidor do arquivo .class para a disciplina de Software Básico 2021/1</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Gerado por Doxygen 1.8.17 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Localizar');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','Localizar');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">Componentes</a> &#124;
+<a href="#typedef-members">Definições de tipos</a> &#124;
+<a href="#func-members">Funções</a> &#124;
+<a href="#var-members">Variáveis</a>  </div>
+  <div class="headertitle">
+<div class="title">Referência ao ficheiro jvm.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &lt;stdio.h&gt;</code><br />
+<code>#include &lt;stdlib.h&gt;</code><br />
+<code>#include &lt;string.h&gt;</code><br />
+<code>#include &lt;limits.h&gt;</code><br />
+<code>#include &quot;<a class="el" href="ClassFile_8h_source.html">ClassFile.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="lista__de__classes_8h_source.html">lista_de_classes.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="pilha__de__frames_8h_source.html">pilha_de_frames.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="instrucoes_8h_source.html">instrucoes.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="pilha__de__operandos_8h_source.html">pilha_de_operandos.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="interpretador_8h_source.html">interpretador.h</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Diagrama de dependências de inclusão para jvm.h:</div>
+<div class="dyncontent">
+<div class="center"><img src="jvm_8h__incl.png" border="0" usemap="#jvm_8h" alt=""/></div>
+</div>
+</div>
+<p><a href="jvm_8h_source.html">Ir para o código fonte deste ficheiro.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Componentes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjvm.html">jvm</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Programa que carrega e executa os aplicativos Java, convertendo os bytecodes em código executável de máquina. A JVM é responsável pelo gerenciamento dos aplicativos, à medida que são executados.  <a href="structjvm.html#details">Mais...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
+Definições de tipos</h2></td></tr>
+<tr class="memitem:a36df1d3591b105d3d4e4e00e7ee9498c"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structjvm.html">jvm</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="jvm_8h.html#a36df1d3591b105d3d4e4e00e7ee9498c">JVM</a></td></tr>
+<tr class="separator:a36df1d3591b105d3d4e4e00e7ee9498c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Funções</h2></td></tr>
+<tr class="memitem:a376f43cb416d1922db6c528c1a548a8b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="jvm_8h.html#a36df1d3591b105d3d4e4e00e7ee9498c">JVM</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="jvm_8h.html#a376f43cb416d1922db6c528c1a548a8b">initialize</a> ()</td></tr>
+<tr class="memdesc:a376f43cb416d1922db6c528c1a548a8b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inicializa a estrutura da JVM, realizando sua alocação e setando valores iniciais.  <a href="jvm_8h.html#a376f43cb416d1922db6c528c1a548a8b">Mais...</a><br /></td></tr>
+<tr class="separator:a376f43cb416d1922db6c528c1a548a8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aac572c9a10c31acc186cc52f8eb98aa6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="jvm_8h.html#aac572c9a10c31acc186cc52f8eb98aa6">run_jvm</a> ()</td></tr>
+<tr class="memdesc:aac572c9a10c31acc186cc52f8eb98aa6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Executa a JVM, iniciando a interpretação do arquivo .class.  <a href="jvm_8h.html#aac572c9a10c31acc186cc52f8eb98aa6">Mais...</a><br /></td></tr>
+<tr class="separator:aac572c9a10c31acc186cc52f8eb98aa6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab0ebc17ab77b8b7f620f1e8c28c0204b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="jvm_8h.html#ab0ebc17ab77b8b7f620f1e8c28c0204b">run_method</a> (<a class="el" href="structmethod__info.html">method_info</a> *m, char *class_info, int caller)</td></tr>
+<tr class="memdesc:ab0ebc17ab77b8b7f620f1e8c28c0204b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Executa método da classe.  <a href="jvm_8h.html#ab0ebc17ab77b8b7f620f1e8c28c0204b">Mais...</a><br /></td></tr>
+<tr class="separator:ab0ebc17ab77b8b7f620f1e8c28c0204b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8d023fb06806beeb155d700c7836571b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="jvm_8h.html#a8d023fb06806beeb155d700c7836571b">interpret_code</a> (<a class="el" href="ClassFile_8h.html#ad9f4cdb6757615aae2fad89dab3c5470">u1</a> *code, <a class="el" href="ClassFile_8h.html#ae5be1f726785414dd1b77d60df074c9d">u4</a> length, <a class="el" href="structmethod__info.html">method_info</a> *m)</td></tr>
+<tr class="memdesc:a8d023fb06806beeb155d700c7836571b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interpreta as funções Code de um método.  <a href="jvm_8h.html#a8d023fb06806beeb155d700c7836571b">Mais...</a><br /></td></tr>
+<tr class="separator:a8d023fb06806beeb155d700c7836571b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a273a6e64646f1753d42000c5376633fd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structframe.html">frame</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="jvm_8h.html#a273a6e64646f1753d42000c5376633fd">create_frame</a> (char *class_info, <a class="el" href="ClassFile_8h.html#a732cde1300aafb73b0ea6c2558a7a54f">u2</a> max_locals)</td></tr>
+<tr class="memdesc:a273a6e64646f1753d42000c5376633fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cria e inicializa frame.  <a href="jvm_8h.html#a273a6e64646f1753d42000c5376633fd">Mais...</a><br /></td></tr>
+<tr class="separator:a273a6e64646f1753d42000c5376633fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace9c7b81d7057a7a9bcd5ebdf2147a97"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="jvm_8h.html#ace9c7b81d7057a7a9bcd5ebdf2147a97">free_local_variable</a> (<a class="el" href="structlocal__variable.html">local_variable</a> *v, <a class="el" href="ClassFile_8h.html#a732cde1300aafb73b0ea6c2558a7a54f">u2</a> vetor_length)</td></tr>
+<tr class="memdesc:ace9c7b81d7057a7a9bcd5ebdf2147a97"><td class="mdescLeft">&#160;</td><td class="mdescRight">Libera memória alocada para variáveis locais.  <a href="jvm_8h.html#ace9c7b81d7057a7a9bcd5ebdf2147a97">Mais...</a><br /></td></tr>
+<tr class="separator:ace9c7b81d7057a7a9bcd5ebdf2147a97"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b69ec83cd38776a4c33dfa05ca95c49"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="jvm_8h.html#a9b69ec83cd38776a4c33dfa05ca95c49">instruction_branch</a> (char *nomeInstrucao)</td></tr>
+<tr class="memdesc:a9b69ec83cd38776a4c33dfa05ca95c49"><td class="mdescLeft">&#160;</td><td class="mdescRight">Avalia se a instrução passada como parâmetro é uma instrução do tipo branch.  <a href="jvm_8h.html#a9b69ec83cd38776a4c33dfa05ca95c49">Mais...</a><br /></td></tr>
+<tr class="separator:a9b69ec83cd38776a4c33dfa05ca95c49"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acfe26d0744e5ec5900b5a08af624d6e6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="ClassFile_8h.html#a732cde1300aafb73b0ea6c2558a7a54f">u2</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="jvm_8h.html#acfe26d0744e5ec5900b5a08af624d6e6">check_handler_method</a> (<a class="el" href="structmethod__info.html">method_info</a> *m)</td></tr>
+<tr class="memdesc:acfe26d0744e5ec5900b5a08af624d6e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Encontra em um método o PC do handler da exceção lançada na JVM.  <a href="jvm_8h.html#acfe26d0744e5ec5900b5a08af624d6e6">Mais...</a><br /></td></tr>
+<tr class="separator:acfe26d0744e5ec5900b5a08af624d6e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0cf082c5ef45e5a09f3b0770eab05c28"><td class="memItemLeft" align="right" valign="top"><a class="el" href="ClassFile_8h.html#ad9f4cdb6757615aae2fad89dab3c5470">u1</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="jvm_8h.html#a0cf082c5ef45e5a09f3b0770eab05c28">update_pc_current_method</a> (<a class="el" href="ClassFile_8h.html#ad9f4cdb6757615aae2fad89dab3c5470">u1</a> *code, <a class="el" href="ClassFile_8h.html#ae5be1f726785414dd1b77d60df074c9d">u4</a> length)</td></tr>
+<tr class="memdesc:a0cf082c5ef45e5a09f3b0770eab05c28"><td class="mdescLeft">&#160;</td><td class="mdescRight">Atualizar o PC, de acordo com a instrução branch previamente executada, verificando sua execução.  <a href="jvm_8h.html#a0cf082c5ef45e5a09f3b0770eab05c28">Mais...</a><br /></td></tr>
+<tr class="separator:a0cf082c5ef45e5a09f3b0770eab05c28"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variáveis</h2></td></tr>
+<tr class="memitem:aaadd6bd4e20642a7a34ea6db728289ae"><td class="memItemLeft" align="right" valign="top"><a class="el" href="jvm_8h.html#a36df1d3591b105d3d4e4e00e7ee9498c">JVM</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="jvm_8h.html#aaadd6bd4e20642a7a34ea6db728289ae">jvm</a></td></tr>
+<tr class="separator:aaadd6bd4e20642a7a34ea6db728289ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a37fa679d8481f7773d0e560300cedb97"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structinstruction.html">instruction</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="jvm_8h.html#a37fa679d8481f7773d0e560300cedb97">instructions</a></td></tr>
+<tr class="separator:a37fa679d8481f7773d0e560300cedb97"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Documentação dos tipos</h2>
+<a id="a36df1d3591b105d3d4e4e00e7ee9498c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a36df1d3591b105d3d4e4e00e7ee9498c">&#9670;&nbsp;</a></span>JVM</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef struct <a class="el" href="structjvm.html">jvm</a> <a class="el" href="jvm_8h.html#a36df1d3591b105d3d4e4e00e7ee9498c">JVM</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Documentação das funções</h2>
+<a id="acfe26d0744e5ec5900b5a08af624d6e6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acfe26d0744e5ec5900b5a08af624d6e6">&#9670;&nbsp;</a></span>check_handler_method()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="ClassFile_8h.html#a732cde1300aafb73b0ea6c2558a7a54f">u2</a> check_handler_method </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structmethod__info.html">method_info</a> *&#160;</td>
+          <td class="paramname"><em>m</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Encontra em um método o PC do handler da exceção lançada na JVM. </p>
+<dl class="params"><dt>Parâmetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">m</td><td>Ponteiro para método </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Retorna</dt><dd>PC do método </dd></dl>
+
+</div>
+</div>
+<a id="a273a6e64646f1753d42000c5376633fd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a273a6e64646f1753d42000c5376633fd">&#9670;&nbsp;</a></span>create_frame()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structframe.html">frame</a>* create_frame </td>
+          <td>(</td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>class_info</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="ClassFile_8h.html#a732cde1300aafb73b0ea6c2558a7a54f">u2</a>&#160;</td>
+          <td class="paramname"><em>max_locals</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Cria e inicializa frame. </p>
+<dl class="params"><dt>Parâmetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">class_info</td><td>Nome da classe </td></tr>
+    <tr><td class="paramname">max_locals</td><td>Tamanho do vetor de variáveis </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Retorna</dt><dd>Ponteiro para frame criado </dd></dl>
+
+</div>
+</div>
+<a id="ace9c7b81d7057a7a9bcd5ebdf2147a97"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ace9c7b81d7057a7a9bcd5ebdf2147a97">&#9670;&nbsp;</a></span>free_local_variable()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void free_local_variable </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structlocal__variable.html">local_variable</a> *&#160;</td>
+          <td class="paramname"><em>v</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="ClassFile_8h.html#a732cde1300aafb73b0ea6c2558a7a54f">u2</a>&#160;</td>
+          <td class="paramname"><em>vetor_length</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Libera memória alocada para variáveis locais. </p>
+<dl class="params"><dt>Parâmetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">v</td><td>Vetor de variáveis </td></tr>
+    <tr><td class="paramname">vector_length</td><td>Tamanho do vetor de variáveis </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a376f43cb416d1922db6c528c1a548a8b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a376f43cb416d1922db6c528c1a548a8b">&#9670;&nbsp;</a></span>initialize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="jvm_8h.html#a36df1d3591b105d3d4e4e00e7ee9498c">JVM</a>* initialize </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Inicializa a estrutura da JVM, realizando sua alocação e setando valores iniciais. </p>
+<dl class="section return"><dt>Retorna</dt><dd>Estrutura da JVM alocada </dd></dl>
+
+</div>
+</div>
+<a id="a9b69ec83cd38776a4c33dfa05ca95c49"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9b69ec83cd38776a4c33dfa05ca95c49">&#9670;&nbsp;</a></span>instruction_branch()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool instruction_branch </td>
+          <td>(</td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>nomeInstrucao</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Avalia se a instrução passada como parâmetro é uma instrução do tipo branch. </p>
+<dl class="params"><dt>Parâmetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nomeInstrucao</td><td>Nome da instrucao </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Retorna</dt><dd>True, se a instrução é do tipo branch </dd></dl>
+
+</div>
+</div>
+<a id="a8d023fb06806beeb155d700c7836571b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8d023fb06806beeb155d700c7836571b">&#9670;&nbsp;</a></span>interpret_code()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void interpret_code </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="ClassFile_8h.html#ad9f4cdb6757615aae2fad89dab3c5470">u1</a> *&#160;</td>
+          <td class="paramname"><em>code</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="ClassFile_8h.html#ae5be1f726785414dd1b77d60df074c9d">u4</a>&#160;</td>
+          <td class="paramname"><em>length</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structmethod__info.html">method_info</a> *&#160;</td>
+          <td class="paramname"><em>m</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Interpreta as funções Code de um método. </p>
+<dl class="params"><dt>Parâmetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">code</td><td>Ponteiro para code que deve ser interpretado </td></tr>
+    <tr><td class="paramname">length</td><td>Tamanho do código </td></tr>
+    <tr><td class="paramname">m</td><td>Método do code </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aac572c9a10c31acc186cc52f8eb98aa6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aac572c9a10c31acc186cc52f8eb98aa6">&#9670;&nbsp;</a></span>run_jvm()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void run_jvm </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Executa a JVM, iniciando a interpretação do arquivo .class. </p>
+
+</div>
+</div>
+<a id="ab0ebc17ab77b8b7f620f1e8c28c0204b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab0ebc17ab77b8b7f620f1e8c28c0204b">&#9670;&nbsp;</a></span>run_method()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void run_method </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structmethod__info.html">method_info</a> *&#160;</td>
+          <td class="paramname"><em>m</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>class_info</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>caller</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Executa método da classe. </p>
+<dl class="params"><dt>Parâmetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">m</td><td>Ponteiro para <a class="el" href="structmethod__info.html" title="Estrutura de dados com infomações do método.">method_info</a> </td></tr>
+    <tr><td class="paramname">class_info</td><td>Nome da classe </td></tr>
+    <tr><td class="paramname">caller</td><td>diferenciacao se chamador foi um arquivo da JVM ou instrução invoke </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a0cf082c5ef45e5a09f3b0770eab05c28"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0cf082c5ef45e5a09f3b0770eab05c28">&#9670;&nbsp;</a></span>update_pc_current_method()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="ClassFile_8h.html#ad9f4cdb6757615aae2fad89dab3c5470">u1</a>* update_pc_current_method </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="ClassFile_8h.html#ad9f4cdb6757615aae2fad89dab3c5470">u1</a> *&#160;</td>
+          <td class="paramname"><em>code</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="ClassFile_8h.html#ae5be1f726785414dd1b77d60df074c9d">u4</a>&#160;</td>
+          <td class="paramname"><em>length</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Atualizar o PC, de acordo com a instrução branch previamente executada, verificando sua execução. </p>
+<dl class="params"><dt>Parâmetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">code</td><td>Ponteiro para code </td></tr>
+    <tr><td class="paramname">length</td><td>Tamanho do code </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Retorna</dt><dd>PC atualizado </dd></dl>
+
+</div>
+</div>
+<h2 class="groupheader">Documentação das variáveis</h2>
+<a id="a37fa679d8481f7773d0e560300cedb97"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a37fa679d8481f7773d0e560300cedb97">&#9670;&nbsp;</a></span>instructions</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structinstruction.html">instruction</a>* instructions</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aaadd6bd4e20642a7a34ea6db728289ae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaadd6bd4e20642a7a34ea6db728289ae">&#9670;&nbsp;</a></span>jvm</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="jvm_8h.html#a36df1d3591b105d3d4e4e00e7ee9498c">JVM</a>* <a class="el" href="structjvm.html">jvm</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Gerado por &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.17
+</small></address>
+</body>
+</html>

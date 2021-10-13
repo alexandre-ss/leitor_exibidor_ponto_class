@@ -1,0 +1,40 @@
+digraph "jvm"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="jvm",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Programa que carrega e executa os aplicativos Java, convertendo os bytecodes em código executável de ..."];
+  Node2 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" frames" ,fontname="Helvetica"];
+  Node2 [label="stack_frame",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structstack__frame.html",tooltip="Estrutura de dados da pilha de frames."];
+  Node3 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" frames" ,fontname="Helvetica"];
+  Node3 [label="frame",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structframe.html",tooltip="Estrutura de dados do frame."];
+  Node4 -> Node3 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" p" ,fontname="Helvetica"];
+  Node4 [label="operand_stack",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structoperand__stack.html",tooltip="Estrutura de dados da pilha de operandos."];
+  Node5 -> Node4 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" top" ,fontname="Helvetica"];
+  Node5 [label="operand_list",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structoperand__list.html",tooltip="Estrutura de dados da lista de operandos."];
+  Node5 -> Node5 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" prev\nnext" ,fontname="Helvetica"];
+  Node6 -> Node3 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" cp" ,fontname="Helvetica"];
+  Node6 [label="cp_info",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structcp__info.html",tooltip="Estrutura de dados com informações da constant pool."];
+  Node7 -> Node3 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" v" ,fontname="Helvetica"];
+  Node7 [label="local_variable",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structlocal__variable.html",tooltip="Estrutura de variáveis locais."];
+  Node8 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" objects" ,fontname="Helvetica"];
+  Node8 [label="object_list",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structobject__list.html",tooltip="Lista de objetos."];
+  Node8 -> Node8 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" ant\nprox" ,fontname="Helvetica"];
+  Node9 -> Node8 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" obj" ,fontname="Helvetica"];
+  Node9 [label="ClassFile",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structClassFile.html",tooltip="Estrutura de dados da ClassFile."];
+  Node10 -> Node9 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" fields" ,fontname="Helvetica"];
+  Node10 [label="field_info",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structfield__info.html",tooltip="Estrutura de dados descrevendo o field."];
+  Node11 -> Node10 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" attributes" ,fontname="Helvetica"];
+  Node11 [label="attribute_info",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structattribute__info.html",tooltip="Estrutura de dados com as informações dos atributos de uma classe."];
+  Node12 -> Node10 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" static_data" ,fontname="Helvetica"];
+  Node12 [label="static_data",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structstatic__data.html",tooltip="Estrutura dos dados estáticos."];
+  Node13 -> Node9 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" methods" ,fontname="Helvetica"];
+  Node13 [label="method_info",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structmethod__info.html",tooltip="Estrutura de dados com infomações do método."];
+  Node11 -> Node13 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" attributes" ,fontname="Helvetica"];
+  Node6 -> Node9 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" constant_pool" ,fontname="Helvetica"];
+  Node11 -> Node9 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" attributes" ,fontname="Helvetica"];
+  Node14 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" classes" ,fontname="Helvetica"];
+  Node14 [label="loaded_class",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structloaded__class.html",tooltip="Estrutuda de classes carregadas."];
+  Node14 -> Node14 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" prev\nnext" ,fontname="Helvetica"];
+  Node9 -> Node14 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" class_file" ,fontname="Helvetica"];
+}

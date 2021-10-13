@@ -1,0 +1,159 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.17"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>JVM - Grupo 5: Código-Fonte de jvm.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">JVM - Grupo 5
+   </div>
+   <div id="projectbrief">Implementação da JVM e do leitor-exibidor do arquivo .class para a disciplina de Software Básico 2021/1</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Gerado por Doxygen 1.8.17 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Localizar');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','Localizar');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle">
+<div class="title">jvm.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="jvm_8h.html">Ir para a documentação deste ficheiro.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef JVM_H</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#define JVM_H</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;stdio.h&gt;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;stdlib.h&gt;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;string.h&gt;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;limits.h&gt;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="ClassFile_8h.html">ClassFile.h</a>&quot;</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="lista__de__classes_8h.html">lista_de_classes.h</a>&quot;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="pilha__de__frames_8h.html">pilha_de_frames.h</a>&quot;</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="instrucoes_8h.html">instrucoes.h</a>&quot;</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="pilha__de__operandos_8h.html">pilha_de_operandos.h</a>&quot;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="interpretador_8h.html">interpretador.h</a>&quot;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; </div>
+<div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="structjvm.html">   20</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="structjvm.html">jvm</a> {</div>
+<div class="line"><a name="l00021"></a><span class="lineno"><a class="line" href="structjvm.html#a582daa6f4ec95fbb1b8f3a094b993397">   21</a></span>&#160;    <a class="code" href="structloaded__class.html">loaded_class</a>    *<a class="code" href="structjvm.html#a582daa6f4ec95fbb1b8f3a094b993397">classes</a>;           </div>
+<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="structjvm.html#a9f12cf522d5fca769a2582fdfbfa9201">   22</a></span>&#160;    <a class="code" href="structstack__frame.html">stack_frame</a>     *<a class="code" href="structjvm.html#a9f12cf522d5fca769a2582fdfbfa9201">frames</a>;            </div>
+<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="structjvm.html#ac879eb42576afb2256646f478a7f68c2">   23</a></span>&#160;    <a class="code" href="ClassFile_8h.html#ae5be1f726785414dd1b77d60df074c9d">u4</a>              <a class="code" href="structjvm.html#ac879eb42576afb2256646f478a7f68c2">pc</a>;                 </div>
+<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="structjvm.html#a433dc115f3ef1c2acd59a57cae2ca02b">   24</a></span>&#160;    <a class="code" href="ClassFile_8h.html#a732cde1300aafb73b0ea6c2558a7a54f">u2</a>              <a class="code" href="structjvm.html#a433dc115f3ef1c2acd59a57cae2ca02b">exception</a>;          </div>
+<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="structjvm.html#a627804806294d60a4d4de3a499d3bad8">   25</a></span>&#160;    <a class="code" href="structobject__list.html">object_list</a>     *<a class="code" href="structjvm.html#a627804806294d60a4d4de3a499d3bad8">objects</a>;           </div>
+<div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="structjvm.html#ac8c03718379392a107ff1612fd713f6a">   26</a></span>&#160;    <span class="keywordtype">char</span>            *<a class="code" href="structjvm.html#ac8c03718379392a107ff1612fd713f6a">exception_name</a>;    </div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;} <a class="code" href="jvm_8h.html#a36df1d3591b105d3d4e4e00e7ee9498c">JVM</a>;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">// Variáveis Globais</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">extern</span> <a class="code" href="structjvm.html">JVM</a> *<a class="code" href="jvm_8h.html#aaadd6bd4e20642a7a34ea6db728289ae">jvm</a>;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">extern</span> <a class="code" href="structinstruction.html">instruction</a> *<a class="code" href="jvm_8h.html#a37fa679d8481f7773d0e560300cedb97">instructions</a>;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<a class="code" href="structjvm.html">JVM</a> *<a class="code" href="jvm_8h.html#a376f43cb416d1922db6c528c1a548a8b">initialize</a>();</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="keywordtype">void</span> <a class="code" href="jvm_8h.html#aac572c9a10c31acc186cc52f8eb98aa6">run_jvm</a>();</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="keywordtype">void</span> <a class="code" href="jvm_8h.html#ab0ebc17ab77b8b7f620f1e8c28c0204b">run_method</a>(<a class="code" href="structmethod__info.html">method_info</a> *m, <span class="keywordtype">char</span> *class_info, <span class="keywordtype">int</span> caller);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="keywordtype">void</span> <a class="code" href="jvm_8h.html#a8d023fb06806beeb155d700c7836571b">interpret_code</a>(<a class="code" href="ClassFile_8h.html#ad9f4cdb6757615aae2fad89dab3c5470">u1</a> *code, <a class="code" href="ClassFile_8h.html#ae5be1f726785414dd1b77d60df074c9d">u4</a> length, <a class="code" href="structmethod__info.html">method_info</a> *m);</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<a class="code" href="structframe.html">frame</a> *<a class="code" href="jvm_8h.html#a273a6e64646f1753d42000c5376633fd">create_frame</a>(<span class="keywordtype">char</span> *class_info, <a class="code" href="ClassFile_8h.html#a732cde1300aafb73b0ea6c2558a7a54f">u2</a> max_locals);</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="keywordtype">void</span> <a class="code" href="jvm_8h.html#ace9c7b81d7057a7a9bcd5ebdf2147a97">free_local_variable</a>(<a class="code" href="structlocal__variable.html">local_variable</a> *v, <a class="code" href="ClassFile_8h.html#a732cde1300aafb73b0ea6c2558a7a54f">u2</a> vetor_length);</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="keywordtype">bool</span> <a class="code" href="jvm_8h.html#a9b69ec83cd38776a4c33dfa05ca95c49">instruction_branch</a> (<span class="keywordtype">char</span> *nomeInstrucao);</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<a class="code" href="ClassFile_8h.html#a732cde1300aafb73b0ea6c2558a7a54f">u2</a> <a class="code" href="jvm_8h.html#acfe26d0744e5ec5900b5a08af624d6e6">check_handler_method</a>(<a class="code" href="structmethod__info.html">method_info</a> *m);</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160; </div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;<a class="code" href="ClassFile_8h.html#ad9f4cdb6757615aae2fad89dab3c5470">u1</a>* <a class="code" href="jvm_8h.html#a0cf082c5ef45e5a09f3b0770eab05c28">update_pc_current_method</a> (<a class="code" href="ClassFile_8h.html#ad9f4cdb6757615aae2fad89dab3c5470">u1</a> *code, <a class="code" href="ClassFile_8h.html#ae5be1f726785414dd1b77d60df074c9d">u4</a> length);</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160; </div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="preprocessor">#endif</span></div>
+</div><!-- fragment --></div><!-- contents -->
+<div class="ttc" id="astructinstruction_html"><div class="ttname"><a href="structinstruction.html">instruction</a></div><div class="ttdoc">Estrutura de dados de Instruções.</div><div class="ttdef"><b>Definition:</b> instrucoes.h:13</div></div>
+<div class="ttc" id="apilha__de__frames_8h_html"><div class="ttname"><a href="pilha__de__frames_8h.html">pilha_de_frames.h</a></div></div>
+<div class="ttc" id="ajvm_8h_html_a8d023fb06806beeb155d700c7836571b"><div class="ttname"><a href="jvm_8h.html#a8d023fb06806beeb155d700c7836571b">interpret_code</a></div><div class="ttdeci">void interpret_code(u1 *code, u4 length, method_info *m)</div><div class="ttdoc">Interpreta as funções Code de um método.</div></div>
+<div class="ttc" id="astructjvm_html_a9f12cf522d5fca769a2582fdfbfa9201"><div class="ttname"><a href="structjvm.html#a9f12cf522d5fca769a2582fdfbfa9201">jvm::frames</a></div><div class="ttdeci">stack_frame * frames</div><div class="ttdef"><b>Definition:</b> jvm.h:22</div></div>
+<div class="ttc" id="ainterpretador_8h_html"><div class="ttname"><a href="interpretador_8h.html">interpretador.h</a></div></div>
+<div class="ttc" id="apilha__de__operandos_8h_html"><div class="ttname"><a href="pilha__de__operandos_8h.html">pilha_de_operandos.h</a></div></div>
+<div class="ttc" id="aClassFile_8h_html"><div class="ttname"><a href="ClassFile_8h.html">ClassFile.h</a></div></div>
+<div class="ttc" id="ainstrucoes_8h_html"><div class="ttname"><a href="instrucoes_8h.html">instrucoes.h</a></div></div>
+<div class="ttc" id="ajvm_8h_html_a273a6e64646f1753d42000c5376633fd"><div class="ttname"><a href="jvm_8h.html#a273a6e64646f1753d42000c5376633fd">create_frame</a></div><div class="ttdeci">frame * create_frame(char *class_info, u2 max_locals)</div><div class="ttdoc">Cria e inicializa frame.</div></div>
+<div class="ttc" id="astructlocal__variable_html"><div class="ttname"><a href="structlocal__variable.html">local_variable</a></div><div class="ttdoc">Estrutura de variáveis locais.</div><div class="ttdef"><b>Definition:</b> ClassFile.h:545</div></div>
+<div class="ttc" id="aClassFile_8h_html_ad9f4cdb6757615aae2fad89dab3c5470"><div class="ttname"><a href="ClassFile_8h.html#ad9f4cdb6757615aae2fad89dab3c5470">u1</a></div><div class="ttdeci">uint8_t u1</div><div class="ttdef"><b>Definition:</b> ClassFile.h:16</div></div>
+<div class="ttc" id="astructframe_html"><div class="ttname"><a href="structframe.html">frame</a></div><div class="ttdoc">Estrutura de dados do frame.</div><div class="ttdef"><b>Definition:</b> ClassFile.h:641</div></div>
+<div class="ttc" id="ajvm_8h_html_a0cf082c5ef45e5a09f3b0770eab05c28"><div class="ttname"><a href="jvm_8h.html#a0cf082c5ef45e5a09f3b0770eab05c28">update_pc_current_method</a></div><div class="ttdeci">u1 * update_pc_current_method(u1 *code, u4 length)</div><div class="ttdoc">Atualizar o PC, de acordo com a instrução branch previamente executada, verificando sua execução.</div></div>
+<div class="ttc" id="astructjvm_html_ac8c03718379392a107ff1612fd713f6a"><div class="ttname"><a href="structjvm.html#ac8c03718379392a107ff1612fd713f6a">jvm::exception_name</a></div><div class="ttdeci">char * exception_name</div><div class="ttdef"><b>Definition:</b> jvm.h:26</div></div>
+<div class="ttc" id="astructjvm_html_a627804806294d60a4d4de3a499d3bad8"><div class="ttname"><a href="structjvm.html#a627804806294d60a4d4de3a499d3bad8">jvm::objects</a></div><div class="ttdeci">object_list * objects</div><div class="ttdef"><b>Definition:</b> jvm.h:25</div></div>
+<div class="ttc" id="astructobject__list_html"><div class="ttname"><a href="structobject__list.html">object_list</a></div><div class="ttdoc">Lista de objetos.</div><div class="ttdef"><b>Definition:</b> ClassFile.h:628</div></div>
+<div class="ttc" id="ajvm_8h_html_a37fa679d8481f7773d0e560300cedb97"><div class="ttname"><a href="jvm_8h.html#a37fa679d8481f7773d0e560300cedb97">instructions</a></div><div class="ttdeci">instruction * instructions</div></div>
+<div class="ttc" id="astructmethod__info_html"><div class="ttname"><a href="structmethod__info.html">method_info</a></div><div class="ttdoc">Estrutura de dados com infomações do método.</div><div class="ttdef"><b>Definition:</b> ClassFile.h:311</div></div>
+<div class="ttc" id="aClassFile_8h_html_ae5be1f726785414dd1b77d60df074c9d"><div class="ttname"><a href="ClassFile_8h.html#ae5be1f726785414dd1b77d60df074c9d">u4</a></div><div class="ttdeci">uint32_t u4</div><div class="ttdef"><b>Definition:</b> ClassFile.h:18</div></div>
+<div class="ttc" id="ajvm_8h_html_ab0ebc17ab77b8b7f620f1e8c28c0204b"><div class="ttname"><a href="jvm_8h.html#ab0ebc17ab77b8b7f620f1e8c28c0204b">run_method</a></div><div class="ttdeci">void run_method(method_info *m, char *class_info, int caller)</div><div class="ttdoc">Executa método da classe.</div></div>
+<div class="ttc" id="astructstack__frame_html"><div class="ttname"><a href="structstack__frame.html">stack_frame</a></div><div class="ttdoc">Estrutura de dados da pilha de frames.</div><div class="ttdef"><b>Definition:</b> pilha_de_frames.h:14</div></div>
+<div class="ttc" id="astructjvm_html_a433dc115f3ef1c2acd59a57cae2ca02b"><div class="ttname"><a href="structjvm.html#a433dc115f3ef1c2acd59a57cae2ca02b">jvm::exception</a></div><div class="ttdeci">u2 exception</div><div class="ttdef"><b>Definition:</b> jvm.h:24</div></div>
+<div class="ttc" id="ajvm_8h_html_a376f43cb416d1922db6c528c1a548a8b"><div class="ttname"><a href="jvm_8h.html#a376f43cb416d1922db6c528c1a548a8b">initialize</a></div><div class="ttdeci">JVM * initialize()</div><div class="ttdoc">Inicializa a estrutura da JVM, realizando sua alocação e setando valores iniciais.</div></div>
+<div class="ttc" id="ajvm_8h_html_ace9c7b81d7057a7a9bcd5ebdf2147a97"><div class="ttname"><a href="jvm_8h.html#ace9c7b81d7057a7a9bcd5ebdf2147a97">free_local_variable</a></div><div class="ttdeci">void free_local_variable(local_variable *v, u2 vetor_length)</div><div class="ttdoc">Libera memória alocada para variáveis locais.</div></div>
+<div class="ttc" id="alista__de__classes_8h_html"><div class="ttname"><a href="lista__de__classes_8h.html">lista_de_classes.h</a></div></div>
+<div class="ttc" id="ajvm_8h_html_a9b69ec83cd38776a4c33dfa05ca95c49"><div class="ttname"><a href="jvm_8h.html#a9b69ec83cd38776a4c33dfa05ca95c49">instruction_branch</a></div><div class="ttdeci">bool instruction_branch(char *nomeInstrucao)</div><div class="ttdoc">Avalia se a instrução passada como parâmetro é uma instrução do tipo branch.</div></div>
+<div class="ttc" id="ajvm_8h_html_aac572c9a10c31acc186cc52f8eb98aa6"><div class="ttname"><a href="jvm_8h.html#aac572c9a10c31acc186cc52f8eb98aa6">run_jvm</a></div><div class="ttdeci">void run_jvm()</div><div class="ttdoc">Executa a JVM, iniciando a interpretação do arquivo .class.</div></div>
+<div class="ttc" id="astructjvm_html_ac879eb42576afb2256646f478a7f68c2"><div class="ttname"><a href="structjvm.html#ac879eb42576afb2256646f478a7f68c2">jvm::pc</a></div><div class="ttdeci">u4 pc</div><div class="ttdef"><b>Definition:</b> jvm.h:23</div></div>
+<div class="ttc" id="aClassFile_8h_html_a732cde1300aafb73b0ea6c2558a7a54f"><div class="ttname"><a href="ClassFile_8h.html#a732cde1300aafb73b0ea6c2558a7a54f">u2</a></div><div class="ttdeci">uint16_t u2</div><div class="ttdef"><b>Definition:</b> ClassFile.h:17</div></div>
+<div class="ttc" id="ajvm_8h_html_aaadd6bd4e20642a7a34ea6db728289ae"><div class="ttname"><a href="jvm_8h.html#aaadd6bd4e20642a7a34ea6db728289ae">jvm</a></div><div class="ttdeci">JVM * jvm</div></div>
+<div class="ttc" id="astructjvm_html_a582daa6f4ec95fbb1b8f3a094b993397"><div class="ttname"><a href="structjvm.html#a582daa6f4ec95fbb1b8f3a094b993397">jvm::classes</a></div><div class="ttdeci">loaded_class * classes</div><div class="ttdef"><b>Definition:</b> jvm.h:21</div></div>
+<div class="ttc" id="ajvm_8h_html_a36df1d3591b105d3d4e4e00e7ee9498c"><div class="ttname"><a href="jvm_8h.html#a36df1d3591b105d3d4e4e00e7ee9498c">JVM</a></div><div class="ttdeci">struct jvm JVM</div></div>
+<div class="ttc" id="astructloaded__class_html"><div class="ttname"><a href="structloaded__class.html">loaded_class</a></div><div class="ttdoc">Estrutuda de classes carregadas.</div><div class="ttdef"><b>Definition:</b> lista_de_classes.h:15</div></div>
+<div class="ttc" id="ajvm_8h_html_acfe26d0744e5ec5900b5a08af624d6e6"><div class="ttname"><a href="jvm_8h.html#acfe26d0744e5ec5900b5a08af624d6e6">check_handler_method</a></div><div class="ttdeci">u2 check_handler_method(method_info *m)</div><div class="ttdoc">Encontra em um método o PC do handler da exceção lançada na JVM.</div></div>
+<div class="ttc" id="astructjvm_html"><div class="ttname"><a href="structjvm.html">jvm</a></div><div class="ttdoc">Programa que carrega e executa os aplicativos Java, convertendo os bytecodes em código executável de ...</div><div class="ttdef"><b>Definition:</b> jvm.h:20</div></div>
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Gerado por &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.17
+</small></address>
+</body>
+</html>
