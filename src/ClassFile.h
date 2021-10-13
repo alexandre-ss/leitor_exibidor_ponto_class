@@ -46,7 +46,6 @@ typedef int64_t i8;  /**< Tipo \c int com sinal, de 64 bits */
 /**
  * @struct attribute_info
  * @brief Estrutura de dados com as informações dos atributos de uma classe
- * 
  */
 typedef struct attribute_info
 {
@@ -67,6 +66,10 @@ typedef struct exception_table
   u2 catch_type;
 } exception_table;
 
+/**
+ * @enum array_type
+ * @brief mapeamento do tipo de vetor
+ */
 // Enum para tipo de array
 typedef enum array_type
 {
@@ -81,7 +84,11 @@ typedef enum array_type
 } array_type;
 
 // 4.1
-
+/**
+ * @enum access_flags
+ * @brief mapeamento das flags de acesso
+ * 
+ */
 typedef enum access_flags
 {
   ACC_PUBLIC      = 1,
@@ -100,7 +107,10 @@ typedef enum access_flags
 } access_flags;
 
 // 4.4. Constant Pool
-
+/**
+ * @enum constant_pool_tags
+ * @brief mapeamento das tags da constant pool
+ */
 // Tags para a Pool de Constantes
 typedef enum constant_pool_tags
 {
@@ -226,7 +236,11 @@ typedef struct cp_info
 } cp_info;
 
 // 4.5. Fields
-
+/**
+ * @enum field_acces_flags
+ * @brief mapeamento das flags de acesso do field
+ * 
+ */
 typedef enum field_access_flags
 {
   FIELD_ACC_PUBLIC = 1,
@@ -268,7 +282,11 @@ typedef struct field_info
 } field_info;
 
 // 4.6. Methods
-
+/**
+ * @enum method_acces_flags
+ * @brief mapeamento das flags de acesso do método
+ * 
+ */
 typedef enum method_access_flags
 {
   METHOD_ACC_PUBLIC = 1,
@@ -338,6 +356,11 @@ typedef struct code_attribute
 } code_attribute;
 
 // 4.7.5
+/**
+ * @struct exception_attribute
+ * @brief Estrutura de atributos de exceção
+ * 
+ */
 typedef struct exception_attribute
 {
   u2 attribute_name_index;
@@ -347,6 +370,11 @@ typedef struct exception_attribute
 } exception_attribute;
 
 // 4.7.6
+/**
+ * @struct classes
+ * @brief Estrutura de classes
+ * 
+ */
 typedef struct classes
 {
   u2 inner_class_info_index;
@@ -355,6 +383,10 @@ typedef struct classes
   u2 inner_class_access_flags;
 } classes;
 
+/**
+ * @struct inner_classes_attribute
+ * @brief Estrutura de atributos de classes internas
+ */
 typedef struct inner_classes_attribute
 {
   u2 attribute_name_index;
@@ -364,6 +396,10 @@ typedef struct inner_classes_attribute
 } inner_classes_attribute;
 
 // 4.7.8
+/**
+ * @struct synthetic_attribute
+ * @brief estrutura de dados dos atributos sintéticos
+ */
 typedef struct synthetic_attribute
 {
   u2 attribute_name_index;
@@ -371,6 +407,10 @@ typedef struct synthetic_attribute
 } synthetic_attribute;
 
 // // 4.7.9
+/**
+ * @struct signature_attribute
+ * @brief Estrutura de assinatura de atributos
+ */
 typedef struct signature_attribute
 {
   u2 attribute_name_index;
@@ -379,6 +419,10 @@ typedef struct signature_attribute
 } signature_attribute;
 
 // // 4.7.10
+/**
+ * @struct source_file_attribute
+ * @brief Estrutura de arquivo fonte de atributo
+ */
 typedef struct source_file_attribute
 {
   u2 attribute_name_index;
@@ -396,7 +440,6 @@ typedef struct source_file_attribute
 /**
  * @struct line_number_table
  * @brief numero da linha da tabela
- * 
  */
 // // 4.7.12
 typedef struct line_number_table
@@ -448,9 +491,7 @@ typedef struct verification_type_info
 /**
  * @struct stack_map_frame
  * @brief Estrutura de dados que indica qual item da união está em uso
- * 
  */
-/* MISSNG THIS PART */
 typedef struct stack_map_frame
 {
   u1 frame_type;
@@ -497,12 +538,20 @@ typedef struct stack_map_frame
     } map_frame_type;
 } stack_map_frame;
 
+/**
+ * @struct local_variable
+ * @brief Estrutura de variáveis locais
+ */
 typedef struct local_variable
 {
   u4 *variable;
   u1 type;
 } local_variable;
 
+/**
+ * @struct stack_map_table_attribute
+ * @brief Estrutura de dados da tabela de atributos da stack map
+ */
 typedef struct stack_map_table_attribute
 {
   u2 attribute_name_index;
@@ -511,6 +560,11 @@ typedef struct stack_map_table_attribute
   stack_map_frame **entries;
 } stack_map_table_attribute;
 
+/**
+ * @enum operand_types
+ * @brief Mapeamento dos tipos de operandos
+ * 
+ */
 typedef enum operand_types {
 	BOOLEAN_OP = 1,
 	BYTE_OP,
