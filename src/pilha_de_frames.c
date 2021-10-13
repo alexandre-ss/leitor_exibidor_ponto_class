@@ -23,7 +23,7 @@ void pop_frame(stack_frame *sf) {
 }
 
 frame* get_top_element(stack_frame *sf) {
-  return sf->frames[sf->top - 1];
+  return sf->frames[sf->top];
 }
 
 bool is_empty(stack_frame *sf) {
@@ -32,9 +32,10 @@ bool is_empty(stack_frame *sf) {
 
 void print_stack_frame(stack_frame *sf) {
   printf("----- Pilha de Frames\n\n");
-	for(u2 i = sf->top - 1; i >= 0; i--) {
+	for (int i = sf->top; i >= 0; i--) {
     printf("----- Frame [%d]\n", i+1);
 		printf("Endereco retorno: %04x\n", sf->frames[i]->return_address);
+		printf("Tamanho do vetor: %d\n", sf->frames[i]->vetor_length);
 	}
 }
 

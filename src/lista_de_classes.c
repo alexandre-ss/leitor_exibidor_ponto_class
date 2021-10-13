@@ -73,7 +73,7 @@ loaded_class *remove_class_element(loaded_class *list, char *word){
 loaded_class *find_class_element(loaded_class *list, char *word){
     loaded_class *pointer;
 
-    for(pointer = list; pointer != NULL; pointer = pointer->next){
+    for (pointer = list; pointer != NULL; pointer = pointer->next){
         if(strcmp(decode_name_index_and_type(pointer->class_file->constant_pool, pointer->class_file->this_class, NAME_INDEX), word) == 0) return pointer;
     }
 

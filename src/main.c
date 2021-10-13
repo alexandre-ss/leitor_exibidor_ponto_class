@@ -30,43 +30,35 @@ int main(int argc, char *argv[]) {
       printf("Escolha uma das opcoes:\n");
       printf("\t1. Leitura do .class\n");
       printf("\t2. Execucao da JVM\n");
-      printf("\t3. Leitura do .class e Execucao da JVM\n");
+      printf("\t3. Execucao da JVM com opcodes\n");
       printf("Escolha sua opcao: ");
       scanf("%d", &opcao);
     }
 
     switch (opcao) {
       case 1:
-        printf("\n--------| Realizando a leitura do .class\n\n");
+        printf("\n--------------------| Realizando a leitura do .class\n\n");
         print_class_file(cf);
         break;
       case 2:
-        printf("\n--------| Executando a JVM\n\n");
+        printf("\n--------------------| Executando a JVM\n\n");
         run_jvm();
-
         break;
       case 3:
-        printf("\n--------| Realizando a leitura do .class\n\n");
-        print_class_file(cf);
-
-        printf("\n--------| Executando a JVM\n\n");
+        printf("\n--------------------| Executando a JVM com opcodes\n\n");
+        SHOW_OPCODES = true;
         run_jvm();
-
         break;
       default: break;
     }
+
+    free(cf);
+    free(filename);
   } else {
     printf("Magic Number inválido\n");
   }
 
-  free(cf);
-  free(filename);
-  free(jvm->classes->class_file);
-  free(jvm->classes);
-  free(jvm->frames);
-  free(jvm->exception_name);
   free(jvm);
-  free(instructions);
 
   return 0;
 }
