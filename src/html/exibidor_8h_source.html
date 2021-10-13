@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.17"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>JVM - Grupo 5: Código-Fonte de exibidor.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">JVM - Grupo 5
+   </div>
+   <div id="projectbrief">Implementação da JVM e do leitor-exibidor do arquivo .class para a disciplina de Software Básico 2021/1</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Gerado por Doxygen 1.8.17 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Localizar');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','Localizar');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle">
+<div class="title">exibidor.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="exibidor_8h.html">Ir para a documentação deste ficheiro.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef EXIBIDOR_H</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#define EXIBIDOR_H</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="ClassFile_8h.html">ClassFile.h</a>&quot;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;math.h&gt;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;stdio.h&gt;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="leitor_8h.html">leitor.h</a>&quot;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keywordtype">void</span>    <a class="code" href="exibidor_8h.html#a01c2987118cc8c7eccbacbf0ef9ec98b">print_name_tag</a>(<a class="code" href="ClassFile_8h.html#ad9f4cdb6757615aae2fad89dab3c5470">u1</a> tag);</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keywordtype">char</span>*   <a class="code" href="exibidor_8h.html#a4ee3385ae7f94531d2fb2e0b0cad3c33">decode_utf8_string</a>(<a class="code" href="structcp__info.html">cp_info</a> *cp);</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keywordtype">char</span>*   <a class="code" href="exibidor_8h.html#aee7dd8376e5e2826c62131eab0d81917">decode_name_index_and_type</a>(<a class="code" href="structcp__info.html">cp_info</a> *cp, <a class="code" href="ClassFile_8h.html#a732cde1300aafb73b0ea6c2558a7a54f">u2</a> index, <a class="code" href="ClassFile_8h.html#ad9f4cdb6757615aae2fad89dab3c5470">u1</a> type);</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keywordtype">char</span>*   <a class="code" href="exibidor_8h.html#a7c44d6b5ad4c17ea559f56201463cfd7">decode_access_flags</a>(<a class="code" href="ClassFile_8h.html#a732cde1300aafb73b0ea6c2558a7a54f">u2</a> flag);</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keywordtype">char</span>*   <a class="code" href="exibidor_8h.html#ad60fc3968f839ae96303915d98d77c93">decode_field_access_flags</a>(<a class="code" href="ClassFile_8h.html#a732cde1300aafb73b0ea6c2558a7a54f">u2</a> flag);</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keywordtype">double</span>  <a class="code" href="exibidor_8h.html#a2a296a7b0b1e847bef17b6c15aa55cd1">decode_double_info</a>(<a class="code" href="structcp__info.html">cp_info</a> *cp);</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keywordtype">long</span>    <a class="code" href="exibidor_8h.html#ae134f64251f4071360dee5753a8394be">decode_long_info</a>(<a class="code" href="structcp__info.html">cp_info</a> *cp);</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keywordtype">float</span>   <a class="code" href="exibidor_8h.html#ab64ad60c728d11af9bd05c82ec9e16fd">decode_float_info</a>(<a class="code" href="structcp__info.html">cp_info</a> *cp);</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keywordtype">void</span>    <a class="code" href="exibidor_8h.html#a07516ced3c9dbde0d0fb272b7ab626c0">decode_opcode</a>(<a class="code" href="ClassFile_8h.html#ad9f4cdb6757615aae2fad89dab3c5470">u1</a> code);</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment">// int     setaOffsetImpressao(int posicao, u1 offset);</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keywordtype">void</span>    <a class="code" href="exibidor_8h.html#a67e8b211dae28d036af3a55b698da993">print_class_file</a>(<a class="code" href="structClassFile.html">ClassFile</a> *cf);</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#endif // EXIBIDOR_H</span></div>
+</div><!-- fragment --></div><!-- contents -->
+<div class="ttc" id="aexibidor_8h_html_ad60fc3968f839ae96303915d98d77c93"><div class="ttname"><a href="exibidor_8h.html#ad60fc3968f839ae96303915d98d77c93">decode_field_access_flags</a></div><div class="ttdeci">char * decode_field_access_flags(u2 flag)</div></div>
+<div class="ttc" id="aexibidor_8h_html_ab64ad60c728d11af9bd05c82ec9e16fd"><div class="ttname"><a href="exibidor_8h.html#ab64ad60c728d11af9bd05c82ec9e16fd">decode_float_info</a></div><div class="ttdeci">float decode_float_info(cp_info *cp)</div></div>
+<div class="ttc" id="aClassFile_8h_html"><div class="ttname"><a href="ClassFile_8h.html">ClassFile.h</a></div></div>
+<div class="ttc" id="aexibidor_8h_html_aee7dd8376e5e2826c62131eab0d81917"><div class="ttname"><a href="exibidor_8h.html#aee7dd8376e5e2826c62131eab0d81917">decode_name_index_and_type</a></div><div class="ttdeci">char * decode_name_index_and_type(cp_info *cp, u2 index, u1 type)</div></div>
+<div class="ttc" id="aClassFile_8h_html_ad9f4cdb6757615aae2fad89dab3c5470"><div class="ttname"><a href="ClassFile_8h.html#ad9f4cdb6757615aae2fad89dab3c5470">u1</a></div><div class="ttdeci">uint8_t u1</div><div class="ttdef"><b>Definition:</b> ClassFile.h:16</div></div>
+<div class="ttc" id="astructcp__info_html"><div class="ttname"><a href="structcp__info.html">cp_info</a></div><div class="ttdef"><b>Definition:</b> ClassFile.h:114</div></div>
+<div class="ttc" id="aexibidor_8h_html_a7c44d6b5ad4c17ea559f56201463cfd7"><div class="ttname"><a href="exibidor_8h.html#a7c44d6b5ad4c17ea559f56201463cfd7">decode_access_flags</a></div><div class="ttdeci">char * decode_access_flags(u2 flag)</div></div>
+<div class="ttc" id="astructClassFile_html"><div class="ttname"><a href="structClassFile.html">ClassFile</a></div><div class="ttdef"><b>Definition:</b> ClassFile.h:479</div></div>
+<div class="ttc" id="aexibidor_8h_html_a01c2987118cc8c7eccbacbf0ef9ec98b"><div class="ttname"><a href="exibidor_8h.html#a01c2987118cc8c7eccbacbf0ef9ec98b">print_name_tag</a></div><div class="ttdeci">void print_name_tag(u1 tag)</div></div>
+<div class="ttc" id="aexibidor_8h_html_a67e8b211dae28d036af3a55b698da993"><div class="ttname"><a href="exibidor_8h.html#a67e8b211dae28d036af3a55b698da993">print_class_file</a></div><div class="ttdeci">void print_class_file(ClassFile *cf)</div></div>
+<div class="ttc" id="aexibidor_8h_html_a4ee3385ae7f94531d2fb2e0b0cad3c33"><div class="ttname"><a href="exibidor_8h.html#a4ee3385ae7f94531d2fb2e0b0cad3c33">decode_utf8_string</a></div><div class="ttdeci">char * decode_utf8_string(cp_info *cp)</div></div>
+<div class="ttc" id="aexibidor_8h_html_a2a296a7b0b1e847bef17b6c15aa55cd1"><div class="ttname"><a href="exibidor_8h.html#a2a296a7b0b1e847bef17b6c15aa55cd1">decode_double_info</a></div><div class="ttdeci">double decode_double_info(cp_info *cp)</div></div>
+<div class="ttc" id="aleitor_8h_html"><div class="ttname"><a href="leitor_8h.html">leitor.h</a></div></div>
+<div class="ttc" id="aClassFile_8h_html_a732cde1300aafb73b0ea6c2558a7a54f"><div class="ttname"><a href="ClassFile_8h.html#a732cde1300aafb73b0ea6c2558a7a54f">u2</a></div><div class="ttdeci">uint16_t u2</div><div class="ttdef"><b>Definition:</b> ClassFile.h:17</div></div>
+<div class="ttc" id="aexibidor_8h_html_ae134f64251f4071360dee5753a8394be"><div class="ttname"><a href="exibidor_8h.html#ae134f64251f4071360dee5753a8394be">decode_long_info</a></div><div class="ttdeci">long decode_long_info(cp_info *cp)</div></div>
+<div class="ttc" id="aexibidor_8h_html_a07516ced3c9dbde0d0fb272b7ab626c0"><div class="ttname"><a href="exibidor_8h.html#a07516ced3c9dbde0d0fb272b7ab626c0">decode_opcode</a></div><div class="ttdeci">void decode_opcode(u1 code)</div></div>
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Gerado por &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.17
+</small></address>
+</body>
+</html>
