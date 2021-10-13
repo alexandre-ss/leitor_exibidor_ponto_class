@@ -31,10 +31,9 @@ extern JVM *jvm;
 extern instruction *instructions;
 
 /**
- * @brief   Inicializa a estrutura da JVM, realizando sua alocação e setando valores iniciais
- * @return  Estrutura da JVM alocada
+ * @brief   Inicializa a estrutura da JVM
  */
-JVM *initialize();
+void initialize();
 
 /**
  * @brief Executa a JVM, iniciando a interpretação do arquivo .class
