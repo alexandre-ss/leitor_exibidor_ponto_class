@@ -8,15 +8,19 @@
 #include <stdlib.h>
 #include <string.h>
 
+/**
+ * @struct loaded_class
+ * @brief  Estrutuda de classes carregadas
+ */
 typedef struct loaded_class {
-  ClassFile *class_file; /**< Ponteiro para o ClassFile */
-  struct loaded_class *next; /**< Ponteiro de acesso ao próximo nó da lista */
-  struct loaded_class *prev; /**< Ponteiro de acesso ao nó anterior da lista */
+  ClassFile *class_file;      /**< Ponteiro para o ClassFile */
+  struct loaded_class *next;  /**< Ponteiro de acesso ao próximo nó da lista */
+  struct loaded_class *prev;  /**< Ponteiro de acesso ao nó anterior da lista */
 } loaded_class;
 
 /**
- * @brief		    Inicia a lista de classes.
- * @return      Lista de classes com valor NULL
+ * @brief	  Inicia a lista de classes.
+ * @return  Lista de classes com valor NULL
  */
 loaded_class  *create_class_list();
 

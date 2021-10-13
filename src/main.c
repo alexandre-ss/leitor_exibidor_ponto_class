@@ -53,12 +53,18 @@ int main(int argc, char *argv[]) {
         break;
       default: break;
     }
-
-    free(cf);
-    free(filename);
   } else {
     printf("Magic Number inválido\n");
   }
+
+  free(cf);
+  free(filename);
+  free(jvm->classes->class_file);
+  free(jvm->classes);
+  free(jvm->frames);
+  free(jvm->exception_name);
+  free(jvm);
+  free(instructions);
 
   return 0;
 }
